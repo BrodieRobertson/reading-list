@@ -1,7 +1,7 @@
-<h1 *ngIf="editForm.get('name').value === ''; else editBook">New Book</h1>
+<h1 *ngIf="!bookName; else editBook">New Book</h1>
 
 <ng-template #editBook>
-    <h1>Editing {{editForm.get('name').value}}</h1>
+    <h1>Editing {{bookName}}</h1>
 </ng-template>
 
 <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)">

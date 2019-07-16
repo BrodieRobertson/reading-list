@@ -20,7 +20,9 @@ export class BookService {
   }
 
   addToList(book: Book) {
+    book.id = this.books.length;
     this.books.push(book);
+    return book.id;
   }
 
   removeFromList(id: Number) {
