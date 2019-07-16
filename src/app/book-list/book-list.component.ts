@@ -43,7 +43,7 @@ export class BookListComponent implements OnInit {
       case Lists.NOT_OWNED:
         this.listName = "Not Owned Books"
         return this.bookList.filter(book => {
-          return book.notOwned;
+          return !book.owned;
         })
       case Lists.OWNED:
         this.listName = "Owned Books"
@@ -58,7 +58,7 @@ export class BookListComponent implements OnInit {
       case Lists.UNREAD:
         this.listName = "Unread Books"
         return this.bookList.filter(book => {
-          return book.unread;
+          return !book.read;
         })
       default:
         this.listName = "All Books"

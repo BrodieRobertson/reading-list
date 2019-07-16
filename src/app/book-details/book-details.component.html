@@ -1,1 +1,40 @@
-<p>book-details works!</p>
+<h1>{{book.name}}</h1>
+<p>Pages: {{book.pages}}</p>
+<p>ISBN: {{book.isbn}}</p>
+
+<h2>Authors</h2>
+<div *ngIf="book.authors.length > 0; else noAuthors">
+    <ul>
+        <li *ngFor="let author of book.authors">{{author.name}}</li>
+    </ul>
+</div>
+
+<ng-template #noAuthors>
+    No authors listed
+</ng-template>
+
+<h2>Illustrators</h2>
+<div *ngIf="book.illustrators.length > 0; else noIllustrators">
+    <ul>
+        <li *ngFor="let illustrator of book.illustrators">{{illustrator.name}}</li>
+    </ul>
+</div>
+
+<ng-template #noIllustrators>
+    No Illustrators listed
+</ng-template>
+
+<h2>In Lists</h2>
+<div>
+    <label for="currentlyReading">Currently Reading</label>
+    <input id="currentlyReading" type="checkbox" [checked]="book.currentlyReading" disabled />
+
+    <label for="read">Read</label>
+    <input id="read" type="checkbox" [checked]="book.read" disabled />
+
+    <label for="owned">Owned</label>
+    <input id="owned" type="checkbox" [checked]="book.owned" disabled />
+
+    <label for="dropped">Dropped</label>
+    <input id="dropped" type="checkbox" [checked]="book.dropped" disabled />
+</div>

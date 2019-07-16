@@ -15,9 +15,12 @@ export class BookDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      var bookId: number = Number(params.get('bookId'));
-      if(!isNaN(bookId)) {
-        this.book = this.books.getBook(bookId);
+      var tempBook: Book = this.books.getBook(Number(params.get('bookId')));
+      if(tempBook) {
+        this.book = tempBook;
+      }
+      else {
+        this.book = new Book();
       }
     })
   }

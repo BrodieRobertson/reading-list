@@ -10,8 +10,15 @@ export class Book {
   isbn: String;
   currentlyReading: Boolean;
   read: Boolean;
-  unread: Boolean;
   owned: Boolean;
-  notOwned: Boolean;
   dropped: Boolean;
+
+  constructor() {
+    this.id = -1;
+    this.name = "No Name"
+    this.authors = []
+    this.illustrators = []
+    this.pages = 0;
+    this.isbn = "123-4-56-789101-2"
+  }
 }
