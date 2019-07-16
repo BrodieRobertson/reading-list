@@ -1,0 +1,15 @@
+.navbar {
+    display: flex;
+}
+
+.nav-items {
+    display: flex;
+}
+
+.nav-link {
+    padding-right: 1em;
+}
+
+.nav-items-right {
+    margin-left: auto;
+}

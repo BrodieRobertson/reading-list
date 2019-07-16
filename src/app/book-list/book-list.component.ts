@@ -1,4 +1,4 @@
-import { BookService } from './../book.service';
+import { BookService } from '../services/book.service';
 import { Lists } from '../lists.enum';
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../models/book';

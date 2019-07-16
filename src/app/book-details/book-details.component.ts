@@ -1,4 +1,4 @@
-import { BookService } from './../book.service';
+import { BookService } from '../services/book.service';
 import { Book } from './../models/book';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,7 +23,6 @@ export class BookDetailsComponent implements OnInit {
         this.book = new Book();
       }
     })
-    console.log(this.book)
   }
 
   /**
@@ -48,7 +47,7 @@ export class BookDetailsComponent implements OnInit {
     else {
       var answer: Boolean = window.confirm("Are you sure you want to delete " + this.book.name + "?");
       if(answer) {
-        this.books.removeFromList(this.book.id);
+        this.books.removeBook(this.book.id);
         window.alert(this.book.name + " has been deleted, returning to the list");
         this.router.navigateByUrl("/")
       }
