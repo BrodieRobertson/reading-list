@@ -22,6 +22,7 @@ export class BookService {
   addToList(book: Book) {
     book.id = this.books.length;
     this.books.push(book);
+    console.log(book.id)
     return book.id;
   }
 

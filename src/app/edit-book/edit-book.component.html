@@ -4,7 +4,7 @@
     <h1>Editing {{bookName}}</h1>
 </ng-template>
 
-<form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)">
+<form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate>
     <div>
         <label for="name">Name</label>
         <input id="name" type="text" formControlName="name" required>

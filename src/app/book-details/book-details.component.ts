@@ -23,6 +23,7 @@ export class BookDetailsComponent implements OnInit {
         this.book = new Book();
       }
     })
+    console.log(this.book)
   }
 
   /**

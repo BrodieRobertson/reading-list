@@ -16,6 +16,7 @@ export class EditBookComponent implements OnInit {
   ReadingState = ReadingState;
 
   constructor(private route: ActivatedRoute, private books: BookService, private formBuilder: FormBuilder, private router: Router) {
+    this.bookName = ""
     this.editForm = formBuilder.group({
       name: '',
       pages: 0,
@@ -44,18 +45,19 @@ export class EditBookComponent implements OnInit {
    * Save the changes to the book
    */
   onSubmit(value: any) {
+    console.log(value)
     var newBook: Book = new Book();
     newBook.name = value.name;
     newBook.pages = value.pages;
     newBook.isbn = value.isbn;
-    newBook.authors = value.authors;
-    newBook.illustrators = value.illustrators;
+    // newBook.authors = value.authors;
+    // newBook.illustrators = value.illustrators;
     newBook.readingState = value.readingState;
     newBook.owned = value.owned;
     newBook.read = value.read;
     var bookId: Number = this.books.addToList(newBook);
 
-    if(bookId) {
+    if(bookId >= 0) {
       if(this.bookName === "") {
         window.alert("New book successfully added")
       }

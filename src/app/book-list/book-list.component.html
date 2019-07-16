@@ -18,7 +18,7 @@
 
 <div *ngIf="bookList.length > 0; else noBooks">
     <div *ngFor="let book of bookList">
-        <span>{{ book.name }}</span>
+        <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
     </div>
 </div>
 

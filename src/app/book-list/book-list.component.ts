@@ -33,42 +33,49 @@ export class BookListComponent implements OnInit {
     switch(list) {
       case Lists.CURRENTLY_READING:
         this.listName = "Currently Reading Books"
-        return this.bookList.filter(book => {
+        this.bookList = this.bookList.filter(book => {
           return book.readingState === ReadingState.CURRENTLY_READING;
         })
+        break;
       case Lists.DROPPED:
         this.listName = "Dropped Books"
-        return this.bookList.filter(book => {
+        this.bookList = this.bookList.filter(book => {
           return book.readingState === ReadingState.DROPPED;
         })
+        break;
       case Lists.PLAN_TO_READ:
         this.listName = "Plan to Read Books"
-        return this.bookList.filter(book => {
+        this.bookList = this.bookList.filter(book => {
           return book.readingState === ReadingState.PLAN_TO_READ;
         })
+        break;
       case Lists.NOT_OWNED:
         this.listName = "Not Owned Books"
-        return this.bookList.filter(book => {
+        this.bookList = this.bookList.filter(book => {
           return !book.owned;
         })
+        break;
       case Lists.OWNED:
         this.listName = "Owned Books"
-        return this.bookList.filter(book => {
+        this.bookList = this.bookList.filter(book => {
           return book.owned;
         })
+        break;
       case Lists.READ:
         this.listName = "Read Books"
-        return this.bookList.filter(book => {
+        this.bookList = this.bookList.filter(book => {
           return book.read;
         })
+        break;
       case Lists.UNREAD:
         this.listName = "Unread Books"
-        return this.bookList.filter(book => {
+        this.bookList = this.bookList.filter(book => {
           return !book.read;
         })
+        break;
       default:
         this.listName = "All Books"
-        return this.bookList;
+        break;
     }
   }
 }
