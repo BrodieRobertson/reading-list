@@ -4,6 +4,7 @@
 <div>
     <button (click)="loadList(Lists.ALL)">All Books</button>
     <button (click)="loadList(Lists.CURRENTLY_READING)">Currently Reading</button>
+    <button (click)="loadList(Lists.PLAN_TO_READ)">Plan to Read</button>
     <button (click)="loadList(Lists.READ)">Read</button>
     <button (click)="loadList(Lists.UNREAD)">Unread</button>
     <button (click)="loadList(Lists.OWNED)">Owned</button>
@@ -12,7 +13,7 @@
 </div>
 
 <div>
-    <a title="Add a new book" [routerLink]="['/book/new']">New Book</a>
+    <a title="Add a new book" [routerLink]="['/new']">New Book</a>
 </div>
 
 <div *ngIf="bookList.length > 0; else noBooks">

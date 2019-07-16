@@ -2,6 +2,7 @@ import { BookService } from './../book.service';
 import { Lists } from '../lists.enum';
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../models/book';
+import { ReadingState } from '../reading-state.enum';
 
 @Component({
   selector: 'app-book-list',
@@ -33,12 +34,17 @@ export class BookListComponent implements OnInit {
       case Lists.CURRENTLY_READING:
         this.listName = "Currently Reading Books"
         return this.bookList.filter(book => {
-          return book.currentlyReading;
+          return book.readingState === ReadingState.CURRENTLY_READING;
         })
       case Lists.DROPPED:
         this.listName = "Dropped Books"
         return this.bookList.filter(book => {
-          return book.dropped;
+          return book.readingState === ReadingState.DROPPED;
+        })
+      case Lists.PLAN_TO_READ:
+        this.listName = "Plan to Read Books"
+        return this.bookList.filter(book => {
+          return book.readingState === ReadingState.PLAN_TO_READ;
         })
       case Lists.NOT_OWNED:
         this.listName = "Not Owned Books"

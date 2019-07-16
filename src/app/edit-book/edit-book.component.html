@@ -1,1 +1,38 @@
-<p>edit-book works!</p>
+<h1 *ngIf="editForm.get('name').value === ''; else editBook">New Book</h1>
+
+<ng-template #editBook>
+    <h1>Editing {{editForm.get('name').value}}</h1>
+</ng-template>
+
+<form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)">
+    <div>
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" required>
+    </div>
+    <div>
+        <label for="isbn">ISBN</label>
+        <input id="isbn" type="text" formControlName="isbn" required>
+    </div>
+    <div>
+        <label for="pages">Pages</label>
+        <input id="pages" type="number" formControlName="pages" required>
+    </div>
+
+    <div>
+        <label for="currentlyReading">Currently Reading</label>
+        <input id="currentlyReading" type="radio" [value]="ReadingState.CURRENTLY_READING" formControlName="readingState" required>
+        <label for="planToRead">Plan to Read</label>
+        <input id="planToRead" type="radio" [value]="ReadingState.PLAN_TO_READ" formControlName="readingState" required>
+        <label for="dropped">Dropped</label>
+        <input id="dropped" type="radio" [value]="ReadingState.DROPPED" formControlName="readingState" required>
+    </div>
+
+    <div>
+        <label for="read">Read</label>
+        <input id="read" type="checkbox" formControlName="read">
+        <label for="owned">Owned</label>
+        <input id="owned" type="checkbox" formControlName="owned">
+    </div>
+
+    <button type="submit">Save</button>
+</form>

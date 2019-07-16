@@ -38,3 +38,8 @@
     <label for="dropped">Dropped</label>
     <input id="dropped" type="checkbox" [checked]="book.dropped" disabled />
 </div>
+
+<div>
+    <button (click)="onEdit()">Edit</button>
+    <button (click)="onDelete()">Delete</button>
+</div>

@@ -1,5 +1,6 @@
 import { Author } from './author';
 import { Illustrator } from './illustrator';
+import { ReadingState } from '../reading-state.enum';
 
 export class Book {
   id: Number;
@@ -8,7 +9,7 @@ export class Book {
   illustrators: Array<Illustrator>;
   pages: Number;
   isbn: String;
-  currentlyReading: Boolean;
+  readingState: ReadingState
   read: Boolean;
   owned: Boolean;
   dropped: Boolean;

@@ -24,8 +24,8 @@ import { EditBookComponent } from './edit-book/edit-book.component';
     RouterModule.forRoot([
       { path: '', component: BookListComponent },
       { path: 'book/:bookId', component: BookDetailsComponent },
-      { path: 'book/new', component: EditBookComponent },
-      { path: 'book/:bookId/edit', component: EditBookComponent }
+      { path: 'new', component: EditBookComponent },
+      { path: 'book/:bookId/edit', component: EditBookComponent },
     ])
   ],
   providers: [],
