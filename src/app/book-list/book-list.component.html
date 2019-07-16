@@ -1,7 +1,26 @@
 <h1>Book List</h1>
-<div *ngIf="currentList === Lists.CURRENTLY_READING">Test</div>
-<div *ngIf="currentList === Lists.READ">Test</div>
-<div *ngIf="currentList === Lists.UNREAD">Test</div>
-<div *ngIf="currentList === Lists.OWNED">Test</div>
-<div *ngIf="currentList === Lists.NOT_OWNED">Test</div>
-<div *ngIf="currentList === Lists.DROPPED">Test</div>
+<h2>{{ listName }}</h2>
+
+<div>
+    <button (click)="loadList(Lists.ALL)">All Books</button>
+    <button (click)="loadList(Lists.CURRENTLY_READING)">Currently Reading</button>
+    <button (click)="loadList(Lists.READ)">Read</button>
+    <button (click)="loadList(Lists.UNREAD)">Unread</button>
+    <button (click)="loadList(Lists.OWNED)">Owned</button>
+    <button (click)="loadList(Lists.NOT_OWNED)">Not Owned</button>
+    <button (click)="loadList(Lists.DROPPED)">Dropped</button>
+</div>
+
+<div>
+    <a [title]="'Add a new book'" [routerLink]="['/book/new']">New Book</a>
+</div>
+
+<div *ngIf="bookList.length > 0; else noBooks">
+    <div *ngFor="let book of bookList">
+        <span>{{ book.name }}</span>
+    </div>
+</div>
+
+<ng-template #noBooks>
+    This list is empty
+</ng-template>
