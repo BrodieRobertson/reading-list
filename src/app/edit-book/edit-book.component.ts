@@ -46,11 +46,15 @@ export class EditBookComponent implements OnInit {
     })
   }
 
+  /**
+   * Resets the form for future usage
+   */
   resetForm() {
     this.editForm = this.formBuilder.group({
       name: '',
       pages: 0,
       isbn: '',
+      image: '',
       authors: new FormArray([new FormControl("")]),
       illustrators: new FormArray([new FormControl("")]),
       readingState: ReadingState.PLAN_TO_READ,
@@ -218,10 +222,12 @@ export class EditBookComponent implements OnInit {
     var newBook: Book = new Book();
     this.extractAuthors();
     this.extractIllustrators();
+
     if(!this.book) {
       newBook.name = value.name;
       newBook.pages = value.pages;
       newBook.isbn = value.isbn;
+      newBook.image = value.image;
       newBook.authors = this.authorList
       newBook.illustrators = this.illustratorList
       newBook.readingState = value.readingState;
@@ -229,7 +235,7 @@ export class EditBookComponent implements OnInit {
       newBook.read = value.read;
     }
     else {
-
+      // SUPPORT BOOK EDITING
     }
 
     var bookId: Number = this.books.addBook(newBook);

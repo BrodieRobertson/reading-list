@@ -7,6 +7,7 @@ export class Book {
   name: String;
   authors: Array<Author>;
   illustrators: Array<Illustrator>;
+  image: String;
   pages: Number;
   isbn: String;
   readingState: ReadingState
@@ -19,6 +20,7 @@ export class Book {
     this.name = "No Name"
     this.authors = []
     this.illustrators = []
+    this.image = ""
     this.pages = 0;
     this.isbn = "123-4-56-789101-2"
   }
