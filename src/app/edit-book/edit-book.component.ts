@@ -249,27 +249,31 @@ export class EditBookComponent implements OnInit {
    * Save the changes to the book
    */
   onSubmit(value: any) {
-    var newBook: Book = new Book();
+    var submittedBook: Book;
+    if(!this.book) {
+      submittedBook = new Book();
+    }
+    else {
+      submittedBook = this.book
+    }
+
+    // Set all the new book data
     this.extractAuthors();
     this.extractIllustrators();
 
-    if(!this.book) {
-      newBook.name = value.name;
-      newBook.pages = value.pages;
-      newBook.isbn = value.isbn;
-      newBook.image = value.image;
-      newBook.authors = this.authorList
-      newBook.illustrators = this.illustratorList
-      newBook.readingState = value.readingState;
-      newBook.owned = value.owned;
-      newBook.read = value.read;
-    }
-    else {
-      // SUPPORT BOOK EDITING
-    }
+    submittedBook.name = value.name;
+    submittedBook.pages = value.pages;
+    submittedBook.isbn = value.isbn;
+    submittedBook.image = value.image;
+    submittedBook.authors = this.authorList
+    submittedBook.illustrators = this.illustratorList
+    submittedBook.readingState = value.readingState;
+    submittedBook.owned = value.owned;
+    submittedBook.read = value.read;
 
-    var bookId: Number = this.books.addBook(newBook);
+    var bookId: Number = this.books.updateBook(submittedBook);
 
+    // Display confirmation message
     if(bookId >= 0) {
       if(!this.book) {
         window.alert("New book successfully added")
