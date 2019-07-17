@@ -27,16 +27,21 @@
 <h2>In Lists</h2>
 <div>
     <label for="currentlyReading">Currently Reading</label>
-    <input id="currentlyReading" type="checkbox" [checked]="book.currentlyReading" disabled />
+    <input id="currentlyReading" type="radio" [checked]="book.readingState === ReadingState.CURRENTLY_READING" disabled/>
 
+    <label for="planToRead">Plan to Read</label>
+    <input id="planToRead" type="radio" [checked]="book.readingState === ReadingState.PLAN_TO_READ" disabled/>
+
+    <label for="dropped">Dropped</label>
+    <input id="dropped" type="radio" [checked]="book.readingState === ReadingState.DROPPED" disabled/>
+</div>
+
+<div>
     <label for="read">Read</label>
     <input id="read" type="checkbox" [checked]="book.read" disabled />
 
     <label for="owned">Owned</label>
     <input id="owned" type="checkbox" [checked]="book.owned" disabled />
-
-    <label for="dropped">Dropped</label>
-    <input id="dropped" type="checkbox" [checked]="book.dropped" disabled />
 </div>
 
 <div>

@@ -38,7 +38,6 @@ export class BookService {
     book.id = this.nextId;
     ++this.nextId;
     this.books.push(book);
-    console.log(book)
     return book.id;
   }
 

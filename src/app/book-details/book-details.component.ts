@@ -1,3 +1,4 @@
+import { ReadingState } from './../reading-state.enum';
 import { BookService } from '../services/book.service';
 import { Book } from './../models/book';
 import { Component, OnInit } from '@angular/core';
@@ -10,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class BookDetailsComponent implements OnInit {
   book: Book;
+  ReadingState = ReadingState
 
   constructor(private route: ActivatedRoute, private books: BookService, private router: Router) { }
 
