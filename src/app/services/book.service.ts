@@ -42,6 +42,21 @@ export class BookService {
   }
 
   /**
+   * Updates a book or adds it if it's not already present
+   * @param book The book being updated
+   */
+  updateBook(book: Book) {
+    var oldBook: Book = this.getBook(book.id);
+    if(oldBook) {
+      oldBook = book;
+      return oldBook.id
+    }
+    else {
+      return this.addBook(book);
+    }
+  }
+
+  /**
    * Removes a book by it's id
    * @param id The books id 
    */

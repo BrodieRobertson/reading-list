@@ -35,9 +35,39 @@ export class EditBookComponent implements OnInit {
       if(params.get("bookId")) {
         this.book = this.books.getBook(Number(params.get('bookId')));
         if(this.book) {
-          this.editForm.setValue({name: this.book.name, pages: this.book.pages, 
-            isbn: this.book.isbn, authors: this.book.authors, illustrators: this.book.illustrators,
-            readingState: this.book.readingState, read: this.book.read, owned: this.book.owned});
+          // Copy out author names from the book
+          var tempAuthorControls: FormArray = new FormArray([]);
+          if(this.book.authors.length === 0) {
+            tempAuthorControls.push(new FormControl(""))
+          }
+          else {
+            this.book.authors.forEach(author => {
+              tempAuthorControls.push(new FormControl(author.name))
+            })
+          }
+
+          // Copy out illustrator names from the book
+          var tempIllustratorControls: FormArray = new FormArray([]);
+          if(this.book.illustrators.length === 0) {
+            tempIllustratorControls.push(new FormControl(""))
+          }
+          else {
+            this.book.illustrators.forEach(illustrator => {
+              tempIllustratorControls.push(new FormControl(illustrator.name))
+            });
+          }
+
+          // Rebuild the form
+          this.editForm = this.formBuilder.group({
+            name: this.book.name, 
+            pages: this.book.pages, 
+            image: this.book.image,
+            isbn: this.book.isbn, 
+            authors: tempAuthorControls, 
+            illustrators: tempIllustratorControls,
+            readingState: this.book.readingState, 
+            read: this.book.read, 
+            owned: this.book.owned});
         }
       }
       else {
