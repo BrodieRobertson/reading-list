@@ -8,6 +8,7 @@ import { BookService } from '../services/book.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Form } from '@angular/forms';
 import { IllustratorService } from '../services/illustrator.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-edit-book',
@@ -23,16 +24,9 @@ export class EditBookComponent implements OnInit {
 
   constructor(private books: BookService, private authors: AuthorService, private illustrators: IllustratorService,
     private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) {
-      this.authorList = this.authors.getAuthors();
-      this.illustratorList = this.illustrators.getIllustrators();
+      this.authorList = [];
+      this.illustratorList = [];
       this.book = undefined;
-  }
-
-  /**
-   * Initialize the form
-   */
-  initializeForm() {
-    
   }
 
   ngOnInit() {
@@ -80,23 +74,32 @@ export class EditBookComponent implements OnInit {
   }
 
   /**
+   * Removes a form array control
+   * @param controls The array of controls
+   * @param personList The list of person objects
+   * @param index The index to remove from
+   */
+  removeControl(controls: FormArray, personList: Array<any>, index: number) {
+    if(controls.length > 1) {
+      controls.removeAt(index);
+      personList.splice(index, 1)
+    }
+  }
+
+  /**
    * Removes an author control
    * @param index The index of the control
    */
-  removeAuthorControl(index: Number) {
-    if(this.authorControls().length > 1) {
-      this.authorControls().removeAt(index.valueOf())
-    }
+  removeAuthorControl(index: number) {
+    this.removeControl(this.authorControls(), this.authorList, index)
   }
 
   /**
    * Removes an illustrator control
    * @param index The index of the control 
    */
-  removeIllustratorControl(index: Number) {
-    if(this.illustratorControls().length > 1) {
-      this.illustratorControls().removeAt(index.valueOf())
-    }
+  removeIllustratorControl(index: number) {
+    this.removeControl(this.illustratorControls(), this.illustratorList, index);
   }
 
   /**
@@ -106,6 +109,7 @@ export class EditBookComponent implements OnInit {
   addAuthorControl(index: Number) {
     if(index === this.authorControls().length - 1) {
       this.authorControls().push(new FormControl(""))
+      this.authorList.push(undefined)
     }
   }
 
@@ -116,29 +120,95 @@ export class EditBookComponent implements OnInit {
   addIllustratorControl(index: Number) {
     if(index === this.illustratorControls().length - 1) {
       this.illustratorControls().push(new FormControl(""))
+      this.illustratorList.push(undefined)
     }
   }
 
   /**
    * Gets a list of the closest matching authors
    */
-  getTopAuthors() {
-    return this.authors;
+  getTopAuthors(name: string) {
+    return this.authors.getAuthors();
   }
 
   /**
    * Gets a list of the closest matching illustrators
    */
-  getTopIllustrators() {
-    return this.illustrators;
+  getTopIllustrators(name: string) {
+    return this.illustrators.getIllustrators();
   }
 
-  addAuthor(author: Author) {
-
+  /**
+   * Adds an author to author list
+   * @param author An author
+   * @param index The index to add it at
+   */
+  addAuthor(author: Author, index: number) {
+    this.authorList[index] = author
   }
 
-  addIllustrator(illustrator: Illustrator) {
+  /**
+   * Adds an illustrator to the illustrator list
+   * @param illustrator An illustrator 
+   * @param index The index to add it at
+   */
+  addIllustrator(illustrator: Illustrator, index: number) {
+    this.illustratorList[index] = illustrator
+  }
 
+  onPersonFocusLost(topResults: Array<any>, personAdder: Function, name: string, index: number) {
+    if(topResults.length === 1 && topResults[0].name === name) {
+      personAdder(topResults[0], index)
+    }
+  }
+  /**
+   * Adds an author to the author list when focus lost if it's an exact match
+   * @param index The index to add the author to
+   */
+  onAuthorFocusLost(index: number) {
+    var name: string = this.authorControls().value[index]
+    this.onPersonFocusLost(this.getTopAuthors(name), this.addAuthor, name, index)
+  }
+
+  /**
+   * Adds an illustrator to the illustrator list when focus lost if it's an exact match
+   * @param index The index to add the illustrator to
+   */
+  onIllustratorFocusLost(index: number) {
+    var name: string = this.illustratorControls().value[index]
+    this.onPersonFocusLost(this.getTopIllustrators(name), this.addIllustrator, name, index)
+  }
+
+  /**
+   * Extract authors from the text input
+   */
+  extractAuthors() {
+    var controls: FormArray = this.authorControls().value
+    for(var i: number = 0; i < controls.length; ++i) {
+      if(controls[i] !== "" && isNullOrUndefined(this.authorList[i])) {
+        var temp = new Author();
+        temp.name = controls[i];
+        var id = this.authors.addAuthor(temp)
+        var newAuthor = this.authors.getAuthor(id);
+        this.authorList[i] = newAuthor;
+      }
+    }
+  }
+
+  /**
+   * Extract illustrators from the text input
+   */
+  extractIllustrators() {
+    var controls: FormArray = this.illustratorControls().value
+    for(var i: number = 0; i < controls.length; ++i) {
+      if(controls[i] !== "" && isNullOrUndefined(this.illustratorList[i])) {
+        var temp = new Illustrator();
+        temp.name = controls[i];
+        var id = this.illustrators.addIllustrator(temp)
+        var newAuthor = this.illustrators.getIllustrator(id);
+        this.illustratorList[i] = newAuthor;
+      }
+    }
   }
 
   /**
@@ -146,12 +216,14 @@ export class EditBookComponent implements OnInit {
    */
   onSubmit(value: any) {
     var newBook: Book = new Book();
+    this.extractAuthors();
+    this.extractIllustrators();
     if(!this.book) {
       newBook.name = value.name;
       newBook.pages = value.pages;
       newBook.isbn = value.isbn;
-      // newBook.authors = value.authors;
-      // newBook.illustrators = value.illustrators;
+      newBook.authors = this.authorList
+      newBook.illustrators = this.illustratorList
       newBook.readingState = value.readingState;
       newBook.owned = value.owned;
       newBook.read = value.read;
@@ -159,6 +231,7 @@ export class EditBookComponent implements OnInit {
     else {
 
     }
+
     var bookId: Number = this.books.addBook(newBook);
 
     if(bookId >= 0) {

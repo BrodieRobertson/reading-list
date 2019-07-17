@@ -22,7 +22,7 @@
         <h3>Authors</h3>
         <div formArrayName="authors">
             <div *ngFor="let author of authorControls().controls; index as i">
-                <input formControlName="{{i}}" (focus)="addAuthorControl(i)">
+                <input formControlName="{{i}}" (focus)="addAuthorControl(i)" (blur)="onAuthorFocusLost(i)">
                 <button (click)="removeAuthorControl(i)">X</button>
             </div>
         </div>
