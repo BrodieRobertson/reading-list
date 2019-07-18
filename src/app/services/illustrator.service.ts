@@ -42,6 +42,21 @@ export class IllustratorService {
   }
 
   /**
+   * Updates an illustrator or adds it if it's not already present
+   * @param illustrator The book being updated
+   */
+  updateIllustrator(illustrator: Illustrator) {
+    var oldIllustrator: Illustrator = this.getIllustrator(illustrator.id);
+    if(oldIllustrator) {
+      oldIllustrator = illustrator;
+      return oldIllustrator.id
+    }
+    else {
+      return this.addIllustrator(illustrator);
+    }
+  }
+
+  /**
    * Removes a illustrator by it's id
    * @param id The illustrators id 
    */

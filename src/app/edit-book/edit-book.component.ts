@@ -190,6 +190,13 @@ export class EditBookComponent implements OnInit {
     this.illustratorList[index] = illustrator
   }
 
+  /**
+   * 
+   * @param topResults The top results for the input
+   * @param personAdder The method to add a new person
+   * @param name The name of the person
+   * @param index The index of the control
+   */
   onPersonFocusLost(topResults: Array<any>, personAdder: Function, name: string, index: number) {
     if(topResults.length === 1 && topResults[0].name === name) {
       personAdder(topResults[0], index)
@@ -214,17 +221,76 @@ export class EditBookComponent implements OnInit {
   }
 
   /**
+   * Updates the authored lists for the authors that have been added or removed 
+   * @param book The book being checked for
+   */
+  updateAuthoredBooks(book: Book) {
+    // Add or update the book in authored for authors in list
+    for(var i: number = 0; i < this.authorList.length; ++i) {
+      if(!isNullOrUndefined(this.authorList[i])) {
+        this.authorList[i].addAuthored(book);
+      }
+    }
+
+    // Remove book from any removed authors
+    for(var i: number = 0; i < book.authors.length; ++i) {
+      var foundAuthor: Author = this.authorList.find(author => {
+        if(!isNullOrUndefined(author)) {
+          return author.id === book.authors[i].id;
+        }
+      })
+
+      // If author no longer in list, remove this book from it's authored list
+      if(!foundAuthor) {
+        book.authors[i].removeAuthored(book)
+      }
+    }
+  }
+
+  /**
    * Extract authors from the text input
    */
   extractAuthors() {
-    var controls: FormArray = this.authorControls().value
+    var controls = this.authorControls().value
     for(var i: number = 0; i < controls.length; ++i) {
-      if(controls[i] !== "" && isNullOrUndefined(this.authorList[i])) {
+      if(controls[i] !== "") {
         var temp = new Author();
         temp.name = controls[i];
         var id = this.authors.addAuthor(temp)
         var newAuthor = this.authors.getAuthor(id);
         this.authorList[i] = newAuthor;
+      }
+      else {
+        controls.splice(i, 1)
+        this.authorList.splice(i, 1)
+        --i;
+      }
+    }
+  }
+
+  /**
+   * Updates the illustrated lists for the illustrators that have been added or removed 
+   * @param book The book being checked for
+   */
+  updateIllustratedBooks(book: Book) {
+    // Add or update the book in illustrated for illustrators in list
+    for(var i: number = 0; i < this.illustratorList.length; ++i) {
+      if(!isNullOrUndefined(this.illustratorList[i])) {
+        this.illustratorList[i].addIllustrated(book);
+      }
+    }
+
+    // Remove book from any removed illustrators
+    for(var i: number = 0; i < book.illustrators.length; ++i) {
+      var foundIllustrator: Illustrator = this.illustratorList.find(illustrator => {
+        if(!isNullOrUndefined(illustrator)) {
+          return illustrator.id === book.illustrators[i].id;
+        }
+      })
+
+      // If illustrator no longer in list, remove this book from it's illustrated list
+      if(!foundIllustrator) {
+        book.illustrators[i].removeIllustrated(book)
       }
     }
   }
@@ -233,14 +299,19 @@ export class EditBookComponent implements OnInit {
    * Extract illustrators from the text input
    */
   extractIllustrators() {
-    var controls: FormArray = this.illustratorControls().value
+    var controls = this.illustratorControls().value
     for(var i: number = 0; i < controls.length; ++i) {
-      if(controls[i] !== "" && isNullOrUndefined(this.illustratorList[i])) {
+      if(controls[i] !== "") {
         var temp = new Illustrator();
         temp.name = controls[i];
         var id = this.illustrators.addIllustrator(temp)
-        var newAuthor = this.illustrators.getIllustrator(id);
-        this.illustratorList[i] = newAuthor;
+        var newIllustrator = this.illustrators.getIllustrator(id);
+        this.illustratorList[i] = newIllustrator;
+      }
+      else {
+        controls.splice(i, 1)
+        this.illustratorList.splice(i, 1)
+        --i;
       }
     }
   }
@@ -260,6 +331,7 @@ export class EditBookComponent implements OnInit {
     // Set all the new book data
     this.extractAuthors();
     this.extractIllustrators();
+    this.updateIllustratedBooks(submittedBook);
 
     submittedBook.name = value.name;
     submittedBook.pages = value.pages;

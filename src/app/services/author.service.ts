@@ -31,6 +31,21 @@ export class AuthorService {
   }
 
   /**
+   * Updates an author or adds it if it's not already present
+   * @param author The book being updated
+   */
+  updateAuthor(author: Author) {
+    var oldAuthor: Author = this.getAuthor(author.id);
+    if(oldAuthor) {
+      oldAuthor = author;
+      return oldAuthor.id
+    }
+    else {
+      return this.addAuthor(author);
+    }
+  }
+
+  /**
    * Adds a new author
    * @param author The new author
    */

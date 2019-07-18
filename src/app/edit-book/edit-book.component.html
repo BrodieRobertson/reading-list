@@ -27,7 +27,7 @@
         <div formArrayName="authors">
             <div *ngFor="let author of authorControls().controls; index as i">
                 <input formControlName="{{i}}" (focus)="addAuthorControl(i)" (blur)="onAuthorFocusLost(i)">
-                <button (click)="removeAuthorControl(i)">X</button>
+                <button type="button" (click)="removeAuthorControl(i)">X</button>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
         <div formArrayName="illustrators">
             <div *ngFor="let illustrator of illustratorControls().controls; index as i">
                 <input formControlName="{{i}}" (focus)="addIllustratorControl(i)">
-                <button (click)="removeIllustratorControl(i)">X</button>
+                <button type="button" (click)="removeIllustratorControl(i)">X</button>
             </div>
         </div>
     </div>
