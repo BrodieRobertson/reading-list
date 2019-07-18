@@ -1,0 +1,13 @@
+<h1>{{ illustrator.name }}</h1>
+<h2>Illustrated</h2>
+<div *ngIf="illustrator.illustrated.length > 0; else noIllustrated">
+    <ul>
+        <li *ngFor="let book of illustrator.illustrated">
+            <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
+        </li>
+    </ul>
+</div>
+
+<ng-template #noIllustrated>
+    No illustrated books
+</ng-template>

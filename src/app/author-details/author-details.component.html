@@ -1,0 +1,13 @@
+<h1>{{author.name}}</h1>
+<h2>Authored</h2>
+<div *ngIf="author.authored.length > 0; else noAuthored">
+    <ul>
+        <li *ngFor="let book of author.authored">
+            <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
+        </li>
+    </ul>
+</div>
+
+<ng-template #noAuthored>
+    No authored books
+</ng-template>

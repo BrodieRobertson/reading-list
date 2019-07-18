@@ -9,6 +9,8 @@ import { TopBarComponent } from './top-bar/top-bar.component';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { EditBookComponent } from './edit-book/edit-book.component';
+import { AuthorDetailsComponent } from './author-details/author-details.component';
+import { IllustratorDetailsComponent } from './illustrator-details/illustrator-details.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { EditBookComponent } from './edit-book/edit-book.component';
     TopBarComponent,
     BookListComponent,
     BookDetailsComponent,
-    EditBookComponent
+    EditBookComponent,
+    AuthorDetailsComponent,
+    IllustratorDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +28,8 @@ import { EditBookComponent } from './edit-book/edit-book.component';
     RouterModule.forRoot([
       { path: '', component: BookListComponent },
       { path: 'book/:bookId', component: BookDetailsComponent },
+      { path: 'author/:authorId', component: AuthorDetailsComponent },
+      { path: 'illustrator/:illustratorId', component: IllustratorDetailsComponent},
       { path: 'new', component: EditBookComponent },
       { path: 'book/:bookId/edit', component: EditBookComponent },
     ])

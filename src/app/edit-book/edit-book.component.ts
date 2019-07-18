@@ -332,6 +332,7 @@ export class EditBookComponent implements OnInit {
     this.extractAuthors();
     this.extractIllustrators();
     this.updateIllustratedBooks(submittedBook);
+    this.updateAuthoredBooks(submittedBook);
 
     submittedBook.name = value.name;
     submittedBook.pages = value.pages;
