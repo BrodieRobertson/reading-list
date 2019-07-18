@@ -362,4 +362,20 @@ export class EditBookComponent implements OnInit {
 
     this.resetForm();
   }
+
+  /**
+   * Leaves this page without saving the changes
+   */
+  onCancel() {
+    this.resetForm();
+    var confirmation: Boolean = window.confirm("Are you sure you want to leave this page, all changes will be lost?");
+    if(confirmation) {
+      if(this.book) {
+        this.router.navigateByUrl("/book/" + this.book.id)
+      }
+      else {
+        this.router.navigateByUrl("/")
+      }
+    }
+  }
 }
