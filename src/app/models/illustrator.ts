@@ -7,7 +7,7 @@ export class Illustrator {
 
   constructor() {
     this.id = -1
-    this.name = ""
+    this.name = "No Name"
     this.illustrated = []
   }
 

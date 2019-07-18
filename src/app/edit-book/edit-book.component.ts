@@ -191,7 +191,7 @@ export class EditBookComponent implements OnInit {
   }
 
   /**
-   * 
+   * Adds a person to a person list when focus is lost if it's an exact match
    * @param topResults The top results for the input
    * @param personAdder The method to add a new person
    * @param name The name of the person
@@ -202,6 +202,7 @@ export class EditBookComponent implements OnInit {
       personAdder(topResults[0], index)
     }
   }
+
   /**
    * Adds an author to the author list when focus lost if it's an exact match
    * @param index The index to add the author to
@@ -372,7 +373,7 @@ export class EditBookComponent implements OnInit {
     var confirmation: Boolean = window.confirm("Are you sure you want to leave this page, all changes will be lost?");
     if(confirmation) {
       if(this.book) {
-        this.router.navigateByUrl("/book/" + this.book.id)
+        this.router.navigateByUrl("book/" + this.book.id)
       }
       else {
         this.router.navigateByUrl("/")

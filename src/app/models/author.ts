@@ -7,7 +7,7 @@ export class Author {
 
   constructor() {
     this.id = -1
-    this.name = ""
+    this.name = "No Name"
     this.authored = []
   }
 

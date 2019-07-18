@@ -1,5 +1,5 @@
 import { IllustratorService } from './../services/illustrator.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Illustrator } from '../models/illustrator';
 
@@ -11,7 +11,7 @@ import { Illustrator } from '../models/illustrator';
 export class IllustratorDetailsComponent implements OnInit {
   illustrator: Illustrator
 
-  constructor(private route: ActivatedRoute, private illustrators: IllustratorService) { }
+  constructor(private route: ActivatedRoute, private illustrators: IllustratorService, private router: Router) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -25,4 +25,27 @@ export class IllustratorDetailsComponent implements OnInit {
     })
   }
 
+  /**
+   * Switches to the edit form if the illustrator can be edited
+   */
+  onEdit() {
+    if(this.illustrator.id === -1) {
+      window.alert("This illustrator can not be edited")
+    }
+    else {
+      this.router.navigateByUrl("illustrator/" + this.illustrator.id + "/edit")
+    }
+  }
+
+  /**
+   * Confirms if this illustrator should be deleted if it can be deleted
+   */
+  onDelete() {
+    if(this.illustrator.id === -1) {
+      window.alert("This illustrator can not be deleted")
+    }
+    else {
+      window.alert("Feature coming soon")
+    }
+  }
 }
