@@ -1,25 +1,28 @@
 <h1>Editing {{ author.name }}</h1>
 
 <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate>
-    <div>
-        <label for="name">Name</label>
-        <input id="name" type="text" formControlName="name" required>
+  <div>
+    <label for="name">Name</label>
+    <input id="name" type="text" formControlName="name" required>
+  </div>
+
+  <div>
+    <h3>Authored</h3>
+    <div *ngIf="author.authored.length > 0; else noAuthored" formArrayName="books">
+      <div *ngFor="let book of bookControls().controls; index as i">
+        <input formControlName="{{i}}" disabled>
+        <button type="button" (click)="removeBookControl(i)">X</button>
+      </div>
     </div>
 
-    <div>
-        <h3>Authored</h3>
-        <div *ngIf="author.authored.length > 0; else noAuthored" formArrayName="books">
-            <div *ngFor="let book of bookControls().controls; index as i">
-                <input formControlName="{{i}}" disabled>
-                <button type="button">X</button>
-            </div>
-        </div>
+    <ng-template #noAuthored>
+      No authored books listed
+    </ng-template>
 
-        <ng-template #noAuthored>
-            No authored books listed
-        </ng-template>
+  </div>
 
-        <button type="submit">Save</button>
-        <button type="button" (click)="onCancel()">Cancel</button>
-    </div>
+  <div>
+    <button type="submit">Save</button>
+    <button type="button" (click)="onCancel()">Cancel</button>
+  </div> 
 </form>

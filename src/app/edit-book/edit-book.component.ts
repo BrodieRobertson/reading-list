@@ -244,6 +244,7 @@ export class EditBookComponent implements OnInit {
       // If author no longer in list, remove this book from it's authored list
       if(!foundAuthor) {
         book.authors[i].removeAuthored(book)
+        book.removeAuthor(book.authors[i])
       }
     }
   }
@@ -292,6 +293,7 @@ export class EditBookComponent implements OnInit {
       // If illustrator no longer in list, remove this book from it's illustrated list
       if(!foundIllustrator) {
         book.illustrators[i].removeIllustrated(book)
+        book.removeIllustrator(book.illustrators[i])
       }
     }
   }

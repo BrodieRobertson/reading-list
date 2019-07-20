@@ -1,3 +1,4 @@
+import { Book } from './../models/book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthorService } from './../services/author.service';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
@@ -61,12 +62,40 @@ export class EditAuthorComponent implements OnInit {
   }
 
   /**
+   * Removes a book control
+   * @param index The index to remove from
+   */
+  removeBookControl(index: number) {
+    this.bookControls().removeAt(index);
+  }
+
+  /**
+   * Update the authored book of the author
+   */
+  updateAuthoredBooks() {
+    // If book no longer in list remove it from the authored list
+    for(var i: number = 0; i < this.author.authored.length; ++i) {
+      var authoredBook: Book = this.author.authored[i]
+      var foundBook = this.bookControls().value.find((book: string) => {
+        return book === authoredBook.name
+      })
+
+      if(!foundBook) {
+        authoredBook.removeAuthor(this.author)
+        this.author.removeAuthored(authoredBook)
+      }
+    }
+  }
+
+  /**
    * Saves any change to the author 
    * @param value The values used to update the author
    */
   onSubmit(value: any) {
     var oldName: String = new String(this.author.name)
     this.author.name = value.name
+    this.updateAuthoredBooks();
+    
     var authorId: Number = this.authors.updateAuthor(this.author)
     if(authorId >= 0) {
       window.alert(oldName + " successfully updated")

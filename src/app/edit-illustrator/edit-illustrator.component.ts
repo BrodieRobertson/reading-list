@@ -1,4 +1,5 @@
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { Book } from './../models/book';
+import { FormGroup, FormBuilder, FormArray, FormControl, NgControlStatus } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Illustrator } from './../models/illustrator';
 import { Component, OnInit } from '@angular/core';
@@ -61,12 +62,40 @@ export class EditIllustratorComponent implements OnInit {
   }
 
   /**
+   * Removes a book control
+   * @param index The index to remove from
+   */
+  removeBookControl(index: number) {
+    this.bookControls().removeAt(index);
+  }
+
+  /**
+   * Update the illustrated book of the illustrator
+   */
+  updateIllustratedBooks() {
+    // If book no longer in list remove it from the illustrated list
+    for(var i: number = 0; i < this.illustrator.illustrated.length; ++i) {
+      var illustratedBook: Book = this.illustrator.illustrated[i]
+      var foundBook = this.bookControls().value.find((book: string) => {
+        return book === illustratedBook.name
+      })
+
+      if(!foundBook) {
+        illustratedBook.removeIllustrator(this.illustrator)
+        this.illustrator.removeIllustrated(illustratedBook)
+      }
+    }
+  }
+
+  /**
    * Saves any changes to the illustrator
    * @param value The values used to update the illustrator
    */
   onSubmit(value: any) {
     var oldName: String = new String(this.illustrator.name)
     this.illustrator.name = value.name;
+    this.updateIllustratedBooks()
+    
     var illustratorId: Number = this.illustrators.updateIllustrator(this.illustrator);
     if(illustratorId >= 0) {
       window.alert(oldName + " successfully updated")
