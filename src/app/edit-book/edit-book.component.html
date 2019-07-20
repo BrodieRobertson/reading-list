@@ -31,7 +31,9 @@
         <button type="button" (click)="removeAuthorControl(i)">X</button>
 
         <div>
-          <div *ngFor="let topAuthor of topAuthors[i]">{{topAuthor.name}}</div>
+          <div *ngFor="let topAuthor of topAuthors[i]">
+            <button (click)="setAuthor(topAuthor, i)" type="button">{{topAuthor.name}}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -46,7 +48,9 @@
         <button type="button" (click)="removeIllustratorControl(i)">X</button>
 
         <div>
-          <div *ngFor="let topIllustrator of topIllustrators[i]">{{topIllustrator.name}}</div>
+          <div *ngFor="let topIllustrator of topIllustrators[i]">
+            <button (click)="setIllustrator(topIllustrator, i)" type="button">{{topIllustrator.name}}</button>
+          </div>
         </div>
       </div>
     </div>

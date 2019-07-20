@@ -2,7 +2,7 @@ import { Book } from './book';
 
 export class Illustrator {
   id: Number;
-  name: String;
+  name: string;
   illustrated: Array<Book>
 
   constructor() {

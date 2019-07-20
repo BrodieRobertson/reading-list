@@ -2,7 +2,7 @@ import { Book } from './book';
 
 export class Author {
   id: Number;
-  name: String;
+  name: string;
   authored: Array<Book>
 
   constructor() {

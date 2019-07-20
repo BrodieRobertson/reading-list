@@ -168,8 +168,18 @@ export class EditBookComponent implements OnInit {
    * @param name The name to check for
    */
   updateTopAuthors(index: number, name: string) {
-    console.log("bhbjhbfsdhjfbsdkjh")
-    this.topAuthors[index] = this.authors.getAuthors();
+    var tempAuthors = this.authors.getAuthors();
+    var regex = new RegExp(name);
+    tempAuthors = tempAuthors.filter(author => {
+      if(regex.test(author.name)) {
+        return author
+      }
+    })
+
+    if(tempAuthors.length > 5) {
+      tempAuthors = tempAuthors.slice(0, 5)
+    }
+    this.topAuthors[index] = tempAuthors
   }
 
   /**
@@ -177,22 +187,35 @@ export class EditBookComponent implements OnInit {
    * @param name The name to check for
    */
   updateTopIllustrators(index: number, name: string) {
-    console.log("bhbjhbfsdhjfbsdkjh")
-    this.topIllustrators[index] = this.illustrators.getIllustrators()
+    var tempIllustrators = this.illustrators.getIllustrators();
+    var regex = new RegExp(name);
+    tempIllustrators = tempIllustrators.filter(illustrator => {
+      if(regex.test(illustrator.name)) {
+        return illustrator;
+      }
+    })
+    if(tempIllustrators.length > 5) {
+      tempIllustrators = tempIllustrators.slice(0, 5);
+    }
+    this.topIllustrators[index] = tempIllustrators
   }
 
   /**
-   * Gets a list of the closest matching authors
+   * Sets the value of a control to a new author
+   * @param author The author being set
+   * @param index The index of the control
    */
-  getTopAuthors(name: string) {
-    return this.authors.getAuthors();
+  setAuthor(author: Author, index: number) {
+    this.authorControls().setControl(index, new FormControl(author.name))
   }
 
   /**
-   * Gets a list of the closest matching illustrators
+   * Sets the value of a control to a new illustrator
+   * @param illustrator The illustrator being set
+   * @param index The index of the control
    */
-  getTopIllustrators(name: string) {
-    return this.illustrators.getIllustrators();
+  setIllustrator(illustrator: Illustrator, index: number) {
+    this.illustratorControls().setControl(index, new FormControl(illustrator.name))
   }
 
   /**
@@ -232,7 +255,7 @@ export class EditBookComponent implements OnInit {
    */
   onAuthorFocusLost(index: number) {
     var name: string = this.authorControls().value[index]
-    this.onPersonFocusLost(this.getTopAuthors(name), this.addAuthor, name, index)
+    this.onPersonFocusLost(this.topAuthors, this.addAuthor, name, index)
   }
 
   /**
@@ -241,7 +264,7 @@ export class EditBookComponent implements OnInit {
    */
   onIllustratorFocusLost(index: number) {
     var name: string = this.illustratorControls().value[index]
-    this.onPersonFocusLost(this.getTopIllustrators(name), this.addIllustrator, name, index)
+    this.onPersonFocusLost(this.topIllustrators, this.addIllustrator, name, index)
   }
 
   /**
