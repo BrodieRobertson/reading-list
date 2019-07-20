@@ -20,12 +20,16 @@ export class EditBookComponent implements OnInit {
   book: Book;
   illustratorList: Array<Illustrator>
   authorList: Array<Author>
+  topAuthors: Array<Array<Author>>
+  topIllustrators: Array<Array<Illustrator>>
   ReadingState = ReadingState;
 
   constructor(private books: BookService, private authors: AuthorService, private illustrators: IllustratorService,
     private route: ActivatedRoute, private formBuilder: FormBuilder, private router: Router) {
       this.authorList = [];
       this.illustratorList = [];
+      this.topAuthors = []
+      this.topIllustrators = []
       this.book = undefined;
   }
 
@@ -113,9 +117,10 @@ export class EditBookComponent implements OnInit {
    * @param personList The list of person objects
    * @param index The index to remove from
    */
-  removeControl(controls: FormArray, personList: Array<any>, index: number) {
+  removeControl(controls: FormArray, personList: Array<any>, topPersonList: Array<any>, index: number) {
     if(controls.length > 1) {
       controls.removeAt(index);
+      topPersonList.splice(index, 1)
       personList.splice(index, 1)
     }
   }
@@ -125,7 +130,7 @@ export class EditBookComponent implements OnInit {
    * @param index The index of the control
    */
   removeAuthorControl(index: number) {
-    this.removeControl(this.authorControls(), this.authorList, index)
+    this.removeControl(this.authorControls(), this.authorList, this.topAuthors, index)
   }
 
   /**
@@ -133,7 +138,7 @@ export class EditBookComponent implements OnInit {
    * @param index The index of the control 
    */
   removeIllustratorControl(index: number) {
-    this.removeControl(this.illustratorControls(), this.illustratorList, index);
+    this.removeControl(this.illustratorControls(), this.illustratorList, this.topIllustrators, index);
   }
 
   /**
@@ -156,6 +161,24 @@ export class EditBookComponent implements OnInit {
       this.illustratorControls().push(new FormControl(""))
       this.illustratorList.push(undefined)
     }
+  }
+
+  /**
+   * Updates the top authors list
+   * @param name The name to check for
+   */
+  updateTopAuthors(index: number, name: string) {
+    console.log("bhbjhbfsdhjfbsdkjh")
+    this.topAuthors[index] = this.authors.getAuthors();
+  }
+
+  /**
+   * Updates the illustrators list
+   * @param name The name to check for
+   */
+  updateTopIllustrators(index: number, name: string) {
+    console.log("bhbjhbfsdhjfbsdkjh")
+    this.topIllustrators[index] = this.illustrators.getIllustrators()
   }
 
   /**
