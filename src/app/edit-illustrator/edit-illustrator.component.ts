@@ -24,11 +24,11 @@ export class EditIllustratorComponent implements OnInit {
         // Copy out book names from the illustrator
         var tempBookControls: FormArray = new FormArray([]);
         if(this.illustrator.illustrated.length === 0) {
-          tempBookControls.push(new FormControl("")) 
+          tempBookControls.push(new FormControl({value: "", disabled: true})) 
         }
         else {
           this.illustrator.illustrated.forEach(book => {
-            tempBookControls.push(new FormControl(book.name))
+            tempBookControls.push(new FormControl({value: book.name, disabled: true}))
           })
         }
 
@@ -50,7 +50,7 @@ export class EditIllustratorComponent implements OnInit {
   resetForm() {
     this.editForm = this.formBuilder.group({
       name: '',
-      books: new FormArray([new FormControl("")])
+      books: new FormArray([new FormControl({value: "", disabled: true})])
     })
   }
 
@@ -95,15 +95,16 @@ export class EditIllustratorComponent implements OnInit {
     var oldName: String = new String(this.illustrator.name)
     this.illustrator.name = value.name;
     this.updateIllustratedBooks()
-    
+
     var illustratorId: Number = this.illustrators.updateIllustrator(this.illustrator);
     if(illustratorId >= 0) {
       window.alert(oldName + " successfully updated")
     }
     else {
       window.alert("There was an error saving this illustrator")
-      this.router.navigateByUrl("illustrator/" + this.illustrator.id)
     }
+    
+    this.router.navigateByUrl("illustrator/" + this.illustrator.id)
     this.resetForm();
   }
 

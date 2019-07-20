@@ -10,7 +10,7 @@
     <h3>Illustrated</h3>
     <div *ngIf="illustrator.illustrated.length > 0; noIllustrated" formArrayName="books">
       <div *ngFor="let book of bookControls().controls; index as i">
-        <input formControlName="{{i}}" disabled>
+        <input formControlName="{{i}}">
         <button type="button" (click)="removeBookControl(i)">X</button>
       </div>
     </div>

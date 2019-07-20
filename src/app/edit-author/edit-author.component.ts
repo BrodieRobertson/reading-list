@@ -102,8 +102,9 @@ export class EditAuthorComponent implements OnInit {
     }
     else {
       window.alert("There was an error saving this author")
-      this.router.navigateByUrl("author/" + this.author.id)
     }
+    
+    this.router.navigateByUrl("author/" + this.author.id)
     this.resetForm();
   }
 
