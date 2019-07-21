@@ -1,0 +1,22 @@
+
+@import 'variables';
+
+$input-color: rgb(95, 95, 95);
+
+.text-box {
+    width: 300px;
+    background: white;
+    color: $input-color;
+    font: inherit;
+    box-shadow: $drop-shadow;
+    border: $border-width;
+    border-style: solid;
+    border-color: $border-color;
+    outline: 0;
+    padding: 10px 18px;
+    margin-bottom: $small-spacing;
+}
+
+.selection-group {
+  margin-bottom: $small-spacing;
+}

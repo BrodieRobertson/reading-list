@@ -1,79 +1,86 @@
-<h1 *ngIf="!book; else editBook">New Book</h1>
+<header>
+  <h1 *ngIf="!book; else editBook">New Book</h1>
 
-<ng-template #editBook>
-  <h1>Editing {{book.name}}</h1>
-</ng-template>
+  <ng-template #editBook>
+    <h1>Editing {{book.name}}</h1>
+  </ng-template>
+</header>
 
-<form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate>
-  <div>
-    <label for="name">Name</label>
-    <input id="name" type="text" formControlName="name" required>
-  </div>
-  <div>
-    <label for="image">Image URL</label>
-    <input id="image" type="text" formControlName="image">
-  </div>
-  <div>
-    <label for="isbn">ISBN</label>
-    <input id="isbn" type="text" formControlName="isbn" required>
-  </div>
-  <div>
-    <label for="pages">Pages</label>
-    <input id="pages" type="number" formControlName="pages" required>
-  </div>
 
-  <div>
-    <h3>Authors</h3>
-    <div formArrayName="authors">
-      <div *ngFor="let author of authorControls().controls; index as i">
-        <input formControlName="{{i}}" (focus)="addAuthorControl(i)" 
-          (blur)="onAuthorFocusLost(i)" (input)="updateTopAuthors(i, author.value)">
-        <button type="button" (click)="removeAuthorControl(i)">X</button>
+<main class="flex-container flex-center flex-column">
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
+    <div>
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" required class="text-box block">
+    </div>
+    <div>
+      <label for="image">Image URL</label>
+      <input id="image" type="text" formControlName="image" class="text-box block">
+    </div>
+    <div>
+      <label for="isbn">ISBN</label>
+      <input id="isbn" type="text" formControlName="isbn" required class="text-box block">
+    </div>
+    <div>
+      <label for="pages">Pages</label>
+      <input id="pages" type="number" formControlName="pages" required class="text-box block">
+    </div>
 
-        <div>
-          <div *ngFor="let topAuthor of topAuthors[i]">
-            <button (click)="setAuthor(topAuthor, i)" type="button">{{topAuthor.name}}</button>
+    <div>
+      <h3>Authors</h3>
+      <div formArrayName="authors">
+        <div *ngFor="let author of authorControls().controls; index as i">
+          <input formControlName="{{i}}" (focus)="addAuthorControl(i)" 
+            (blur)="onAuthorFocusLost(i)" (input)="updateTopAuthors(i, author.value)"
+            class="text-box">
+          <button type="button" class="regular-button" (click)="removeAuthorControl(i)">X</button>
+
+          <div>
+            <div *ngFor="let topAuthor of topAuthors[i]">
+              <button class="regular-button" (click)="setAuthor(topAuthor, i)" type="button">{{topAuthor.name}}</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div>
-    <h3>Illustrators</h3>
-    <div formArrayName="illustrators">
-      <div *ngFor="let illustrator of illustratorControls().controls; index as i">
-        <input formControlName="{{i}}" (focus)="addIllustratorControl(i)" 
-          (blur)="onAuthorFocusLost(i)" (input)="updateTopIllustrators(i, illustrator.value)">
-        <button type="button" (click)="removeIllustratorControl(i)">X</button>
+    <div>
+      <h3>Illustrators</h3>
+      <div formArrayName="illustrators">
+        <div *ngFor="let illustrator of illustratorControls().controls; index as i">
+          <input formControlName="{{i}}" (focus)="addIllustratorControl(i)" 
+            (blur)="onAuthorFocusLost(i)" (input)="updateTopIllustrators(i, illustrator.value)"
+            class="text-box">
+          <button class="regular-button" type="button" (click)="removeIllustratorControl(i)">X</button>
 
-        <div>
-          <div *ngFor="let topIllustrator of topIllustrators[i]">
-            <button (click)="setIllustrator(topIllustrator, i)" type="button">{{topIllustrator.name}}</button>
+          <div>
+            <div *ngFor="let topIllustrator of topIllustrators[i]">
+              <button class="regular-button" (click)="setIllustrator(topIllustrator, i)" type="button">{{topIllustrator.name}}</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div>
-    <label for="currentlyReading">Currently Reading</label>
-    <input id="currentlyReading" type="radio" [value]="ReadingState.CURRENTLY_READING" formControlName="readingState" required>
-    <label for="planToRead">Plan to Read</label>
-    <input id="planToRead" type="radio" [value]="ReadingState.PLAN_TO_READ" formControlName="readingState" required>
-    <label for="dropped">Dropped</label>
-    <input id="dropped" type="radio" [value]="ReadingState.DROPPED" formControlName="readingState" required>
-  </div>
+    <div class="selection-group">
+      <label for="currentlyReading">Currently Reading</label>
+      <input id="currentlyReading" type="radio" [value]="ReadingState.CURRENTLY_READING" formControlName="readingState" required>
+      <label for="planToRead">Plan to Read</label>
+      <input id="planToRead" type="radio" [value]="ReadingState.PLAN_TO_READ" formControlName="readingState" required>
+      <label for="dropped">Dropped</label>
+      <input id="dropped" type="radio" [value]="ReadingState.DROPPED" formControlName="readingState" required>
+    </div>
 
-  <div>
-    <label for="read">Read</label>
-    <input id="read" type="checkbox" formControlName="read">
-    <label for="owned">Owned</label>
-    <input id="owned" type="checkbox" formControlName="owned">
-  </div>
+    <div class="selection-group">
+      <label for="read">Read</label>
+      <input id="read" type="checkbox" formControlName="read">
+      <label for="owned">Owned</label>
+      <input id="owned" type="checkbox" formControlName="owned">
+    </div>
 
-  <div>
-    <button type="submit">Save</button>
-    <button type="button" (click)="onCancel()">Cancel</button>
-  </div>
-</form>
+    <div class="button-list">
+      <button class="success-button tiny-margin-right" type="submit">Save</button>
+      <button class="warning-button" type="button" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</main>

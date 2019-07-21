@@ -1,18 +1,25 @@
-<h1>{{author.name}}</h1>
-<h2>Authored</h2>
-<div *ngIf="author.authored.length > 0; else noAuthored">
-    <ul>
+<header>
+    <h1>{{author.name}}</h1>
+</header>
+
+<main class="flex-container flex-column flex-center">
+  <div class="paper">
+    <h2>Authored</h2>
+    <div *ngIf="author.authored.length > 0; else noAuthored">
+      <ul class="clean-list">
         <li *ngFor="let book of author.authored">
-            <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
+          <a class="link" [routerLink]="['/book', book.id]">{{ book.name }}</a>
         </li>
-    </ul>
-</div>
+      </ul>
+    </div>
 
-<ng-template #noAuthored>
-    No authored books
-</ng-template>
+    <ng-template #noAuthored>
+      No authored books
+    </ng-template>
 
-<div>
-    <button (click)="onEdit()">Edit</button>
-    <button (click)="onDelete()">Delete</button>
-</div>
+    <div>
+      <button class="success-button tiny-margin-right" (click)="onEdit()">Edit</button>
+      <button class="warning-button" (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+</main>

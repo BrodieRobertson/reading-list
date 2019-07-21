@@ -2,22 +2,13 @@
 @import '../../scss/buttons';
 @import '../../scss/containers';
 
-$list-button-hover-color: rgb(120, 120, 120);
 $list-bg-even: rgb(180, 180, 180);
 $list-bg-odd: rgb(220, 220, 220);
 $list-bg-even-hover: rgb(120, 120, 120);
-$list-bg-odd-hover: rgb(160, 160, 160);
+$list-bg-odd-hover: rgb(190, 190, 190);
 
-.list-button {
-  @extend %button;
-}
-
-.list-button:not(:last-child), .success-button{
+.regular-button:not(:last-child), .success-button{
   margin-right: $tiny-spacing;
-}
-
-.list-button:hover {
-  background-color: $list-button-hover-color;
 }
 
 .list {

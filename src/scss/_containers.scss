@@ -1,18 +1,17 @@
 @import 'variables';
 
-$paper-border-color: rgb(120, 120, 120);
 $paper-bg: white;
 
 %container {
   border: $border-width;
   border-style: solid;
-  border-color: $paper-border-color;
+  border-color: $border-color;
 }
 
 %paper {
   @extend %container;
   background-color: $paper-bg;
-  border-color: $paper-border-color;
+  border-color: $border-color;
   border-width: $border-width;
   box-shadow: $drop-shadow;
 }

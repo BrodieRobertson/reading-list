@@ -1,18 +1,24 @@
-<h1>{{ illustrator.name }}</h1>
-<h2>Illustrated</h2>
-<div *ngIf="illustrator.illustrated.length > 0; else noIllustrated">
-    <ul>
+<header>
+  <h1>{{ illustrator.name }}</h1>
+</header>
+<main class="flex-container flex-column flex-center">
+  <div class="paper">
+    <h2>Illustrated</h2>
+    <div *ngIf="illustrator.illustrated.length > 0; else noIllustrated">
+      <ul class="clean-list">
         <li *ngFor="let book of illustrator.illustrated">
-            <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
+          <a class="link" [routerLink]="['/book', book.id]">{{ book.name }}</a>
         </li>
-    </ul>
-</div>
+      </ul>
+    </div>
 
-<ng-template #noIllustrated>
-    No illustrated books
-</ng-template>
+    <ng-template #noIllustrated>
+      No illustrated books
+    </ng-template>
 
-<div>
-    <button (click)="onEdit()">Edit</button>
-    <button (click)="onDelete()">Delete</button>
-</div>
+    <div>
+      <button class="success-button tiny-margin-right" (click)="onEdit()">Edit</button>
+      <button class="warning-button" (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+</main>

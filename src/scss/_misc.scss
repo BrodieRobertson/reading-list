@@ -1,0 +1,18 @@
+@import 'variables';
+
+.tiny-margin-right {
+  margin-right: $tiny-spacing;
+}
+
+.small-margin-right {
+  margin-right: $small-spacing;
+}
+
+.block {
+  display: block;
+}
+
+.clean-list {
+    list-style: none;
+    padding-left: $small-spacing;
+}

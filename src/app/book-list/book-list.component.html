@@ -1,26 +1,26 @@
-<header class="heading">
+<header>
   <h1>Book List</h1>
   <h2>{{ listName }}</h2>
 </header>
 
 <main class="flex-container flex-center flex-column">
   <div class="flex-container flex-column paper">
-    <div class="button-list">
+    <div>
       <a title="Add a new book" [routerLink]="['/new']" class="success-button">New Book</a>
-      <button (click)="loadList(Lists.ALL)" class="list-button">All Books</button>
-      <button (click)="loadList(Lists.CURRENTLY_READING)" class="list-button">Currently Reading</button>
-      <button (click)="loadList(Lists.PLAN_TO_READ)" class="list-button">Plan to Read</button>
-      <button (click)="loadList(Lists.READ)" class="list-button">Read</button>
-      <button (click)="loadList(Lists.UNREAD)" class="list-button">Unread</button>
-      <button (click)="loadList(Lists.OWNED)" class="list-button">Owned</button>
-      <button (click)="loadList(Lists.NOT_OWNED)" class="list-button">Not Owned</button>
-      <button (click)="loadList(Lists.DROPPED)" class="list-button">Dropped</button>
+      <button (click)="loadList(Lists.ALL)" class="regular-button">All Books</button>
+      <button (click)="loadList(Lists.CURRENTLY_READING)" class="regular-button">Currently Reading</button>
+      <button (click)="loadList(Lists.PLAN_TO_READ)" class="regular-button">Plan to Read</button>
+      <button (click)="loadList(Lists.READ)" class="regular-button">Read</button>
+      <button (click)="loadList(Lists.UNREAD)" class="regular-button">Unread</button>
+      <button (click)="loadList(Lists.OWNED)" class="regular-button">Owned</button>
+      <button (click)="loadList(Lists.NOT_OWNED)" class="regular-button">Not Owned</button>
+      <button (click)="loadList(Lists.DROPPED)" class="regular-button">Dropped</button>
     </div>
 
     <div class="flex-container flex-column">
       <div *ngIf="bookList.length > 0; else noBooks" class="book-list">
         <div *ngFor="let book of bookList" class="list-item">
-          <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
+          <a class="link" [routerLink]="['/book', book.id]">{{ book.name }}</a>
         </div>
       </div>
 

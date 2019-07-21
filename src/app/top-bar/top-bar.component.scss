@@ -27,7 +27,7 @@ $active-link-color: gray;
 .nav-link {
   @extend %nav-object;
   background-color: $bg-color;
-  color: $link-color;
+  color: $button-text-color;
 }
 
 .nav-items-right {

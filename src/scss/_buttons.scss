@@ -6,14 +6,21 @@
   font-weight: bold;
   text-decoration: none;
   display: inline-block;
-  color: $link-color;
+  color: $button-text-color;
   padding: 10px 15px;
   box-shadow: $drop-shadow;
   border-width: $border-width;
   border-style: outset;
   border-color: rgb(200, 200, 200)
 }
+.regular-button {
+  @extend %button;
+  background-color: $regular-color;
+}
 
+.regular-button:hover {
+  background-color: $regular-hover-color;
+}
 .success-button {
   @extend %button;
   background-color: $success-color;
@@ -39,4 +46,9 @@
 
 .danger-button:hover {
   $background-color: $danger-hover-color;
+}
+
+.link {
+  text-decoration: none;
+  color: $link-color;
 }
