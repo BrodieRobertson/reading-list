@@ -6,7 +6,7 @@ import { Illustrator } from '../models/illustrator';
 @Component({
   selector: 'app-illustrator-details',
   templateUrl: './illustrator-details.component.html',
-  styleUrls: ['./illustrator-details.component.css']
+  styleUrls: ['./illustrator-details.component.scss']
 })
 export class IllustratorDetailsComponent implements OnInit {
   illustrator: Illustrator

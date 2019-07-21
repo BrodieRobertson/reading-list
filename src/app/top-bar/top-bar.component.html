@@ -1,17 +1,13 @@
 <nav class="navbar">
     <div class="nav-items">
         <div class="nav-link nav-brand">
-            Title
+            Reading List
         </div>
-        <div class="nav-link">
-            <a [routerLink]="['/']">Home</a>
-        </div>
+        <a [routerLink]="['/']" class="nav-link">Home</a>
     </div>
     <div class="nav-items nav-items-right">
+        <input type="text" class="nav-text-box"/>
         <div class="nav-link">
-            <input type="text"/>
-        </div>
-        <div>
             Sign in
         </div>
     </div>

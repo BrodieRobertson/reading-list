@@ -1,27 +1,37 @@
-<h1>Book List</h1>
-<h2>{{ listName }}</h2>
+<header class="heading">
+  <h1>Book List</h1>
+  <h2>{{ listName }}</h2>
+</header>
 
-<div>
-    <button (click)="loadList(Lists.ALL)">All Books</button>
-    <button (click)="loadList(Lists.CURRENTLY_READING)">Currently Reading</button>
-    <button (click)="loadList(Lists.PLAN_TO_READ)">Plan to Read</button>
-    <button (click)="loadList(Lists.READ)">Read</button>
-    <button (click)="loadList(Lists.UNREAD)">Unread</button>
-    <button (click)="loadList(Lists.OWNED)">Owned</button>
-    <button (click)="loadList(Lists.NOT_OWNED)">Not Owned</button>
-    <button (click)="loadList(Lists.DROPPED)">Dropped</button>
-</div>
-
-<div>
-    <a title="Add a new book" [routerLink]="['/new']">New Book</a>
-</div>
-
-<div *ngIf="bookList.length > 0; else noBooks">
-    <div *ngFor="let book of bookList">
-        <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
+<main class="flex-container flex-center flex-column">
+  <div class="flex-container flex-column paper">
+    <div class="button-list">
+      <a title="Add a new book" [routerLink]="['/new']" class="success-button">New Book</a>
+      <button (click)="loadList(Lists.ALL)" class="list-button">All Books</button>
+      <button (click)="loadList(Lists.CURRENTLY_READING)" class="list-button">Currently Reading</button>
+      <button (click)="loadList(Lists.PLAN_TO_READ)" class="list-button">Plan to Read</button>
+      <button (click)="loadList(Lists.READ)" class="list-button">Read</button>
+      <button (click)="loadList(Lists.UNREAD)" class="list-button">Unread</button>
+      <button (click)="loadList(Lists.OWNED)" class="list-button">Owned</button>
+      <button (click)="loadList(Lists.NOT_OWNED)" class="list-button">Not Owned</button>
+      <button (click)="loadList(Lists.DROPPED)" class="list-button">Dropped</button>
     </div>
-</div>
 
-<ng-template #noBooks>
-    This list is empty
-</ng-template>
+    <div class="flex-container flex-column">
+      <div *ngIf="bookList.length > 0; else noBooks" class="book-list">
+        <div *ngFor="let book of bookList" class="list-item">
+          <a [routerLink]="['/book', book.id]">{{ book.name }}</a>
+        </div>
+      </div>
+
+      <ng-template #noBooks>
+        <div class="empty-list">
+          This list is empty
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+
+
+</main>

@@ -8,7 +8,7 @@ import { IllustratorService } from '../services/illustrator.service';
 @Component({
   selector: 'app-edit-illustrator',
   templateUrl: './edit-illustrator.component.html',
-  styleUrls: ['./edit-illustrator.component.css']
+  styleUrls: ['./edit-illustrator.component.scss']
 })
 export class EditIllustratorComponent implements OnInit {
   illustrator: Illustrator

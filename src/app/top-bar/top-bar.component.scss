@@ -1,0 +1,40 @@
+@import '../../scss/variables';
+
+$bg-color: rgb(40, 62, 75);
+$active-link-color: gray;
+
+.navbar {
+  display: flex;
+  background-color: $bg-color;
+}
+
+.nav-items {
+  display: flex;
+}
+
+%nav-object {
+  padding-right: 1em;
+  padding: 2px 6px 2px 6px;
+  font: bold 14px;
+  text-decoration: none;
+  margin: $small-spacing;
+}
+
+.nav-text-box {
+  @extend %nav-object;
+}
+
+.nav-link {
+  @extend %nav-object;
+  background-color: $bg-color;
+  color: $link-color;
+}
+
+.nav-items-right {
+  margin-left: auto;
+}
+
+.active-nav-button {
+  color: $active-link-color;
+  font-weight: bold;
+}

@@ -1,0 +1,44 @@
+@import 'variables';
+
+$paper-border-color: rgb(120, 120, 120);
+$paper-bg: white;
+
+%container {
+  border: $border-width;
+  border-style: solid;
+  border-color: $paper-border-color;
+}
+
+%paper {
+  @extend %container;
+  background-color: $paper-bg;
+  border-color: $paper-border-color;
+  border-width: $border-width;
+  box-shadow: $drop-shadow;
+}
+
+.paper {
+  @extend %paper;
+  padding: $small-spacing;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-justify-center {
+  justify-content: center;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
