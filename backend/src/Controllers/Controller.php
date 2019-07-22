@@ -1,5 +1,5 @@
 <?php
-namespace src\Controller;
+namespace src\Controllers;
 
 require '../http_constants.php';
 

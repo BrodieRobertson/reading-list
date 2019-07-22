@@ -1,9 +1,11 @@
 <?php
 require "../bootstrap.php";
+require "http_constants.php";
 
-use src\Controller\AuthorController;
-use src\Controller\IllustratorController;
-use src\Controller\BookController;
+use src\TableGateways\IllustratorGateway;
+use src\TableGateways\BookGateway;
+use src\TableGateways\AuthorGateway;
+use src\Controllers\Controller;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -26,16 +28,16 @@ $controller = null;
 // pass the request method and user ID to the selected controller and process the HTTP request
 switch($uri[1]) {
   case "book":
-    $controller = new BookController($dbConnection, $requestMethod, $id);
+    $controller = new Controller($dbConnection, $requestMethod, $id, new BookGateway());
     break;
   case "author":
-    $author = new AuthorController($dbConnection, $requestMethod, $id);
+    $author = new Controller($dbConnection, $requestMethod, $id, new AuthorGateway());
     break;
   case "illustrator":
-    $controller = new IllustratorController($dbConnection, $requestMethod, $id);
+    $controller = new Controller($dbConnection, $requestMethod, $id, new IllustratorGateway());
     break;
   default:
-    header("HTTP/1.1 404 Not Found");
+    header(HTTP_NOT_FOUND);
     exit();
 }
 
