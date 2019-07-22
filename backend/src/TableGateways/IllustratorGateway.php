@@ -8,7 +8,10 @@ class IllustratorGateway {
     $this->db = $db; 
   }
 
-  public function findAll() {
+  /**
+   * Gets all the illustrators
+   */
+  public function getAll() {
     $statement = "
       SELECT id, name FROM illustrator;
     ";
@@ -23,7 +26,10 @@ class IllustratorGateway {
     }
   }
 
-  public function find($id) {
+  /**
+   * Gets an illustrator specified by an id
+   */
+  public function get($id) {
     $statement = "
       SELECT id, name FROM illustrator WHERE id = ?;
     ";
@@ -39,6 +45,9 @@ class IllustratorGateway {
     }
   }
 
+  /**
+   * Inserts an illustrator
+   */
   public function insert(Array $input) {
     $statement = "
       INSERT INTO illustrator (name) VALUES (:name)
@@ -56,6 +65,9 @@ class IllustratorGateway {
     }
   }
 
+  /**
+   * Updates an illustrator specified by it's id
+   */
   public function update($id, Array $input) {
     $statement = "
       UPDATE author 
@@ -76,6 +88,9 @@ class IllustratorGateway {
     }
   }
 
+  /**
+   * Deletes an illustrator specified by it's id
+   */
   public function delete($id) {
     $statement = "
       DELETE FROM author

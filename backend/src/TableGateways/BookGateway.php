@@ -8,7 +8,10 @@ class BookGateway {
     $this->db = $db; 
   }
 
-  public function findAll() {
+  /**
+   * Gets all the books
+   */
+  public function getAll() {
     $statement = "
       SELECT id, name, image, pages, isbn, readingstate, read, owned, dropped FROM book;
     ";
@@ -23,7 +26,10 @@ class BookGateway {
     }
   }
 
-  public function find($id) {
+  /**
+   * Gets a book specified by it's id
+   */
+  public function get($id) {
     $statement = "
       SELECT 
         id, name, image, pages, isbn, readingstate, read, owned, dropped 
@@ -42,6 +48,9 @@ class BookGateway {
     }
   }
 
+  /**
+   * Inserts a book
+   */
   public function insert(Array $input) {
     $statement = "
       INSERT INTO 
@@ -61,6 +70,9 @@ class BookGateway {
     }
   }
 
+  /**
+   * Updates a book specified by it's id
+   */
   public function update($id, Array $input) {
     $statement = "
       UPDATE book
@@ -89,6 +101,9 @@ class BookGateway {
     }
   }
 
+  /**
+   * Deletes a book specified by it's id
+   */
   public function delete($id) {
     $statement = "
       DELETE FROM author

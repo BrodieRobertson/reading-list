@@ -8,7 +8,10 @@ class AuthorGateway {
     $this->db = $db; 
   }
 
-  public function findAll() {
+  /**
+   * Gets all the authors
+   */
+  public function getAll() {
     $statement = "
       SELECT id, name FROM author;
     ";
@@ -23,7 +26,10 @@ class AuthorGateway {
     }
   }
 
-  public function find($id) {
+  /**
+   * Gets an author specified by it's id
+   */
+  public function get($id) {
     $statement = "
       SELECT id, name FROM author WHERE id = ?;
     ";
@@ -39,6 +45,9 @@ class AuthorGateway {
     }
   }
 
+  /**
+   * Inserts an author
+   */
   public function insert(Array $input) {
     $statement = "
       INSERT INTO author (name) VALUES (:name)
@@ -56,6 +65,9 @@ class AuthorGateway {
     }
   }
 
+  /**
+   * Updates an author specified by it's id
+   */
   public function update($id, Array $input) {
     $statement = "
       UPDATE author 
@@ -76,6 +88,9 @@ class AuthorGateway {
     }
   }
 
+  /**
+   * Deletes an author specified by it's id
+   */
   public function delete($id) {
     $statement = "
       DELETE FROM author

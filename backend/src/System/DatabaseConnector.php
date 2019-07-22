@@ -19,6 +19,9 @@ class DatabaseConnector {
     }
   }
 
+  /**
+   * Gets a connection to the db
+   */
   public function getConnection() {
     return $this->dbConnection;
   }
