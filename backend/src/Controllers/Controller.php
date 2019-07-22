@@ -3,21 +3,17 @@ namespace src\Controller;
 
 require '../http_constants.php';
 
-use src\TableGateways\AuthorGateway;
-
-class AuthorController {
+class Controller {
   private $db;
   private $requestMethod;
   private $id;
+  private $tableGateway;
 
-  private $authorGateway;
-
-  public function __construct($db, $requestMethod, $id) {
+  public function __construct($db, $requestMethod, $id, $tableGateway) {
     $this->db = $db;
     $this->requestMethod = $requestMethod;
     $this->id = $id;
-
-    $this->personGateway = new AuthorGateway($db);
+    $this->tableGateway = $tableGateway;
   }
 
   /**
@@ -27,20 +23,20 @@ class AuthorController {
     switch($this->requestMethod) {
       case 'GET':
         if($this->id) {
-          $response = $this->getAuthor($this->id);
+          $response = $this->get($this->id);
         }
         else {
-          $response = $this->getAllAuthors();
+          $response = $this->getAll();
         }
         break;
       case 'POST':
-        $response = $this->createAuthor();
+        $response = $this->create();
         break;
       case 'PUT':
-        $response = $this->updateAuthor($this->id);
+        $response = $this->update($this->id);
         break;
       case 'DELETE':
-        $response = $this->deleteAuthor($this-id);
+        $response = $this->delete($this-id);
         break;
       default:
         $response = $this->notFoundResponse();
@@ -56,20 +52,20 @@ class AuthorController {
   }
 
   /**
-   * Gets all the authors
+   * Gets all the rows of a table
    */
-  private function getAllAuthors() {
-    $result = $this->authorGateway->getAllAuthors();
+  private function getAll() {
+    $result = $this->tableGateway->getAll();
     $response['status_code_header'] = HTTP_OK;
     $response['body'] = json_encode($result);
     return $response;
   }
 
   /**
-   * Gets an author specified by it's id
+   * Gets a row specified by it's id
    */
-  private function getAuthor($id) {
-    $result = $this->authorGateway->find($id);
+  private function get($id) {
+    $result = $this->tableGateway->get($id);
       if(!$result) {
         return $this->notFoundResponse();
       }
@@ -80,63 +76,63 @@ class AuthorController {
   }
 
   /**
-   * Creates a new author
+   * Creates a new row
    */
-  private function createAuthor() {
+  private function create() {
     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-    // If the author is not valid the response can't be processed
-    if(!$this->validateAuthor($input)) {
+    // If the row is not valid the response can't be processed
+    if(!$this->validateInput($input)) {
       return $this->unprocessableResponse();
     }
 
-    $this->authorGateway->insert($input);
+    $this->tableGateway->insert($input);
     $response['status_code_header'] = HTTP_CREATED;
     $response['body'] = null;
     return $response;
   }
 
   /**
-   * Updates an author specified by it's id
+   * Updates a row specified by it's id
    */
-  private function updateAuthor($id) {
-    $result = $this->authorGateway->find($id);
+  private function update($id) {
+    $result = $this->tableGateway->find($id);
     if (!$result) {
       return $this->notFoundResponse();
     }
 
     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-    // If the author is not valid the response can't be processed
-    if(!$this->validateAuthor($input)) {
+    // If the row is not valid the response can't be processed
+    if(!$this->validateInput($input)) {
       return $this->unprocessableResponse();
     }
 
-    $this->authorGateway->update($id, $input);
+    $this->tableGateway->update($id, $input);
     $response['status_code_header'] = HTTP_OK;
     $response['body'] = null;
     return $response;
   }
 
   /**
-   * Deletes an author specified by it's id
+   * Deletes a row specified by it's id
    */
-  private function deleteAuthor($id) {
-    $result = $this->authorGateway->find($id);
+  private function delete($id) {
+    $result = $this->tableGateway->find($id);
     if(!$result) {
         return $this->notFoundResponse();
     }
 
-    $this->authorGateway->delete($id);
+    $this->tableGateway->delete($id);
     $response['status_code_header'] = HTTP_OK;
     $response['body'] = null;
     return $response;
   }
 
   /**
-   * Validates an author
+   * Validates a row
    */
-  private function validateAuthor($input) {
+  private function validateInput($input) {
     if(!isset($input['name'])) {
       return false;
     }
@@ -157,10 +153,10 @@ class AuthorController {
   }
 
   /**
-   * Response for a response that can't be found 
+   * Response for a request method that can't be found 
    */
   private function notFoundResponse() {
-    $response['status_code_header'] = 'HTTP/1.1 404 Not Found';
+    $response['status_code_header'] = HTTP_NOT_FOUND;
     $response['body'] = null;
     return $response;
   }
