@@ -1,0 +1,46 @@
+// return all books
+GET /book
+
+// return a specific book
+GET /book/{id}
+
+// create a new book
+POST /book
+
+// update an existing book
+PUT /book/{id}
+
+// delete an existing book
+DELETE /book/{id}
+
+
+// return all authors
+GET /author
+
+// return a specific author
+GET /author/{id}
+
+// create a new author
+POST /author
+
+// update an existing author
+PUT /author/{id}
+
+// delete an existing author
+DELETE /author/{id}
+
+
+// return all illustrators
+GET /illustrator
+
+// return a specific illustrator
+GET /illustrator/{id}
+
+// create a new illustrator
+POST /illustrator
+
+// update an existing illustrator
+PUT /illustrator/{id}
+
+// delete an existing illustrator
+DELETE /illustrator/{id}
