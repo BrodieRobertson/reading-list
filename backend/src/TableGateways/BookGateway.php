@@ -44,7 +44,7 @@ class BookGateway {
       JOIN author ON bookauthor.authorid = author.id
       JOIN bookillustrator ON book.id = bookillustrator.bookid
       JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
-      WHERE id = ?;
+      WHERE book.id = ?;
     ";
 
     try {
