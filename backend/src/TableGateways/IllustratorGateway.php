@@ -13,7 +13,9 @@ class IllustratorGateway {
    */
   public function getAll() {
     $statement = "
-      SELECT id, name FROM illustrator;
+      SELECT illustrator.id, illustrator.name, book.id, book.name FROM illustrator
+      JOIN bookillustrator ON author.id = bookauthor.bookId
+      JOIN book ON author.id = book.id;
     ";
 
     try {
@@ -31,7 +33,10 @@ class IllustratorGateway {
    */
   public function get($id) {
     $statement = "
-      SELECT id, name FROM illustrator WHERE id = ?;
+      SELECT illustrator.id, illustrator.name, book.id, book.name FROM illustrator 
+      JOIN bookillustrator ON author.id = bookauthor.bookId
+      JOIN book ON author.id = book.id;
+      WHERE illustrator.id = ?;
     ";
 
     try {
@@ -92,15 +97,22 @@ class IllustratorGateway {
    * Deletes an illustrator specified by it's id
    */
   public function delete($id) {
-    $statement = "
-      DELETE FROM author
-      WHERE id = ?
-    ";
+    $statements = array(
+      "
+        DELETE FROM bookauthor
+        WHERE id = ?;
+      ",
+      "
+        DELETE FROM author
+        WHERE id = ?;
+      "
+    );
 
     try {
-      $statement = $this->db->prepare($statement);
-      $statement->execute(array($id));
-      return $statement->rowCount();
+      for($i = 0; $i < count($statements); $i++) {
+        $statements[$i] = $this->db->prepare($statement);
+        $statements[$i]->execute(array($id));
+      }
     }
     catch(PDOException $e) {
       exit($e->getMessage());

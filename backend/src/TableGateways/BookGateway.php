@@ -13,7 +13,13 @@ class BookGateway {
    */
   public function getAll() {
     $statement = "
-      SELECT id, name, image, pages, isbn, readingstate, read, owned, dropped FROM book;
+      SELECT book.id, book.name, book.image, book.pages, book.isbn, 
+        book.readingstate, book.read, book.owned, book.dropped, 
+        illustrator.id, illustrator.name, author.id, author.name FROM book
+      JOIN bookauthor ON book.id = bookauthor.bookid
+      JOIN author ON bookauthor.authorid = author.id
+      JOIN bookillustrator ON book.id = bookillustrator.bookid
+      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
     ";
 
     try {
@@ -31,9 +37,13 @@ class BookGateway {
    */
   public function get($id) {
     $statement = "
-      SELECT 
-        id, name, image, pages, isbn, readingstate, read, owned, dropped 
-      FROM book 
+      SELECT book.id, book.name, book.image, book.pages, book.isbn, 
+        book.readingstate, book.read, book.owned, book.dropped, 
+        illustrator.id, illustrator.name, author.id, author.name FROM book
+      JOIN bookauthor ON book.id = bookauthor.bookid
+      JOIN author ON bookauthor.authorid = author.id
+      JOIN bookillustrator ON book.id = bookillustrator.bookid
+      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
       WHERE id = ?;
     ";
 
@@ -105,15 +115,26 @@ class BookGateway {
    * Deletes a book specified by it's id
    */
   public function delete($id) {
-    $statement = "
-      DELETE FROM author
-      WHERE id = ?
-    ";
+    $statements = array(
+      "
+        DELETE FROM bookauthor
+        WHERE id = ?;
+      ",
+      "
+        DELETE FROM bookillustrator
+        WHERE id = ?;
+      ",
+      "
+        DELETE FROM book
+        WHERE id = ?;
+      "
+    );
 
     try {
-      $statement = $this->db->prepare($statement);
-      $statement->execute(array($id));
-      return $statement->rowCount();
+      for($i = 0; count($statements); $i++) {
+        $statements[$i] = $this->db->prepare($statement);
+        $statements[$i]->execute(array($id));
+      }
     }
     catch(PDOException $e) {
       exit($e->getMessage());

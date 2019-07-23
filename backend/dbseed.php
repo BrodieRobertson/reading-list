@@ -47,14 +47,14 @@ $statement = <<<SQL_QUERY
     (4, book5, NULL, 100, 1021234567901, 0, 0, 0, 0, 1)
 
   CREATE TABLE bookauthor (
-    bookId INT NOT NULL,
-    authorId INT NOT NULL,
-    PRIMARY KEY(bookId, authorId),
-    FOREIGN KEY(bookId) REFERENCES book(id),
-    FOREIGN KEY(authorId) REFERENCES author(id)
+    bookid INT NOT NULL,
+    authorid INT NOT NULL,
+    PRIMARY KEY(bookid, authorid),
+    FOREIGN KEY(bookid) REFERENCES book(id),
+    FOREIGN KEY(authorid) REFERENCES author(id)
   );
 
-  INSERT INTO bookauthor (bookId, authorId) VALUES
+  INSERT INTO bookauthor (bookid, authorid) VALUES
     (0, 1),
     (0, 0),
     (1, 1),
@@ -64,14 +64,14 @@ $statement = <<<SQL_QUERY
     (2, 3);
 
   CREATE TABLE bookillustrator (
-    bookId INT NOT NULL,
-    illustratorId INT NOT NULL,
-    PRIMARY KEY(bookId, illustratorId),
-    FOREIGN KEY(bookId) REFERENCES book(id),
-    FOREIGN KEY(illustratorId) REFERENCES illustrator(id)
+    bookid INT NOT NULL,
+    illustratorid INT NOT NULL,
+    PRIMARY KEY(bookid, illustratorid),
+    FOREIGN KEY(bookid) REFERENCES book(id),
+    FOREIGN KEY(illustratorid) REFERENCES illustrator(id)
   );
 
-  INSERT INTO bookillustrator (bookId, illustratrId) VALUES
+  INSERT INTO bookillustrator (bookid, illustratrid) VALUES
     (0, 1),
     (0, 0),
     (1, 1),
