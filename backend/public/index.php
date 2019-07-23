@@ -6,6 +6,7 @@ use src\TableGateways\IllustratorGateway;
 use src\TableGateways\BookGateway;
 use src\TableGateways\AuthorGateway;
 use src\Controllers\Controller;
+use \Okta\JwtVerifier\JwtVerifierBuilder;
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -22,8 +23,13 @@ if (isset($uri[2])) {
     $id = $uri[2];
 }
 
+// AUthenticate the request with okta
+if(!authenticate()) {
+  header(HTTP_UNAUTHORIZED);
+  exit("Unauthorized");
+}
+
 $requestMethod = $_SERVER["REQUEST_METHOD"];
-$controller = null;
 
 // pass the request method and user ID to the selected controller and process the HTTP request
 switch($uri[1]) {
@@ -43,3 +49,37 @@ switch($uri[1]) {
 
 $controller->processRequest();
 
+/**
+ * Authenticate a request with OKTA
+ */
+function authenticate() {
+  try {
+    switch(true) {
+      case array_key_exists('HTTP_AUTHORIZATION', $_SERVER) :
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+        break;
+      case array_key_exists('Authorization', $_SERVER) :
+        $authHeader = $_SERVER['Authorization'];
+        break;
+      default :
+        $authHeader = null;
+        break;
+      }
+
+      preg_match('/Bearer\s(\S+)/', $authHeader, $matches);
+
+      if(!isset($matches[1])) {
+          throw new Exception('No Bearer Token');
+      }
+
+      $jwtVerifier = (new JwtVerifierBuilder())
+        ->setIssuer(getenv('OKTAISSUER'))
+        ->setAudience(getenv('OKTAAUDIENCE'))
+        ->setClientId(getenv('OKTACLIENTID'))
+        ->build();
+      return $jwtVerifier->verify($matches[1]);
+    } 
+    catch (Exception $e) {
+        return false;
+    }
+}
