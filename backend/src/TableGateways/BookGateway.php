@@ -66,20 +66,29 @@ class BookGateway {
   public function insert(Array $input) {
     $statement = "
       INSERT INTO 
-        book (name, image, pages, isbn, readingstate, read, owned, dropped) 
-      VALUES (:name, :image, :pages, :isbn, :readingstate, :read, :owned, :dropped);
+        book (name, image, pages, isbn, readingstate, completed, owned, dropped) 
+      VALUES (:name, :image, :pages, :isbn, :readingstate, :completed, :owned, :dropped);
     ";
 
     try {
       $statement = $this->db->prepare($statement);
       $statement->execute(array(
-        'name' => $input['name']
+        'name' => $input['name'],
+        'image' => $input['image'],
+        'pages' => $input['pages'],
+        'isbn' => $input['isbn'],
+        'readingstate' => $input['readingstate'],
+        'completed' => $input['read'],
+        'owned' => $input['owned'],
+        'dropped' => $input['dropped']
       ));
       return $statement->rowCount();
     }
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
+
+    // Insert into author, illustrator, bookauthor, bookillustrator, when has any authors or illustrators
   }
 
   /**
@@ -104,39 +113,41 @@ class BookGateway {
       $statement = $this->db->prepare($statement);
       $statement->execute(array(
         'id' => $id,
-        'name' => $input['name']
+        'name' => $input['name'],
+        'image' => $input['image'],
+        'pages' => $input['pages'],
+        'isbn' => $input['isbn'],
+        'readingstate' => $input['readingstate'],
+        'completed' => $input['read'],
+        'owned' => $input['owned'],
+        'dropped' => $input['dropped']
       ));
       return $statement->rowCount();
     }
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
+
+    // If any illustrators removed or added, must remove or add to/remove from bookillustrator and illustrator
+    // If any authors removed or added, must remove or add to/remove from bookauthor and author
   }
 
   /**
    * Deletes a book specified by it's id
    */
   public function delete($id) {
-    $statements = array(
-      "
-        DELETE FROM bookauthor
-        WHERE id = ?;
-      ",
-      "
-        DELETE FROM bookillustrator
-        WHERE id = ?;
-      ",
-      "
+    // Clean out foreign key tables rows
+    (new BookAuthorGateway)->delete($id, null);
+    (new BookIllustratorGateway)->delete($id, null);
+
+    $statement = "
         DELETE FROM book
         WHERE id = ?;
-      "
-    );
+      ";
 
     try {
-      for($i = 0; count($statements); $i++) {
-        $statements[$i] = $this->db->prepare($statement);
-        $statements[$i]->execute(array($id));
-      }
+      $statement = $this->db->prepare($statement);
+      $statement->execute(array($id));
     }
     catch(\PDOException $e) {
       exit($e->getMessage());

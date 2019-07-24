@@ -69,6 +69,8 @@ class AuthorGateway {
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
+
+    // Insert into book and bookauthor, when has authored books
   }
 
   /**
@@ -92,28 +94,25 @@ class AuthorGateway {
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
+
+    // If any authored books added or removed, must add to/remove from book and book author
   }
 
   /**
    * Deletes an author specified by it's id
    */
   public function delete($id) {
-    $statements = array(
-      "
-        DELETE FROM bookauthor
-        WHERE id = ?;
-      ",
-      "
-        DELETE FROM author
-        WHERE id = ?;
-      ",
-    ); 
+    // Clean out foreign key table rows
+    (new BookAuthorGateway)->delete(null, $id);
+
+    $statement = "
+      DELETE FROM author
+      WHERE id = ?;
+    ";
 
     try {
-      for($i = 0; $i < count($statements); $i++) {
-        $statements[$i] = $this->db->prepare($statement);
-        $statements[$i]->execute(array($id));
-      }
+      $statement = $this->db->prepare($statement);
+      $statement->execute(array($id));
     }
     catch(\PDOException $e) {
       exit($e->getMessage());

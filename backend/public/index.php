@@ -4,7 +4,10 @@ require "../bootstrap.php";
 use Src\TableGateways\IllustratorGateway;
 use Src\TableGateways\BookGateway;
 use Src\TableGateways\AuthorGateway;
+use Src\TableGateways\BookAuthorGateway;
+use Src\TableGateways\BookIllustratorGateway;
 use Src\Controllers\Controller;
+use Src\Controllers\JointController;
 use \Okta\JwtVerifier\JwtVerifierBuilder;
 
 define("HTTP_UNAUTHORIZED", "HTTP/1.1 401 Unauthorized");
@@ -42,6 +45,12 @@ switch($uri[1]) {
     break;
   case "illustrator":
     $controller = new Controller($dbConnection, $requestMethod, $id, new IllustratorGateway($dbConnection));
+    break;
+  case "bookillustrator":
+    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookIllustratorGateway($dbConnection));
+    break;
+  case "bookauthor":
+    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookAuthorGateway($dbConnection));
     break;
   default:
     header(HTTP_NOT_FOUND);

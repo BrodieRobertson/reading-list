@@ -70,6 +70,8 @@ class IllustratorGateway {
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
+
+    // Insert into book and bookillustrator, when has any illustrated book
   }
 
   /**
@@ -93,27 +95,26 @@ class IllustratorGateway {
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
+
+    // If any illustrated books added or removed, must add to/remove from book and bookillustrator
   }
 
   /**
    * Deletes an illustrator specified by it's id
    */
   public function delete($id) {
-    $statements = array(
-      "
-        DELETE FROM bookauthor
-        WHERE id = ?;
-      ",
-      "
-        DELETE FROM author
-        WHERE id = ?;
-      "
-    );
+    // Clean out foreign key table rows
+    (new BookIllustratorGateway)->delete(null, $id);
+
+    $statement = "
+      DELETE FROM illustrator
+      WHERE id = ?;
+    ";
 
     try {
       for($i = 0; $i < count($statements); $i++) {
-        $statements[$i] = $this->db->prepare($statement);
-        $statements[$i]->execute(array($id));
+        $statement = $this->db->prepare($statement);
+        $statement->execute(array($id));
       }
     }
     catch(\PDOException $e) {

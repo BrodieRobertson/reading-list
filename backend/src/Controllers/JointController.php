@@ -6,27 +6,29 @@ define("HTTP_CREATED", "HTTP/1.1 201 Created");
 define("HTTP_UNPROCESSABLE", "HTTP/1.1 422 Unprocessable Entity");
 define("HTTP_NOT_FOUND", "HTTP/1.1 404 Not Found");
 
-class Controller {
+class JointController {
   private $db;
   private $requestMethod;
-  private $id;
+  private $firstId;
+  private $secondId;
   private $tableGateway;
 
-  public function __construct($db, $requestMethod, $id, $tableGateway) {
+  public function __construct($db, $requestMethod, $firstId, $secondId, $tableGateway) {
     $this->db = $db;
     $this->requestMethod = $requestMethod;
-    $this->id = $id;
+    $this->firstId = $firstId;
+    $this->secondId = $secondId;
     $this->tableGateway = $tableGateway;
   }
-
+  
   /**
    * Processes an api request
    */
   public function processRequest() {
     switch($this->requestMethod) {
       case 'GET':
-        if($this->id) {
-          $response = $this->get($this->id);
+        if($this->firstId || $this->secondId) {
+          $response = $this->get($this->firstId, $this->secondId);
         }
         else {
           $response = $this->getAll();
@@ -35,11 +37,8 @@ class Controller {
       case 'POST':
         $response = $this->create();
         break;
-      case 'PUT':
-        $response = $this->update($this->id);
-        break;
       case 'DELETE':
-        $response = $this->delete($this-id);
+        $response = $this->delete($this->firstId, $this->secondId);
         break;
       default:
         $response = $this->notFoundResponse();
@@ -65,10 +64,10 @@ class Controller {
   }
 
   /**
-   * Gets a row specified by it's id
+   * Gets a sub set of rows specified by it's ids
    */
-  private function get($id) {
-    $result = $this->tableGateway->get($id);
+  private function get($firstId, $secondId) {
+    $result = $this->tableGateway->get($firstId, $secondId);
     if(!$result) {
       return $this->notFoundResponse();
     }
@@ -96,51 +95,18 @@ class Controller {
   }
 
   /**
-   * Updates a row specified by it's id
+   * Delete a sub set of rows specified by it's ids
    */
-  private function update($id) {
-    $result = $this->tableGateway->get($id);
+  private function delete($firstId, $secondId) {
+    $result = $this->tableGateway->get($firstId, $secondId);
     if(!$result) {
       return $this->notFoundResponse();
-    }
-
-    $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-
-    // If the row is not valid the response can't be processed
-    if(!$this->validateInput($input)) {
-      return $this->unprocessableResponse();
-    }
-
-    $this->tableGateway->update($id, $input);
-    $response['status_code_header'] = HTTP_OK;
-    $response['body'] = null;
-    return $response;
-  }
-
-  /**
-   * Deletes a row specified by it's id
-   */
-  private function delete($id) {
-    $result = $this->tableGateway->find($id);
-    if(!$result) {
-        return $this->notFoundResponse();
     }
 
     $this->tableGateway->delete($id);
     $response['status_code_header'] = HTTP_OK;
     $response['body'] = null;
     return $response;
-  }
-
-  /**
-   * Validates a row
-   */
-  private function validateInput($input) {
-    if(!isset($input['name'])) {
-      return false;
-    }
-
-    return true;
   }
 
   /**
@@ -154,9 +120,8 @@ class Controller {
 
     return $response;
   }
-
   /**
-   * Response for a request method that can't be found 
+   * Response for a request method that can't be found
    */
   private function notFoundResponse() {
     $response['status_code_header'] = HTTP_NOT_FOUND;

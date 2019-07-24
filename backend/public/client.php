@@ -19,6 +19,12 @@ getAuthor($token, 1);
 getAllIllustrators($token);
 getIllustrator($token, 1);
 
+getAllBookAuthors($token);
+getBookAuthor($token, 1);
+
+getAllBookIllustrators($token);
+getBookIllustrator($token, 1);
+
 // End of client tests
 
 /**
@@ -117,4 +123,32 @@ function getAllIllustrators($token) {
  */
 function getIllustrator($token, $id) {
   request("Getting illustrator with id " . $id, "illustrator/" . $id);
+}
+
+/**
+ * Performs a request to get all book authors
+ */
+function getAllBookAuthors($token) {
+  request("Getting all bookauthors...", "bookauthor");
+}
+
+/**
+ * Performs a request to get a sub set of book authors
+ */
+function getBookAuthor($token, $id) {
+  request("Getting a sub of book authors...", "bookauthor/" . $id);
+}
+
+/**
+ * Performs a request to get all book illustrators
+ */
+function getAllBookIllustrators($token) {
+  request("Getting all bookillustrators...", "bookillustrator");
+}
+
+/**
+ * Performs a a request to get a sub set of book illustrators
+ */
+function getBookIllustrator($token, $id) {
+  request("Getting a sub set of book illustrators...", "bookillustrator/" . $id);
 }
