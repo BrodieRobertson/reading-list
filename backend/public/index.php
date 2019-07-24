@@ -1,12 +1,13 @@
 <?php
 require "../bootstrap.php";
-require "http_constants.php";
 
-use src\TableGateways\IllustratorGateway;
-use src\TableGateways\BookGateway;
-use src\TableGateways\AuthorGateway;
-use src\Controllers\Controller;
+use Src\TableGateways\IllustratorGateway;
+use Src\TableGateways\BookGateway;
+use Src\TableGateways\AuthorGateway;
+use Src\Controllers\Controller;
 use \Okta\JwtVerifier\JwtVerifierBuilder;
+
+define("HTTP_UNAUTHORIZED", "HTTP/1.1 401 Unauthorized");
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -18,29 +19,29 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri );
 
 // the user id is, of course, optional and must be a number
-$userId = null;
+$id = null;
 if (isset($uri[2])) {
     $id = $uri[2];
 }
 
-// AUthenticate the request with okta
-if(!authenticate()) {
-  header(HTTP_UNAUTHORIZED);
-  exit("Unauthorized");
-}
+// Authenticate the request with okta
+// if(!authenticate()) {
+//   header(HTTP_UNAUTHORIZED);
+//   exit("Unauthorized");
+// }
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
-
+$controller = null;
 // pass the request method and user ID to the selected controller and process the HTTP request
 switch($uri[1]) {
   case "book":
-    $controller = new Controller($dbConnection, $requestMethod, $id, new BookGateway());
+    $controller = new Controller($dbConnection, $requestMethod, $id, new BookGateway($dbConnection));
     break;
   case "author":
-    $author = new Controller($dbConnection, $requestMethod, $id, new AuthorGateway());
+    $controller = new Controller($dbConnection, $requestMethod, $id, new AuthorGateway($dbConnection));
     break;
   case "illustrator":
-    $controller = new Controller($dbConnection, $requestMethod, $id, new IllustratorGateway());
+    $controller = new Controller($dbConnection, $requestMethod, $id, new IllustratorGateway($dbConnection));
     break;
   default:
     header(HTTP_NOT_FOUND);

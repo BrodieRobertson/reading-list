@@ -1,10 +1,10 @@
 <?php
-namespace src\TableGateways;
+namespace Src\TableGateways;
 
 class BookGateway {
   private $db = null;
 
-  public function __constructor($db) {
+  public function __construct($db) {
     $this->db = $db; 
   }
 
@@ -14,20 +14,21 @@ class BookGateway {
   public function getAll() {
     $statement = "
       SELECT book.id, book.name, book.image, book.pages, book.isbn, 
-        book.readingstate, book.read, book.owned, book.dropped, 
-        illustrator.id, illustrator.name, author.id, author.name FROM book
+        book.readingstate, book.completed, book.owned, book.dropped, 
+        illustrator.id AS illustratorId, illustrator.name AS illustratorName, 
+        author.id AS authorId, author.name AS authorName FROM book
       JOIN bookauthor ON book.id = bookauthor.bookid
       JOIN author ON bookauthor.authorid = author.id
       JOIN bookillustrator ON book.id = bookillustrator.bookid
-      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
+      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id;
     ";
 
     try {
-      $statement = $this->$db->query($statement);
-      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $statement = $this->db->query($statement);
+      $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
       return $result;
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -38,8 +39,9 @@ class BookGateway {
   public function get($id) {
     $statement = "
       SELECT book.id, book.name, book.image, book.pages, book.isbn, 
-        book.readingstate, book.read, book.owned, book.dropped, 
-        illustrator.id, illustrator.name, author.id, author.name FROM book
+        book.readingstate, book.completed, book.owned, book.dropped, 
+        illustrator.id AS illustratorId, illustrator.name AS illustratorName, 
+        author.id AS authorId, author.name AS authorName FROM book
       JOIN bookauthor ON book.id = bookauthor.bookid
       JOIN author ON bookauthor.authorid = author.id
       JOIN bookillustrator ON book.id = bookillustrator.bookid
@@ -50,10 +52,10 @@ class BookGateway {
     try {
       $statement = $this->db->prepare($statement);
       $statement->execute(array($id));
-      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
       return $result;
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -65,7 +67,7 @@ class BookGateway {
     $statement = "
       INSERT INTO 
         book (name, image, pages, isbn, readingstate, read, owned, dropped) 
-      VALUES (:name, :image, :pages, :isbn, :readingstate, :read, :owned, :dropped)
+      VALUES (:name, :image, :pages, :isbn, :readingstate, :read, :owned, :dropped);
     ";
 
     try {
@@ -75,7 +77,7 @@ class BookGateway {
       ));
       return $statement->rowCount();
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -106,7 +108,7 @@ class BookGateway {
       ));
       return $statement->rowCount();
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -136,7 +138,7 @@ class BookGateway {
         $statements[$i]->execute(array($id));
       }
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }

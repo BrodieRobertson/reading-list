@@ -1,10 +1,10 @@
 <?php
-namespace src\TableGateways;
+namespace Src\TableGateways;
 
 class AuthorGateway {
   private $db = null;
 
-  public function __constructor($db) {
+  public function __construct($db) {
     $this->db = $db; 
   }
 
@@ -13,17 +13,18 @@ class AuthorGateway {
    */
   public function getAll() {
     $statement = "
-      SELECT author.id, author.name, book.id, book.name FROM author
+      SELECT author.id, author.name, book.id AS bookId, 
+        book.name AS bookName FROM author
       JOIN bookauthor ON author.id = bookauthor.bookId
       JOIN book ON author.id = book.id;
     ";
 
     try {
-      $statement = $this->$db->query($statement);
-      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $statement = $this->db->query($statement);
+      $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
       return $result;
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -33,7 +34,7 @@ class AuthorGateway {
    */
   public function get($id) {
     $statement = "
-      SELECT author.id, author.name, book.id, book.id FROM author 
+      SELECT author.id, author.name, book.id AS bookId, book.name AS bookName FROM author 
       JOIN bookauthor ON author.id = bookauthor.bookId
       JOIN book ON author.id = book.id
       WHERE author.id = ?;
@@ -42,10 +43,10 @@ class AuthorGateway {
     try {
       $statement = $this->db->prepare($statement);
       $statement->execute(array($id));
-      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
       return $result;
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -55,7 +56,7 @@ class AuthorGateway {
    */
   public function insert(Array $input) {
     $statement = "
-      INSERT INTO author (name) VALUES (:name)
+      INSERT INTO author (name) VALUES (:name);
     ";
 
     try {
@@ -65,7 +66,7 @@ class AuthorGateway {
       ));
       return $statement->rowCount();
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -88,7 +89,7 @@ class AuthorGateway {
       ));
       return $statement->rowCount();
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -100,11 +101,11 @@ class AuthorGateway {
     $statements = array(
       "
         DELETE FROM bookauthor
-        WHERE id = ?
+        WHERE id = ?;
       ",
       "
         DELETE FROM author
-        WHERE id = ?
+        WHERE id = ?;
       ",
     ); 
 
@@ -114,7 +115,7 @@ class AuthorGateway {
         $statements[$i]->execute(array($id));
       }
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }

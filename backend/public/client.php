@@ -6,7 +6,8 @@ $clientSecret = getenv("OKTASECRET");
 $scope = getenv("SCOPE");
 $issuer = getenv("OKTAISSUER");
 
-$token = obtainToken($issuer, $clientId, $clientSecret, $scope);
+// $token = obtainToken($issuer, $clientId, $clientSecret, $scope);
+$token = "";
 
 // Test requests
 getAllBooks($token);
@@ -68,7 +69,7 @@ function request($message, $uri) {
   curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/" . $uri);
   curl_setopt( $ch, CURLOPT_HTTPHEADER, [
       'Content-Type: application/json',
-      "Authorization: $token"
+      // "Authorization: $token"
   ]);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $response = curl_exec($ch);

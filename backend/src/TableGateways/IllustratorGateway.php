@@ -1,10 +1,10 @@
 <?php
-namespace src\TableGateways;
+namespace Src\TableGateways;
 
 class IllustratorGateway {
   private $db = null;
 
-  public function __constructor($db) {
+  public function __construct($db) {
     $this->db = $db; 
   }
 
@@ -13,17 +13,18 @@ class IllustratorGateway {
    */
   public function getAll() {
     $statement = "
-      SELECT illustrator.id, illustrator.name, book.id, book.name FROM illustrator
-      JOIN bookillustrator ON author.id = bookauthor.bookId
-      JOIN book ON author.id = book.id;
+      SELECT illustrator.id, illustrator.name, book.id AS 
+        bookId, book.name AS bookName FROM illustrator
+      JOIN bookillustrator ON illustrator.id = bookillustrator.bookId
+      JOIN book ON illustrator.id = book.id;
     ";
 
     try {
-      $statement = $this->$db->query($statement);
-      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $statement = $this->db->query($statement);
+      $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
       return $result;
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -33,19 +34,20 @@ class IllustratorGateway {
    */
   public function get($id) {
     $statement = "
-      SELECT illustrator.id, illustrator.name, book.id, book.name FROM illustrator 
-      JOIN bookillustrator ON author.id = bookauthor.bookId
-      JOIN book ON author.id = book.id;
+      SELECT illustrator.id, illustrator.name, 
+        book.id AS bookId, book.name AS bookName FROM illustrator 
+      JOIN bookillustrator ON illustrator.id = bookillustrator.bookId
+      JOIN book ON illustrator.id = book.id;
       WHERE illustrator.id = ?;
     ";
 
     try {
       $statement = $this->db->prepare($statement);
       $statement->execute(array($id));
-      $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
       return $result;
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -55,7 +57,7 @@ class IllustratorGateway {
    */
   public function insert(Array $input) {
     $statement = "
-      INSERT INTO illustrator (name) VALUES (:name)
+      INSERT INTO illustrator (name) VALUES (:name);
     ";
 
     try {
@@ -65,7 +67,7 @@ class IllustratorGateway {
       ));
       return $statement->rowCount();
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -88,7 +90,7 @@ class IllustratorGateway {
       ));
       return $statement->rowCount();
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -114,7 +116,7 @@ class IllustratorGateway {
         $statements[$i]->execute(array($id));
       }
     }
-    catch(PDOException $e) {
+    catch(\PDOException $e) {
       exit($e->getMessage());
     }
   }
