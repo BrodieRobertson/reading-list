@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
@@ -37,7 +38,8 @@ import { EditIllustratorComponent } from './edit-illustrator/edit-illustrator.co
       { path: 'book/:bookId/edit', component: EditBookComponent },
       { path: 'author/:authorId/edit', component: EditAuthorComponent },
       { path: 'illustrator/:illustratorId/edit', component: EditIllustratorComponent }
-    ])
+    ]),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
