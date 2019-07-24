@@ -6,6 +6,13 @@ use Src\TableGateways\BookGateway;
 use Src\TableGateways\AuthorGateway;
 use Src\TableGateways\BookAuthorGateway;
 use Src\TableGateways\BookIllustratorGateway;
+
+use Src\Validators\IllustratorValidator;
+use Src\Validators\BookValidator;
+use Src\Validators\AuthorValidator;
+use Src\Validators\BookAuthorValidator;
+use Src\Validators\BookIllustratorValidator;
+
 use Src\Controllers\Controller;
 use Src\Controllers\JointController;
 use \Okta\JwtVerifier\JwtVerifierBuilder;
@@ -38,19 +45,19 @@ $controller = null;
 // pass the request method and user ID to the selected controller and process the HTTP request
 switch($uri[1]) {
   case "book":
-    $controller = new Controller($dbConnection, $requestMethod, $id, new BookGateway($dbConnection));
+    $controller = new Controller($dbConnection, $requestMethod, $id, new BookGateway($dbConnection), new BookValidator());
     break;
   case "author":
-    $controller = new Controller($dbConnection, $requestMethod, $id, new AuthorGateway($dbConnection));
+    $controller = new Controller($dbConnection, $requestMethod, $id, new AuthorGateway($dbConnection), new AuthorValidator());
     break;
   case "illustrator":
-    $controller = new Controller($dbConnection, $requestMethod, $id, new IllustratorGateway($dbConnection));
+    $controller = new Controller($dbConnection, $requestMethod, $id, new IllustratorGateway($dbConnection), new IllustratorValidator());
     break;
   case "bookillustrator":
-    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookIllustratorGateway($dbConnection));
+    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookIllustratorGateway($dbConnection), new BookIllustratorValidator());
     break;
   case "bookauthor":
-    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookAuthorGateway($dbConnection));
+    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookAuthorGateway($dbConnection), new BookAuthorValidator());
     break;
   default:
     header(HTTP_NOT_FOUND);

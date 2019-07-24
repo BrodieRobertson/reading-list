@@ -11,12 +11,14 @@ class Controller {
   private $requestMethod;
   private $id;
   private $tableGateway;
+  private $validator;
 
-  public function __construct($db, $requestMethod, $id, $tableGateway) {
+  public function __construct($db, $requestMethod, $id, $tableGateway, $validator) {
     $this->db = $db;
     $this->requestMethod = $requestMethod;
     $this->id = $id;
     $this->tableGateway = $tableGateway;
+    $this->validator = $validator;
   }
 
   /**
@@ -85,7 +87,7 @@ class Controller {
     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
     // If the row is not valid the response can't be processed
-    if(!$this->validateInput($input)) {
+    if(!$this->validator->validate($input)) {
       return $this->unprocessableResponse();
     }
 
@@ -107,7 +109,7 @@ class Controller {
     $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
     // If the row is not valid the response can't be processed
-    if(!$this->validateInput($input)) {
+    if(!$this->validator->validate($input)) {
       return $this->unprocessableResponse();
     }
 
@@ -130,17 +132,6 @@ class Controller {
     $response['status_code_header'] = HTTP_OK;
     $response['body'] = null;
     return $response;
-  }
-
-  /**
-   * Validates a row
-   */
-  private function validateInput($input) {
-    if(!isset($input['name'])) {
-      return false;
-    }
-
-    return true;
   }
 
   /**
