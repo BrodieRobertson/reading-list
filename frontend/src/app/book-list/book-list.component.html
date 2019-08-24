@@ -7,14 +7,14 @@
   <div class="flex-container flex-column paper">
     <div>
       <a title="Add a new book" [routerLink]="['/new']" class="success-button">New Book</a>
-      <button (click)="loadList(Lists.ALL)" class="regular-button">All Books</button>
-      <button (click)="loadList(Lists.CURRENTLY_READING)" class="regular-button">Currently Reading</button>
-      <button (click)="loadList(Lists.PLAN_TO_READ)" class="regular-button">Plan to Read</button>
-      <button (click)="loadList(Lists.READ)" class="regular-button">Read</button>
-      <button (click)="loadList(Lists.UNREAD)" class="regular-button">Unread</button>
-      <button (click)="loadList(Lists.OWNED)" class="regular-button">Owned</button>
-      <button (click)="loadList(Lists.NOT_OWNED)" class="regular-button">Not Owned</button>
-      <button (click)="loadList(Lists.DROPPED)" class="regular-button">Dropped</button>
+      <button (click)="loadList(Lists.ALL)" class="{{buttonStyles[0]}}">All Books</button>
+      <button (click)="loadList(Lists.CURRENTLY_READING)" class="{{buttonStyles[1]}}">Currently Reading</button>
+      <button (click)="loadList(Lists.PLAN_TO_READ)" class="{{buttonStyles[2]}}">Plan to Read</button>
+      <button (click)="loadList(Lists.READ)" class="{{buttonStyles[3]}}">Read</button>
+      <button (click)="loadList(Lists.UNREAD)" class="{{buttonStyles[4]}}">Unread</button>
+      <button (click)="loadList(Lists.OWNED)" class="{{buttonStyles[5]}}">Owned</button>
+      <button (click)="loadList(Lists.NOT_OWNED)" class="{{buttonStyles[6]}}">Not Owned</button>
+      <button (click)="loadList(Lists.DROPPED)" class="{{buttonStyles[7]}}">Dropped</button>
     </div>
 
     <div class="flex-container flex-column">

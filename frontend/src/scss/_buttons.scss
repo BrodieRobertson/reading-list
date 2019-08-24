@@ -18,6 +18,11 @@
   background-color: $regular-color;
 }
 
+.regular-button-dark {
+  @extend %button;
+  background-color: $regular-hover-color;
+}
+
 .regular-button:hover {
   background-color: $regular-hover-color;
 }

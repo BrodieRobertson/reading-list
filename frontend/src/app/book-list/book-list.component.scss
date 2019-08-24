@@ -7,7 +7,7 @@ $list-bg-odd: rgb(220, 220, 220);
 $list-bg-even-hover: rgb(120, 120, 120);
 $list-bg-odd-hover: rgb(190, 190, 190);
 
-.regular-button:not(:last-child), .success-button{
+.regular-button:not(:last-child), .regular-button-dark:not(:last-child), .success-button{
   margin-right: $tiny-spacing;
 }
 
