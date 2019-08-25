@@ -16,7 +16,8 @@ class IllustratorGateway {
       SELECT illustrator.id, illustrator.name, book.id AS 
         bookId, book.name AS bookName FROM illustrator
       JOIN bookillustrator ON illustrator.id = bookillustrator.bookId
-      JOIN book ON illustrator.id = book.id;
+      JOIN book ON illustrator.id = book.id
+      ORDER BY illustrator.id;
     ";
 
     try {
@@ -38,7 +39,8 @@ class IllustratorGateway {
         book.id AS bookId, book.name AS bookName FROM illustrator 
       JOIN bookillustrator ON illustrator.id = bookillustrator.bookId
       JOIN book ON illustrator.id = book.id;
-      WHERE illustrator.id = ?;
+      WHERE illustrator.id = ?
+      ORDER BY illustrator.id;
     ";
 
     try {

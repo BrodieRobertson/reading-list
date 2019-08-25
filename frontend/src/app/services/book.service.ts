@@ -17,7 +17,7 @@ export class BookService {
     this.nextId = 0;
   }
 
-  static extractBooks(res) {
+  static extractBooks(res: Array<any>) {
     var books = []
     res.forEach((entry) => {
       var idFound = -1;

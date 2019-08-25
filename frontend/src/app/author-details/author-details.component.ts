@@ -15,11 +15,8 @@ export class AuthorDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      var tempAuthor: Author = this.authors.getAuthor(Number(params.get('authorId')))
-      if(tempAuthor) {
-        this.author = tempAuthor;
-      }
-      else {
+      this.authors.getAuthor(params.get('authorId')).subscribe((res) => {this.author = AuthorService.extractAuthor(res)})
+      if(!this.author) {
         this.author = new Author();
       }
     })
@@ -29,7 +26,7 @@ export class AuthorDetailsComponent implements OnInit {
    * Switches to the edit form if the author can be edited
    */
   onEdit() {
-    if(this.author.id === -1) {
+    if(this.author.id === "-1") {
       window.alert("This author can not be edited")
     }
     else {
@@ -41,7 +38,7 @@ export class AuthorDetailsComponent implements OnInit {
    * Confirms if the author should be deleted if the author can be deleted
    */
   onDelete() {
-    if(this.author.id === -1) {
+    if(this.author.id === "-1") {
       window.alert("This author can not be deleted")
     }
     else {

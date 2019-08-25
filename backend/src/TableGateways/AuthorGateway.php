@@ -16,7 +16,8 @@ class AuthorGateway {
       SELECT author.id, author.name, book.id AS bookId, 
         book.name AS bookName FROM author
       JOIN bookauthor ON author.id = bookauthor.bookId
-      JOIN book ON author.id = book.id;
+      JOIN book ON author.id = book.id
+      ORDER BY author.id;
     ";
 
     try {
@@ -37,7 +38,8 @@ class AuthorGateway {
       SELECT author.id, author.name, book.id AS bookId, book.name AS bookName FROM author 
       JOIN bookauthor ON author.id = bookauthor.bookId
       JOIN book ON author.id = book.id
-      WHERE author.id = ?;
+      WHERE author.id = ?
+      ORDER BY author.id;
     ";
 
     try {

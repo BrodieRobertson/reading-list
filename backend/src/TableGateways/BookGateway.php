@@ -20,7 +20,8 @@ class BookGateway {
       JOIN bookauthor ON book.id = bookauthor.bookid
       JOIN author ON bookauthor.authorid = author.id
       JOIN bookillustrator ON book.id = bookillustrator.bookid
-      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id;
+      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
+      ORDER BY book.id;
     ";
 
     try {
@@ -46,7 +47,8 @@ class BookGateway {
       JOIN author ON bookauthor.authorid = author.id
       JOIN bookillustrator ON book.id = bookillustrator.bookid
       JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
-      WHERE book.id = ?;
+      WHERE book.id = ?
+      ORDER BY book.id;
     ";
 
     try {

@@ -1,12 +1,12 @@
 import { Book } from './book';
 
 export class Author {
-  id: Number;
+  id: string;
   name: string;
   authored: Array<Book>
 
   constructor() {
-    this.id = -1
+    this.id = "-1"
     this.name = "No Name"
     this.authored = []
   }

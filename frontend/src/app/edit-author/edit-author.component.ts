@@ -19,7 +19,7 @@ export class EditAuthorComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.author = this.authors.getAuthor(Number(params.get('authorId')));
+      this.authors.getAuthor(params.get('authorId')).subscribe((res) => {this.author = AuthorService.extractAuthor(res)});
       if(this.author) {
         // Copy out book names from author
         var tempBookControls: FormArray = new FormArray([]);
@@ -96,8 +96,8 @@ export class EditAuthorComponent implements OnInit {
     this.author.name = value.name
     this.updateAuthoredBooks();
     
-    var authorId: Number = this.authors.updateAuthor(this.author)
-    if(authorId >= 0) {
+    var authorId = this.authors.updateAuthor(this.author)
+    if(authorId !== "-1") {
       window.alert(oldName + " successfully updated")
     }
     else {

@@ -170,16 +170,16 @@ export class EditBookComponent implements OnInit {
   updateTopAuthors(index: number, name: string) {
     var tempAuthors = this.authors.getAuthors();
     var regex = new RegExp(name);
-    tempAuthors = tempAuthors.filter(author => {
-      if(regex.test(author.name)) {
-        return author
-      }
-    })
+    // tempAuthors = tempAuthors.filter(author => {
+    //   if(regex.test(author.name)) {
+    //     return author
+    //   }
+    // })
 
-    if(tempAuthors.length > 5) {
-      tempAuthors = tempAuthors.slice(0, 5)
-    }
-    this.topAuthors[index] = tempAuthors
+    // if(tempAuthors.length > 5) {
+    //   tempAuthors = tempAuthors.slice(0, 5)
+    // }
+    // this.topAuthors[index] = tempAuthors
   }
 
   /**
@@ -306,7 +306,7 @@ export class EditBookComponent implements OnInit {
         temp.name = controls[i];
         var id = this.authors.addAuthor(temp)
         var newAuthor = this.authors.getAuthor(id);
-        this.authorList[i] = newAuthor;
+        // this.authorList[i] = newAuthor;
       }
       else {
         controls.splice(i, 1)
