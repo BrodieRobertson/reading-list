@@ -13,7 +13,6 @@ export class Book {
   readingState: ReadingState
   read: boolean;
   owned: boolean;
-  dropped: boolean;
 
   constructor() {
     this.id = "-1";

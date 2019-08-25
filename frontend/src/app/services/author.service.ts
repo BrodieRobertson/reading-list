@@ -1,3 +1,4 @@
+import { Book } from './../models/book';
 import { HttpClient } from '@angular/common/http';
 import { Author } from './../models/author';
 import { Injectable } from '@angular/core';
@@ -20,7 +21,7 @@ export class AuthorService {
    * @param res The response from the server 
    */
   static extractAuthors(res: Array<any>) {
-    var authors = []
+    var authors: Array<Author> = []
     res.forEach((entry) => {
       var idFound = -1;
       for(var i = 0; i < authors.length; ++i) {
@@ -30,11 +31,19 @@ export class AuthorService {
         }
       }
       
+      // id not found, new Author
       if(idFound  < 0) {
         var author = new Author();
         author.id = entry.id;
         author.name = entry.name;
         authors.push(author);
+      }
+      // id found, new authored book
+      else {
+        var book = new Book();
+        book.id = entry.bookId;
+        book.name = entry.bookName;
+        authors[idFound].authored.push(book)
       }
     })
     return authors

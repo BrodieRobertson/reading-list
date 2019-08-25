@@ -14,13 +14,13 @@ class BookGateway {
   public function getAll() {
     $statement = "
       SELECT book.id, book.name, book.image, book.pages, book.isbn, 
-        book.readingstate, book.completed, book.owned, book.dropped, 
-        illustrator.id AS illustratorId, illustrator.name AS illustratorName, 
+        book.readingstate, book.completed, book.owned, illustrator.id 
+        AS illustratorId, illustrator.name AS illustratorName, 
         author.id AS authorId, author.name AS authorName FROM book
-      JOIN bookauthor ON book.id = bookauthor.bookid
-      JOIN author ON bookauthor.authorid = author.id
-      JOIN bookillustrator ON book.id = bookillustrator.bookid
-      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
+      LEFT JOIN bookauthor ON book.id = bookauthor.bookid
+      LEFT JOIN author ON bookauthor.authorid = author.id
+      LEFT JOIN bookillustrator ON book.id = bookillustrator.bookid
+      LEFT JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
       ORDER BY book.id;
     ";
 
@@ -40,13 +40,13 @@ class BookGateway {
   public function get($id) {
     $statement = "
       SELECT book.id, book.name, book.image, book.pages, book.isbn, 
-        book.readingstate, book.completed, book.owned, book.dropped, 
-        illustrator.id AS illustratorId, illustrator.name AS illustratorName, 
+        book.readingstate, book.completed, book.owned, illustrator.id 
+        AS illustratorId, illustrator.name AS illustratorName, 
         author.id AS authorId, author.name AS authorName FROM book
-      JOIN bookauthor ON book.id = bookauthor.bookid
-      JOIN author ON bookauthor.authorid = author.id
-      JOIN bookillustrator ON book.id = bookillustrator.bookid
-      JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
+      LEFT JOIN bookauthor ON book.id = bookauthor.bookid
+      LEFT JOIN author ON bookauthor.authorid = author.id
+      LEFT JOIN bookillustrator ON book.id = bookillustrator.bookid
+      LEFT JOIN illustrator ON bookillustrator.illustratorid = illustrator.id
       WHERE book.id = ?
       ORDER BY book.id;
     ";

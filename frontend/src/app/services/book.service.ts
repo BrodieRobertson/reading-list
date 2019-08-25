@@ -42,7 +42,6 @@ export class BookService {
         book.readingState = stringToReadingState(entry.readingstate)
         book.read = stringToBoolean(entry.completed)
         book.owned = stringToBoolean(entry.owned)
-        book.dropped = stringToBoolean(entry.dropped)
         books.push(book);
       }
     })

@@ -40,17 +40,16 @@ $statements = array (
       readingstate INT NOT NULL,
       completed BIT(1) NOT NULL,
       owned BIT(1) NOT NULL,
-      dropped BIT(1) NOT NULL,
       PRIMARY KEY (id)
     ) ENGINE='INNODB';
   ",
   "
-    INSERT INTO book (name, image, pages, isbn, readingstate, completed, owned, dropped) VALUES
-      ('book1', NULL, 100, '8501234567897', 0, 0, 1, 0),
-      ('book2', NULL, 100, '9221234567123', 1, 0, 0, 0),
-      ('book3', NULL, 100, '3071234567875', 2, 1, 0, 0),
-      ('book4', NULL, 100, '4051234567534', 0, 0, 1, 0),
-      ('book5', NULL, 100, '1021234567901', 0, 0, 0, 1);
+    INSERT INTO book (name, image, pages, isbn, readingstate, completed, owned) VALUES
+      ('book1', NULL, 100, '8501234567897', 0, 0, 1),
+      ('book2', NULL, 100, '9221234567123', 1, 0, 0),
+      ('book3', NULL, 100, '3071234567875', 2, 1, 0),
+      ('book4', NULL, 100, '4051234567534', 0, 0, 1),
+      ('book5', NULL, 100, '1021234567901', 2, 0, 0);
   ",
   "
     CREATE TABLE bookauthor (
