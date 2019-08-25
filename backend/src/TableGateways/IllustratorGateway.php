@@ -13,10 +13,9 @@ class IllustratorGateway {
    */
   public function getAll() {
     $statement = "
-      SELECT illustrator.id, illustrator.name, book.id AS 
-        bookId, book.name AS bookName FROM illustrator
-      JOIN bookillustrator ON illustrator.id = bookillustrator.bookId
-      JOIN book ON illustrator.id = book.id
+      SELECT illustrator.id, illustrator.name, book.id AS bookId, book.name AS bookName FROM illustrator
+      JOIN bookillustrator ON illustrator.id = bookillustrator.illustratorId
+      JOIN book ON book.id = bookillustrator.bookid
       ORDER BY illustrator.id;
     ";
 
@@ -35,9 +34,9 @@ class IllustratorGateway {
    */
   public function get($id) {
     $statement = "
-      SELECT illustrator.id, illustrator.name, book.id AS bookId, book.name AS bookName FROM illustrator 
-      JOIN bookillustrator ON illustrator.id = bookillustrator.bookId
-      JOIN book ON illustrator.id = book.id
+      SELECT illustrator.id, illustrator.name, book.id AS bookId, book.name AS bookName FROM illustrator
+      JOIN bookillustrator ON illustrator.id = bookillustrator.illustratorId
+      JOIN book ON book.id = bookillustrator.bookid
       WHERE illustrator.id = ?
       ORDER BY illustrator.id;
     ";

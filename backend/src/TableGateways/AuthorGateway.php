@@ -13,10 +13,9 @@ class AuthorGateway {
    */
   public function getAll() {
     $statement = "
-      SELECT author.id, author.name, book.id AS bookId, 
-        book.name AS bookName FROM author
-      JOIN bookauthor ON author.id = bookauthor.bookId
-      JOIN book ON author.id = book.id
+      SELECT author.id, author.name, book.id AS bookId, book.name AS bookName FROM author
+      JOIN bookauthor ON author.id = bookauthor.authorId
+      JOIN book ON book.id = bookauthor.bookid
       ORDER BY author.id;
     ";
 
@@ -35,9 +34,9 @@ class AuthorGateway {
    */
   public function get($id) {
     $statement = "
-      SELECT author.id, author.name, book.id AS bookId, book.name AS bookName FROM author 
-      JOIN bookauthor ON author.id = bookauthor.bookId
-      JOIN book ON author.id = book.id
+      SELECT author.id, author.name, book.id AS bookId, book.name AS bookName FROM author
+      JOIN bookauthor ON author.id = bookauthor.authorId
+      JOIN book ON book.id = bookauthor.bookid
       WHERE author.id = ?
       ORDER BY author.id;
     ";
