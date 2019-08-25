@@ -4,6 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../models/book';
 import { ReadingState } from '../reading-state.enum';
 
+
+const regularButtonStyle = "regular-button"
+const darkRegularButtonStyle = "regular-button-dark"
+
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
@@ -27,7 +31,7 @@ export class BookListComponent implements OnInit {
     this.selectedList = -1;
     this.buttonStyles = [];
     for(var i = 0; i < 8; ++i) {
-      this.buttonStyles.push("regular-button")
+      this.buttonStyles.push(regularButtonStyle)
     }
     this.loadList(this.currentList);
   }
@@ -102,11 +106,14 @@ export class BookListComponent implements OnInit {
     this.updateButtonStyles()
   }
 
+  /**
+   * Updates the styles of the regular buttons
+   */
   updateButtonStyles() {
     if(this.previousList != -1) {
-      this.buttonStyles[this.previousList] = "regular-button"
+      this.buttonStyles[this.previousList] = regularButtonStyle
     }
-    this.buttonStyles[this.selectedList] = "regular-button-dark"
+    this.buttonStyles[this.selectedList] = darkRegularButtonStyle
   }
 }
 

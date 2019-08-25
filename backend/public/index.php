@@ -28,7 +28,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode('/', $uri );
 
-// the user id is, of course, optional and must be a number
+// The element id is optional
 $id = null;
 if (isset($uri[2])) {
     $id = $uri[2];
@@ -95,7 +95,7 @@ function authenticate() {
         ->setClientId(getenv('OKTACLIENTID'))
         ->build();
       return $jwtVerifier->verify($matches[1]);
-    } 
+    }
     catch (Exception $e) {
         return false;
     }

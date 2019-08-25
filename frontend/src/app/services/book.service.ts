@@ -1,14 +1,16 @@
 import { Book } from './../models/book';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class BookService {
   nextId: number;
   books: Array<Book>;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.books = []
     this.nextId = 0;
   }
@@ -17,6 +19,8 @@ export class BookService {
    * Gets all of the books
    */
   getBooks() {
+    let res = this.http.get('http://localhost:8000/book');
+    res.subscribe((t) => console.log(t))
     return this.books;
   }
 

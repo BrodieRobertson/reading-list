@@ -28,7 +28,7 @@ class BookIllustratorGateway {
   }
 
   /**
-   * Gets a sub set of bookillustrators, fails if not ids are provided
+   * Gets a sub set of bookillustrators, fails if no ids are provided
    */
   public function get($bookId, $illustratorId) {
     try {
