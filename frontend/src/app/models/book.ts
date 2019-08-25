@@ -3,20 +3,20 @@ import { Illustrator } from './illustrator';
 import { ReadingState } from '../reading-state.enum';
 
 export class Book {
-  id: Number;
-  name: String;
+  id: string;
+  name: string;
   authors: Array<Author>;
   illustrators: Array<Illustrator>;
-  image: String;
-  pages: Number;
-  isbn: String;
+  image: string;
+  pages: number;
+  isbn: string;
   readingState: ReadingState
-  read: Boolean;
-  owned: Boolean;
-  dropped: Boolean;
+  read: boolean;
+  owned: boolean;
+  dropped: boolean;
 
   constructor() {
-    this.id = -1;
+    this.id = "-1";
     this.name = "No Name"
     this.authors = []
     this.illustrators = []

@@ -37,7 +37,7 @@ export class EditBookComponent implements OnInit {
     this.resetForm();
     this.route.paramMap.subscribe(params => {
       if(params.get("bookId")) {
-        this.book = this.books.getBook(Number(params.get('bookId')));
+        this.books.getBook(params.get('bookId')).subscribe((res) => {this.book = BookService.extractBook(res)});
         if(this.book) {
           // Copy out author names from the book
           var tempAuthorControls: FormArray = new FormArray([]);
@@ -393,10 +393,10 @@ export class EditBookComponent implements OnInit {
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
 
-    var bookId: Number = this.books.updateBook(submittedBook);
+    var bookId = this.books.updateBook(submittedBook);
 
     // Display confirmation message
-    if(bookId >= 0) {
+    if(bookId !== "-1") {
       if(!this.book) {
         window.alert("New book successfully added")
       }

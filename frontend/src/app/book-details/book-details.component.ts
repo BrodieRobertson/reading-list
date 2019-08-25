@@ -17,11 +17,8 @@ export class BookDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      var tempBook: Book = this.books.getBook(Number(params.get('bookId')));
-      if(tempBook) {
-        this.book = tempBook;
-      }
-      else {
+      this.books.getBook(params.get('bookId')).subscribe((res) => {this.book = BookService.extractBook(res)});
+      if(!this.book) {
         this.book = new Book();
       }
     })
@@ -31,7 +28,7 @@ export class BookDetailsComponent implements OnInit {
    * Switches to the edit form if the book can be edited
    */
   onEdit() {
-    if(this.book.id === -1) {
+    if(this.book.id === "-1") {
       window.alert("This book can not be edited")
     }
     else {
@@ -43,7 +40,7 @@ export class BookDetailsComponent implements OnInit {
    * Confirms if the book should be deleted if the book can be deleted
    */
   onDelete() {
-    if(this.book.id === -1) {
+    if(this.book.id === "-1") {
       window.alert("This book can not be deleted")
     }
     else {

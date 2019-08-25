@@ -1,13 +1,13 @@
 const host: string = "localhost"
 const port: string = "8000"
-const uri: string = `http:${host}:${port}`
+const uri: string = `http://${host}:${port}`
 
 /**
  * Generates the api path for books, if no id provided the path for all book will be returned
  * 
  * @param id The id of the book
  */
-export function bookPath(id: number) {
+export function bookPath(id: string) {
     const path = uri + "/book"
     return (id ? path + "/" + id : path)
 }
@@ -16,7 +16,7 @@ export function bookPath(id: number) {
  * Generates the api path for authors, if no id provided the path for all authors will be returned 
  * @param id The id of the author
  */
-export function authorPath(id: number) {
+export function authorPath(id: string) {
     const path = uri + "/author"
     return (id ? path + "/" + id : path)
 }
@@ -25,7 +25,7 @@ export function authorPath(id: number) {
  * Generates the api path for illustrators, if no id provided the path for all illustrators will be returned
  * @param id The id of the illustrator
  */
-export function illustratorPath(id: number) {
+export function illustratorPath(id: string) {
     const path = uri + "/illustrator"
     return (id ? path + "/" + id : path)
 }
@@ -36,7 +36,7 @@ export function illustratorPath(id: number) {
  * @param bookId The id of the book
  * @param authorId The id of the author
  */
-export function bookAuthorPath(bookId: number, authorId: number) {
+export function bookAuthorPath(bookId: string, authorId: string) {
     var path = uri + "/bookauthor/"
     if(bookId) {
         path += bookId
@@ -57,7 +57,7 @@ export function bookAuthorPath(bookId: number, authorId: number) {
  * @param bookId The id of the book
  * @param illustratorId  The id of the illustrator
  */
-export function bookIllustratorPath(bookId: number, illustratorId: number) {
+export function bookIllustratorPath(bookId: string, illustratorId: string) {
     var path = uri + "/bookillustrator/"
 
     if(bookId) {

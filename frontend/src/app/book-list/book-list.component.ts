@@ -26,6 +26,7 @@ export class BookListComponent implements OnInit {
   constructor(private books: BookService) {}
 
   ngOnInit() {
+    this.bookList = []
     this.currentList = Lists.ALL;
     this.previousList = -1;
     this.selectedList = -1;
@@ -42,7 +43,8 @@ export class BookListComponent implements OnInit {
    * @param list The list to load
    */
   loadList(list: Lists) {
-    this.bookList = this.books.getBooks();
+    this.books.getBooks().subscribe((res) => this.bookList = BookService.extractBooks(res))
+
     if(this.selectedList != -1) {
       this.previousList = this.selectedList;
     }
