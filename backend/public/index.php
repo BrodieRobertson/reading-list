@@ -34,6 +34,11 @@ if (isset($uri[2])) {
     $id = $uri[2];
 }
 
+$extraId = null;
+if (isset($uri[3])) {
+    $extraId = $uri[3];
+}
+
 // Authenticate the request with okta
 // if(!authenticate()) {
 //   header(HTTP_UNAUTHORIZED);
@@ -54,10 +59,10 @@ switch($uri[1]) {
     $controller = new Controller($dbConnection, $requestMethod, $id, new IllustratorGateway($dbConnection), new IllustratorValidator());
     break;
   case "bookillustrator":
-    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookIllustratorGateway($dbConnection), new BookIllustratorValidator());
+    $controller = new JointController($dbConnection, $requestMethod, $id, $extraId, new BookIllustratorGateway($dbConnection), new BookIllustratorValidator());
     break;
   case "bookauthor":
-    $controller = new JointController($dbConnection, $requestMethod, $id, null, new BookAuthorGateway($dbConnection), new BookAuthorValidator());
+    $controller = new JointController($dbConnection, $requestMethod, $id, $extraId, new BookAuthorGateway($dbConnection), new BookAuthorValidator());
     break;
   default:
     header(HTTP_NOT_FOUND);
