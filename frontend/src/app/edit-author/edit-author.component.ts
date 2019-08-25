@@ -20,28 +20,28 @@ export class EditAuthorComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.authors.getAuthor(params.get('authorId')).subscribe((res) => {this.author = AuthorService.extractAuthor(res)});
-      if(this.author) {
-        // Copy out book names from author
-        var tempBookControls: FormArray = new FormArray([]);
-        if(this.author.authored.length === 0) {
-          tempBookControls.push(new FormControl(""))
-        }
-        else {
-          this.author.authored.forEach(book => {
-            tempBookControls.push(new FormControl(book.name))
-          })
-        }
-
-        // Rebuild the form
-        this.editForm = this.formBuilder.group({
-          name: this.author.name,
-          books: tempBookControls
-        })
-      }
-      else {
-        this.router.navigateByUrl("/")
-      }
     })
+  }
+
+  buildForm() {
+    // Copy out book names from author
+    var tempBookControls: FormArray = new FormArray([]);
+    if(this.author.authored.length === 0) {
+      tempBookControls.push(new FormControl(""))
+    }
+    else {
+      this.author.authored.forEach(book => {
+        tempBookControls.push(new FormControl(book.name))
+      })
+    }
+
+    // Rebuild the form
+    this.editForm = this.formBuilder.group({
+      name: this.author.name,
+      books: tempBookControls
+    })
+
+    return this.editForm;
   }
 
   /**

@@ -20,30 +20,29 @@ export class EditIllustratorComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.illustrators.getIllustrator(params.get('illustratorId')).subscribe((res) => {this.illustrator = IllustratorService.extractIllustrator(res)});
-      if(this.illustrator) {
-        // Copy out book names from the illustrator
-        var tempBookControls: FormArray = new FormArray([]);
-        if(this.illustrator.illustrated.length === 0) {
-          tempBookControls.push(new FormControl({value: "", disabled: true})) 
-        }
-        else {
-          this.illustrator.illustrated.forEach(book => {
-            tempBookControls.push(new FormControl({value: book.name, disabled: true}))
-          })
-        }
-
-        // Rebuild the form
-        this.editForm = this.formBuilder.group({
-          name: this.illustrator.name,
-          books: tempBookControls
-        })
-      }
-      else {
-        this.router.navigateByUrl("/")
-      }
     })
   }
 
+  buildForm() {
+    // Copy out book names from the illustrator
+    var tempBookControls: FormArray = new FormArray([]);
+    if(this.illustrator.illustrated.length === 0) {
+      tempBookControls.push(new FormControl({value: "", disabled: true})) 
+    }
+    else {
+      this.illustrator.illustrated.forEach(book => {
+        tempBookControls.push(new FormControl({value: book.name, disabled: true}))
+      })
+    }
+
+    // Rebuild the form
+    this.editForm = this.formBuilder.group({
+      name: this.illustrator.name,
+      books: tempBookControls
+    })
+
+    return this.editForm;
+  }
   /**
    * Resets the form for future usage
    */

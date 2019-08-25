@@ -8,7 +8,7 @@
 
 
 <main class="flex-container flex-center flex-column">
-  <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
+  <form [formGroup]="buildForm()" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
     <div>
       <label for="name">Name</label>
       <input id="name" type="text" formControlName="name" required class="text-box block">

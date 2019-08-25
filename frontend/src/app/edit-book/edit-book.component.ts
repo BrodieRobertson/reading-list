@@ -38,46 +38,49 @@ export class EditBookComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       if(params.get("bookId")) {
         this.books.getBook(params.get('bookId')).subscribe((res) => {this.book = BookService.extractBook(res)});
-        if(this.book) {
-          // Copy out author names from the book
-          var tempAuthorControls: FormArray = new FormArray([]);
-          if(this.book.authors.length === 0) {
-            tempAuthorControls.push(new FormControl(""))
-          }
-          else {
-            this.book.authors.forEach(author => {
-              tempAuthorControls.push(new FormControl(author.name))
-            })
-          }
-
-          // Copy out illustrator names from the book
-          var tempIllustratorControls: FormArray = new FormArray([]);
-          if(this.book.illustrators.length === 0) {
-            tempIllustratorControls.push(new FormControl(""))
-          }
-          else {
-            this.book.illustrators.forEach(illustrator => {
-              tempIllustratorControls.push(new FormControl(illustrator.name))
-            });
-          }
-
-          // Rebuild the form
-          this.editForm = this.formBuilder.group({
-            name: this.book.name, 
-            pages: this.book.pages, 
-            image: this.book.image,
-            isbn: this.book.isbn, 
-            authors: tempAuthorControls, 
-            illustrators: tempIllustratorControls,
-            readingState: this.book.readingState, 
-            read: this.book.read, 
-            owned: this.book.owned});
-        }
       }
       else {
         this.resetForm()
       }
     })
+  }
+
+  buildForm() {
+    // Copy out author names from the book
+    var tempAuthorControls: FormArray = new FormArray([]);
+    if(this.book.authors.length === 0) {
+      tempAuthorControls.push(new FormControl(""))
+    }
+    else {
+      this.book.authors.forEach(author => {
+        tempAuthorControls.push(new FormControl(author.name))
+      })
+    }
+
+    // Copy out illustrator names from the book
+    var tempIllustratorControls: FormArray = new FormArray([]);
+    if(this.book.illustrators.length === 0) {
+      tempIllustratorControls.push(new FormControl(""))
+    }
+    else {
+      this.book.illustrators.forEach(illustrator => {
+        tempIllustratorControls.push(new FormControl(illustrator.name))
+      });
+    }
+
+    // Rebuild the form
+    this.editForm = this.formBuilder.group({
+      name: this.book.name, 
+      pages: this.book.pages, 
+      image: this.book.image,
+      isbn: this.book.isbn, 
+      authors: tempAuthorControls, 
+      illustrators: tempIllustratorControls,
+      readingState: this.book.readingState, 
+      read: this.book.read, 
+      owned: this.book.owned});
+
+      return this.editForm;
   }
 
   /**
