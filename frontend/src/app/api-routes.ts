@@ -37,8 +37,18 @@ export function illustratorPath(id: number) {
  * @param authorId The id of the author
  */
 export function bookAuthorPath(bookId: number, authorId: number) {
-    const path = uri + "/bookauthor"
-    return (bookId ? path + "/" + bookId : path)
+    var path = uri + "/bookauthor/"
+    if(bookId) {
+        path += bookId
+    }
+
+    path += "/"
+
+    if(authorId) {
+        path += authorId
+    }
+
+    return path
 }
 
 /**
@@ -48,6 +58,16 @@ export function bookAuthorPath(bookId: number, authorId: number) {
  * @param illustratorId  The id of the illustrator
  */
 export function bookIllustratorPath(bookId: number, illustratorId: number) {
-    const path = uri + "/bookillustrator"
-    return (bookId ? path + "/" + bookId : path)
+    var path = uri + "/bookillustrator/"
+
+    if(bookId) {
+        path += bookId
+    }
+
+    path += "/"
+
+    if(illustratorId) {
+        path += illustratorId
+    }
+    return path
 }
