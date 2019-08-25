@@ -15,12 +15,9 @@ export class IllustratorDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      var tempIllustrator: Illustrator = this.illustrators.getIllustrator(Number(params.get('illustratorId')))
-      if(tempIllustrator) {
-        this.illustrator = tempIllustrator;
-      }
-      else {
-        this.illustrator = new Illustrator();
+      this.illustrators.getIllustrator(params.get('illustratorId')).subscribe((res) => {this.illustrator = IllustratorService.extractIllustrator(res)})
+      if(!this.illustrator) {
+        this.illustrator = new Illustrator()
       }
     })
   }
@@ -29,7 +26,7 @@ export class IllustratorDetailsComponent implements OnInit {
    * Switches to the edit form if the illustrator can be edited
    */
   onEdit() {
-    if(this.illustrator.id === -1) {
+    if(this.illustrator.id === "-1") {
       window.alert("This illustrator can not be edited")
     }
     else {
@@ -41,7 +38,7 @@ export class IllustratorDetailsComponent implements OnInit {
    * Confirms if this illustrator should be deleted if it can be deleted
    */
   onDelete() {
-    if(this.illustrator.id === -1) {
+    if(this.illustrator.id === "-1") {
       window.alert("This illustrator can not be deleted")
     }
     else {

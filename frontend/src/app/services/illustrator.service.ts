@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Illustrator } from './../models/illustrator';
 import { Injectable } from '@angular/core';
+import { illustratorPath } from '../api-routes';
 
 @Injectable({
   providedIn: 'root'
@@ -8,26 +10,56 @@ export class IllustratorService {
   nextId: number;
   illustrators: Array<Illustrator>;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.illustrators = []
     this.nextId = 0;
   }
 
   /**
+   * Extracts the author objects from the response
+   * @param res The response from the server 
+   */
+  static extractIllustrators(res: Array<any>) {
+    var illustrators = []
+    res.forEach((entry) => {
+      var idFound = -1;
+      for(var i = 0; i < illustrators.length; ++i) {
+        if(illustrators[i].id === entry.id) {
+          idFound = i;
+          break;
+        }
+      }
+      
+      if(idFound  < 0) {
+        var illustrator = new Illustrator();
+        illustrator.id = entry.id;
+        illustrator.name = entry.name;
+        illustrators.push(illustrator);
+      }
+    })
+    return illustrators
+  }
+
+  /**
+   * Extracts an author object from the response
+   * @param res The response from the server
+   */
+  static extractIllustrator(res: Array<any>) {
+    return this.extractIllustrators(res)[0]
+  }
+  /**
    * Gets all of the illustrators
    */
   getIllustrators() {
-    return this.illustrators;
+    return this.http.get<Array<any>>(illustratorPath(null))
   }
 
   /**
    * Gets an illustrator by it's id
    * @param id The illustrators id
    */
-  getIllustrator(id: Number) {
-    return this.illustrators.filter((book) => {
-      return book.id === id;
-    })[0];
+  getIllustrator(id: string) {
+    return this.http.get<Array<any>>(illustratorPath(id))
   }
 
   /**
@@ -35,7 +67,7 @@ export class IllustratorService {
    * @param illustrator The new illustrator
    */
   addIllustrator(illustrator: Illustrator) {
-    illustrator.id = this.nextId;
+    illustrator.id = this.nextId + "";
     ++this.nextId;
     this.illustrators.push(illustrator);
     return illustrator.id;
@@ -46,7 +78,8 @@ export class IllustratorService {
    * @param illustrator The book being updated
    */
   updateIllustrator(illustrator: Illustrator) {
-    var oldIllustrator: Illustrator = this.getIllustrator(illustrator.id);
+    // var oldIllustrator: Illustrator = this.getIllustrator(illustrator.id);
+    var oldIllustrator = new Illustrator()
     if(oldIllustrator) {
       oldIllustrator = illustrator;
       return oldIllustrator.id
@@ -60,7 +93,7 @@ export class IllustratorService {
    * Removes a illustrator by it's id
    * @param id The illustrators id 
    */
-  removeIllustrator(id: Number) {
+  removeIllustrator(id: string) {
     this.illustrators.filter((illustrator) => {
       return illustrator.id !== id;
     })

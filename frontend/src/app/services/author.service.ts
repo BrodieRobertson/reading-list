@@ -14,7 +14,11 @@ export class AuthorService {
     this.authors = [];
     this.nextId = 0;
   }
-  
+ 
+  /**
+   * Extracts the author objects from the response
+   * @param res The response from the server 
+   */
   static extractAuthors(res: Array<any>) {
     var authors = []
     res.forEach((entry) => {
@@ -36,6 +40,10 @@ export class AuthorService {
     return authors
   }
 
+  /**
+   * Extracts an author object from the response
+   * @param res The response from the server
+   */
   static extractAuthor(res: Array<any>) {
     return this.extractAuthors(res)[0]
   }

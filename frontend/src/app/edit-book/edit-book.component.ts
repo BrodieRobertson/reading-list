@@ -189,15 +189,15 @@ export class EditBookComponent implements OnInit {
   updateTopIllustrators(index: number, name: string) {
     var tempIllustrators = this.illustrators.getIllustrators();
     var regex = new RegExp(name);
-    tempIllustrators = tempIllustrators.filter(illustrator => {
-      if(regex.test(illustrator.name)) {
-        return illustrator;
-      }
-    })
-    if(tempIllustrators.length > 5) {
-      tempIllustrators = tempIllustrators.slice(0, 5);
-    }
-    this.topIllustrators[index] = tempIllustrators
+    // tempIllustrators = tempIllustrators.filter(illustrator => {
+    //   if(regex.test(illustrator.name)) {
+    //     return illustrator;
+    //   }
+    // })
+    // if(tempIllustrators.length > 5) {
+    //   tempIllustrators = tempIllustrators.slice(0, 5);
+    // }
+    // this.topIllustrators[index] = tempIllustrators
   }
 
   /**
@@ -355,7 +355,7 @@ export class EditBookComponent implements OnInit {
         temp.name = controls[i];
         var id = this.illustrators.addIllustrator(temp)
         var newIllustrator = this.illustrators.getIllustrator(id);
-        this.illustratorList[i] = newIllustrator;
+        // this.illustratorList[i] = newIllustrator;
       }
       else {
         controls.splice(i, 1)

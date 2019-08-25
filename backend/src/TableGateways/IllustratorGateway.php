@@ -35,10 +35,9 @@ class IllustratorGateway {
    */
   public function get($id) {
     $statement = "
-      SELECT illustrator.id, illustrator.name, 
-        book.id AS bookId, book.name AS bookName FROM illustrator 
+      SELECT illustrator.id, illustrator.name, book.id AS bookId, book.name AS bookName FROM illustrator 
       JOIN bookillustrator ON illustrator.id = bookillustrator.bookId
-      JOIN book ON illustrator.id = book.id;
+      JOIN book ON illustrator.id = book.id
       WHERE illustrator.id = ?
       ORDER BY illustrator.id;
     ";
@@ -81,7 +80,7 @@ class IllustratorGateway {
    */
   public function update($id, Array $input) {
     $statement = "
-      UPDATE author 
+      UPDATE illustrator 
       SET name = :name
       WHERE id = :id;
     ";

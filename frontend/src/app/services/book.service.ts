@@ -17,6 +17,10 @@ export class BookService {
     this.nextId = 0;
   }
 
+  /**
+   * Extracts the book objects from the response
+   * @param res The response from the server
+   */
   static extractBooks(res: Array<any>) {
     var books = []
     res.forEach((entry) => {
@@ -45,6 +49,10 @@ export class BookService {
     return books
   }
 
+  /**
+   * Extracts a book object from the response
+   * @param res The response from the server
+   */
   static extractBook(res) {
     return this.extractBooks(res)[0]
   }

@@ -19,7 +19,7 @@ export class EditIllustratorComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.illustrator = this.illustrators.getIllustrator(Number(params.get('illustratorId')));
+      this.illustrators.getIllustrator(params.get('illustratorId')).subscribe((res) => {this.illustrator = IllustratorService.extractIllustrator(res)});
       if(this.illustrator) {
         // Copy out book names from the illustrator
         var tempBookControls: FormArray = new FormArray([]);
@@ -96,8 +96,8 @@ export class EditIllustratorComponent implements OnInit {
     this.illustrator.name = value.name;
     this.updateIllustratedBooks()
 
-    var illustratorId: Number = this.illustrators.updateIllustrator(this.illustrator);
-    if(illustratorId >= 0) {
+    var illustratorId = this.illustrators.updateIllustrator(this.illustrator);
+    if(illustratorId !== "-1") {
       window.alert(oldName + " successfully updated")
     }
     else {

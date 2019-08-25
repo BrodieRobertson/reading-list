@@ -1,12 +1,12 @@
 import { Book } from './book';
 
 export class Illustrator {
-  id: Number;
+  id: string;
   name: string;
   illustrated: Array<Book>
 
   constructor() {
-    this.id = -1
+    this.id = "-1"
     this.name = "No Name"
     this.illustrated = []
   }
