@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Form } from '@angular/forms';
 import { IllustratorService } from '../services/illustrator.service';
 import { isNullOrUndefined } from 'util';
+import { IdentifiableFormControl } from '../identifiable-form-control';
 
 @Component({
   selector: 'app-edit-book',
@@ -50,7 +51,7 @@ export class EditBookComponent implements OnInit {
     }
     else {
       this.book.authors.forEach(author => {
-        tempAuthorControls.push(new FormControl(author.name))
+        tempAuthorControls.push(new IdentifiableFormControl(author.name, author.id))
       })
     }
 
@@ -61,7 +62,7 @@ export class EditBookComponent implements OnInit {
     }
     else {
       this.book.illustrators.forEach(illustrator => {
-        tempIllustratorControls.push(new FormControl(illustrator.name))
+        tempIllustratorControls.push(new IdentifiableFormControl(illustrator.name, illustrator.name))
       });
     }
 
@@ -93,8 +94,9 @@ export class EditBookComponent implements OnInit {
       read: false,
       owned: false,
     })
+
   }
-  
+
   /**
    * Gets the author controls
    */
@@ -204,7 +206,16 @@ export class EditBookComponent implements OnInit {
    * @param index The index of the control
    */
   setAuthor(author: Author, index: number) {
-    this.authorControls().setControl(index, new FormControl(author.name))
+    let controls = this.illustratorControls().controls
+
+    // Retain id when updating control
+    if(controls[index] instanceof IdentifiableFormControl) {
+      let identifableControl = controls[index] as IdentifiableFormControl
+      this.illustratorControls().setControl(index, new IdentifiableFormControl(author.name, identifableControl.id))
+    }
+    else {
+      this.authorControls().setControl(index, new FormControl(author.name))
+    }
   }
 
   /**
@@ -213,7 +224,16 @@ export class EditBookComponent implements OnInit {
    * @param index The index of the control
    */
   setIllustrator(illustrator: Illustrator, index: number) {
-    this.illustratorControls().setControl(index, new FormControl(illustrator.name))
+    let controls = this.illustratorControls().controls
+
+    // Retain id when updating control
+    if(controls[index] instanceof IdentifiableFormControl) {
+      let identifableControl = controls[index] as IdentifiableFormControl
+      this.illustratorControls().setControl(index, new IdentifiableFormControl(illustrator.name, identifableControl.id))
+    }
+    else {
+      this.illustratorControls().setControl(index, new FormControl(illustrator.name))
+    }
   }
 
   /**
@@ -302,9 +322,10 @@ export class EditBookComponent implements OnInit {
       if(controls[i] !== "") {
         var temp = new Author();
         temp.name = controls[i];
-        var id = this.authors.addAuthor(temp)
-        var newAuthor = this.authors.getAuthor(id);
-        // this.authorList[i] = newAuthor;
+        temp.id = this.authors.addAuthor(temp)
+        // this.authors.getAuthor(id).subscribe((res) => {this.authorList[i] = AuthorService.extractAuthor(res)});
+
+        this.authorList.push(temp)
       }
       else {
         controls.splice(i, 1)
@@ -351,9 +372,9 @@ export class EditBookComponent implements OnInit {
       if(controls[i] !== "") {
         var temp = new Illustrator();
         temp.name = controls[i];
-        var id = this.illustrators.addIllustrator(temp)
-        var newIllustrator = this.illustrators.getIllustrator(id);
-        // this.illustratorList[i] = newIllustrator;
+        temp.id = this.illustrators.addIllustrator(temp)
+        // this.illustrators.getIllustrator(id).subscribe((res) => {this.illustratorList[i] = IllustratorService.extractIllustrator(res)});
+        this.illustratorList.push(temp)
       }
       else {
         controls.splice(i, 1)
@@ -391,6 +412,7 @@ export class EditBookComponent implements OnInit {
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
 
+    console.log(submittedBook)
     var bookId = this.books.updateBook(submittedBook);
 
     // Display confirmation message
