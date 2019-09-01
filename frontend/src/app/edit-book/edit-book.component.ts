@@ -168,18 +168,20 @@ export class EditBookComponent implements OnInit {
    * @param name The name to check for
    */
   updateTopAuthors(index: number, name: string) {
-    var tempAuthors = this.authors.getAuthors();
-    var regex = new RegExp(name);
-    // tempAuthors = tempAuthors.filter(author => {
-    //   if(regex.test(author.name)) {
-    //     return author
-    //   }
-    // })
+    this.authors.getAuthors().subscribe((res) => {
+      var tempAuthors = AuthorService.extractAuthors(res)
+      var regex = new RegExp(name);
+      tempAuthors = tempAuthors.filter(author => {
+        if(regex.test(author.name)) {
+          return author
+        }
+      })
 
-    // if(tempAuthors.length > 5) {
-    //   tempAuthors = tempAuthors.slice(0, 5)
-    // }
-    // this.topAuthors[index] = tempAuthors
+      if(tempAuthors.length > 5) {
+        tempAuthors = tempAuthors.slice(0, 5)
+      }
+      this.topAuthors[index] = tempAuthors
+    });
   }
 
   /**
@@ -187,17 +189,19 @@ export class EditBookComponent implements OnInit {
    * @param name The name to check for
    */
   updateTopIllustrators(index: number, name: string) {
-    var tempIllustrators = this.illustrators.getIllustrators();
-    var regex = new RegExp(name);
-    // tempIllustrators = tempIllustrators.filter(illustrator => {
-    //   if(regex.test(illustrator.name)) {
-    //     return illustrator;
-    //   }
-    // })
-    // if(tempIllustrators.length > 5) {
-    //   tempIllustrators = tempIllustrators.slice(0, 5);
-    // }
-    // this.topIllustrators[index] = tempIllustrators
+    this.illustrators.getIllustrators().subscribe((res) => {
+      var tempIllustrators = IllustratorService.extractIllustrators(res)
+      var regex = new RegExp(name);
+      tempIllustrators = tempIllustrators.filter(illustrator => {
+        if(regex.test(illustrator.name)) {
+          return illustrator;
+        }
+      })
+      if(tempIllustrators.length > 5) {
+        tempIllustrators = tempIllustrators.slice(0, 5);
+      }
+      this.topIllustrators[index] = tempIllustrators
+    });
   }
 
   /**
