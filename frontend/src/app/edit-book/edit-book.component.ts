@@ -210,16 +210,7 @@ export class EditBookComponent implements OnInit {
    * @param index The index of the control
    */
   setAuthor(author: Author, index: number) {
-    let controls = this.illustratorControls().controls
-
-    // Retain id when updating control
-    if(controls[index] instanceof IdentifiableFormControl) {
-      let identifableControl = controls[index] as IdentifiableFormControl
-      this.illustratorControls().setControl(index, new IdentifiableFormControl(author.name, identifableControl.id))
-    }
-    else {
-      this.authorControls().setControl(index, new FormControl(author.name))
-    }
+    this.authorControls().setControl(index, new IdentifiableFormControl(author.name, author.id))
   }
 
   /**
@@ -228,16 +219,7 @@ export class EditBookComponent implements OnInit {
    * @param index The index of the control
    */
   setIllustrator(illustrator: Illustrator, index: number) {
-    let controls = this.illustratorControls().controls
-
-    // Retain id when updating control
-    if(controls[index] instanceof IdentifiableFormControl) {
-      let identifableControl = controls[index] as IdentifiableFormControl
-      this.illustratorControls().setControl(index, new IdentifiableFormControl(illustrator.name, identifableControl.id))
-    }
-    else {
-      this.illustratorControls().setControl(index, new FormControl(illustrator.name))
-    }
+    this.illustratorControls().setControl(index, new IdentifiableFormControl(illustrator.name, illustrator.id))
   }
 
   /**
