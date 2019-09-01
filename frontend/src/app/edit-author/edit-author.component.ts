@@ -19,7 +19,7 @@ export class EditAuthorComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.authors.getAuthor(params.get('authorId')).subscribe((res) => {this.author = AuthorService.extractAuthor(res)});
+      this.authors.getAuthor(params.get('authorId')).subscribe((res) => {this.author = AuthorService.extractAuthor(res); this.buildForm()});
     })
   }
 
@@ -40,8 +40,6 @@ export class EditAuthorComponent implements OnInit {
       name: this.author.name,
       books: tempBookControls
     })
-
-    return this.editForm;
   }
 
   /**

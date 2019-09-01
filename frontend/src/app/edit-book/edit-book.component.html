@@ -8,7 +8,7 @@
 
 
 <main class="flex-container flex-center flex-column">
-  <form [formGroup]="buildForm()" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
     <div>
       <label for="name">Name</label>
       <input id="name" type="text" formControlName="name" required class="text-box block">
@@ -61,14 +61,13 @@
         </div>
       </div>
     </div>
-
     <div class="selection-group">
       <label for="currentlyReading">Currently Reading</label>
-      <input id="currentlyReading" type="radio" [value]="ReadingState.CURRENTLY_READING" formControlName="readingState" required>
+      <input id="currentlyReading" type="radio" [value]="ReadingState.CURRENTLY_READING" formControlName="readingState">
       <label for="planToRead">Plan to Read</label>
-      <input id="planToRead" type="radio" [value]="ReadingState.PLAN_TO_READ" formControlName="readingState" required>
+      <input id="planToRead" type="radio" [value]="ReadingState.PLAN_TO_READ" formControlName="readingState">
       <label for="dropped">Dropped</label>
-      <input id="dropped" type="radio" [value]="ReadingState.DROPPED" formControlName="readingState" required>
+      <input id="dropped" type="radio" [value]="ReadingState.DROPPED" formControlName="readingState">
     </div>
 
     <div class="selection-group">

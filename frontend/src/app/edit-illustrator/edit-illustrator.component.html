@@ -1,7 +1,7 @@
 <h1>Editing {{illustrator.name}}</h1>
 
 <main class="flex-container flex-center flex-column">
-  <form [formGroup]="buildForm()" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
     <div>
       <label for="name">Name</label>
       <input class="text-box block" id="name" type="text" formControlName="name" required>

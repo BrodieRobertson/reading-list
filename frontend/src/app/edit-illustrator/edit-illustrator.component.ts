@@ -19,7 +19,7 @@ export class EditIllustratorComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.illustrators.getIllustrator(params.get('illustratorId')).subscribe((res) => {this.illustrator = IllustratorService.extractIllustrator(res)});
+      this.illustrators.getIllustrator(params.get('illustratorId')).subscribe((res) => {this.illustrator = IllustratorService.extractIllustrator(res); this.buildForm()});
     })
   }
 
@@ -40,8 +40,6 @@ export class EditIllustratorComponent implements OnInit {
       name: this.illustrator.name,
       books: tempBookControls
     })
-
-    return this.editForm;
   }
   /**
    * Resets the form for future usage

@@ -30,17 +30,14 @@ export class EditBookComponent implements OnInit {
       this.illustratorList = [];
       this.topAuthors = []
       this.topIllustrators = []
-      this.book = undefined;
+      this.book = null;
   }
 
   ngOnInit() {
     this.resetForm();
     this.route.paramMap.subscribe(params => {
       if(params.get("bookId")) {
-        this.books.getBook(params.get('bookId')).subscribe((res) => {this.book = BookService.extractBook(res)});
-      }
-      else {
-        this.resetForm()
+        this.books.getBook(params.get('bookId')).subscribe((res) => {this.book = BookService.extractBook(res); this.buildForm()});
       }
     })
   }
@@ -79,8 +76,6 @@ export class EditBookComponent implements OnInit {
       readingState: this.book.readingState, 
       read: this.book.read, 
       owned: this.book.owned});
-
-      return this.editForm;
   }
 
   /**
@@ -99,7 +94,7 @@ export class EditBookComponent implements OnInit {
       owned: false,
     })
   }
-
+  
   /**
    * Gets the author controls
    */
