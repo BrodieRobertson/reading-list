@@ -1,8 +1,10 @@
+import { Author } from './../models/author';
 import { Book } from './../models/book';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { stringToReadingState, stringToBoolean } from '../string-conversion';
 import { bookPath } from '../api-routes';
+import { Illustrator } from '../models/illustrator';
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +26,9 @@ export class BookService {
   static extractBooks(res: Array<any>) {
     var books = []
     res.forEach((entry) => {
-      var idFound = -1;
-      for(var i = 0; i < books.length; ++i) {
-        if(books[i].id === entry.id) {
-          idFound = i;
-          break;
-        }
-      }
+      let idFound = this.findItem(books, entry.id);
       
+      // If a book with the same id does not exist
       if(idFound  < 0) {
         var book = new Book();
         book.id = entry.id;
@@ -42,10 +39,58 @@ export class BookService {
         book.readingState = stringToReadingState(entry.readingstate)
         book.read = stringToBoolean(entry.completed)
         book.owned = stringToBoolean(entry.owned)
+
+        // If there's an author then create it
+        if(entry.authorId) {
+          book.authors.push(this.createAuthor(entry.authorId, entry.authorName))
+        }
+
+        // If there's an illustrator then create it
+        if(entry.illustratorId) {
+          book.illustrators.push(this.createIllustrator(entry.illustratorId, entry.illustratorName))
+        }
+
         books.push(book);
+      }
+      // Book with the same id, book with multiple authors or illustrators
+      else {
+        let book: Book = books[idFound];
+        let authorIdFound = this.findItem(book.authors, entry.authorId)
+        let illustratorIdFound = this.findItem(book.illustrators, entry.illustratorId)
+
+        if(authorIdFound < 0) {
+          book.authors.push(this.createAuthor(entry.authorId, entry.authorName))
+        }
+
+        if(illustratorIdFound < 0) {
+          book.illustrators.push(this.createIllustrator(entry.illustratorId, entry.illustratorName))
+        }
       }
     })
     return books
+  }
+
+  private static findItem(list: Array<any>, id: string) {
+    for(var i = 0; i < list.length; ++i) {
+      if(list[i].id === id) {
+        return i;
+      }
+    }
+    return -1
+  }
+
+  private static createAuthor(id: string, name: string) {
+    var author = new Author()
+    author.id = id
+    author.name = name
+    return author
+  }
+
+  private static createIllustrator(id: string, name: string) {
+    var illustrator = new Illustrator() 
+    illustrator.id = id
+    illustrator.name = name
+    return illustrator
   }
 
   /**
