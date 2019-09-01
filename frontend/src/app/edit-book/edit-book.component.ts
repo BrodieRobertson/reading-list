@@ -62,7 +62,7 @@ export class EditBookComponent implements OnInit {
     }
     else {
       this.book.illustrators.forEach(illustrator => {
-        tempIllustratorControls.push(new IdentifiableFormControl(illustrator.name, illustrator.name))
+        tempIllustratorControls.push(new IdentifiableFormControl(illustrator.name, illustrator.id))
       });
     }
 
@@ -317,15 +317,16 @@ export class EditBookComponent implements OnInit {
    * Extract authors from the text input
    */
   extractAuthors() {
-    var controls = this.authorControls().value
+    var controls = this.authorControls().controls
     for(var i: number = 0; i < controls.length; ++i) {
-      if(controls[i] !== "") {
+      if(controls[i].value !== "") {
         var temp = new Author();
-        temp.name = controls[i];
-        temp.id = this.authors.addAuthor(temp)
+        temp.name = controls[i].value;
+        if(controls[i] instanceof IdentifiableFormControl) {
+          temp.id = (controls[i] as IdentifiableFormControl).id
+        }
         // this.authors.getAuthor(id).subscribe((res) => {this.authorList[i] = AuthorService.extractAuthor(res)});
-
-        this.authorList.push(temp)
+        this.authorList[i] = temp
       }
       else {
         controls.splice(i, 1)
@@ -367,14 +368,16 @@ export class EditBookComponent implements OnInit {
    * Extract illustrators from the text input
    */
   extractIllustrators() {
-    var controls = this.illustratorControls().value
+    var controls = this.illustratorControls().controls
     for(var i: number = 0; i < controls.length; ++i) {
-      if(controls[i] !== "") {
+      if(controls[i].value !== "") {
         var temp = new Illustrator();
-        temp.name = controls[i];
-        temp.id = this.illustrators.addIllustrator(temp)
+        temp.name = controls[i].value;
+        if(controls[i] instanceof IdentifiableFormControl) {
+          temp.id = (controls[i] as IdentifiableFormControl).id
+        }
         // this.illustrators.getIllustrator(id).subscribe((res) => {this.illustratorList[i] = IllustratorService.extractIllustrator(res)});
-        this.illustratorList.push(temp)
+        this.illustratorList[i] = temp
       }
       else {
         controls.splice(i, 1)
@@ -412,7 +415,6 @@ export class EditBookComponent implements OnInit {
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
 
-    console.log(submittedBook)
     var bookId = this.books.updateBook(submittedBook);
 
     // Display confirmation message
