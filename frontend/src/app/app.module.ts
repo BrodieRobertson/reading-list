@@ -13,6 +13,7 @@ import { AuthorDetailsComponent } from './author-details/author-details.componen
 import { IllustratorDetailsComponent } from './illustrator-details/illustrator-details.component';
 import { EditAuthorComponent } from './edit-author/edit-author.component';
 import { EditIllustratorComponent } from './edit-illustrator/edit-illustrator.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EditIllustratorComponent } from './edit-illustrator/edit-illustrator.co
     AuthorDetailsComponent,
     IllustratorDetailsComponent,
     EditAuthorComponent,
-    EditIllustratorComponent
+    EditIllustratorComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { EditIllustratorComponent } from './edit-illustrator/edit-illustrator.co
       { path: 'new', component: EditBookComponent },
       { path: 'book/:bookId/edit', component: EditBookComponent },
       { path: 'author/:authorId/edit', component: EditAuthorComponent },
-      { path: 'illustrator/:illustratorId/edit', component: EditIllustratorComponent }
+      { path: 'illustrator/:illustratorId/edit', component: EditIllustratorComponent },
+      { path: '**', component: PageNotFoundComponent }
     ]),
     HttpClientModule,
   ],
