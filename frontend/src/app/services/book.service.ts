@@ -7,6 +7,7 @@ import { bookPath } from '../utils/api-routes';
 import { Illustrator } from '../models/illustrator';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { handleApiError } from '../utils/handle-api-error';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +72,7 @@ export class BookService {
     })
     return books
   }
-
+  
   private static findItem(list: Array<any>, id: string) {
     for(var i = 0; i < list.length; ++i) {
       if(list[i].id === id) {
@@ -104,35 +105,11 @@ export class BookService {
   }
   
   /**
-   * General error handler function
-   * @param error The error that occured
-   * @param callback A callback function to handle any cleanup
-   */
-  private handleError(error: HttpErrorResponse, callback: Function){
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    if(callback) {
-      callback(error.status)
-    }
-    // return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
-  };
-
-  /**
    * Gets all of the books
    */
   getBooks(errorCallback?: Function) {
     return this.http.get<Array<any>>(bookPath(null)).pipe(
-      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     );
   }
 
@@ -142,7 +119,7 @@ export class BookService {
    */
   getBook(id: string, errorCallback?: Function) {
     return this.http.get<Array<any>>(bookPath(id)).pipe(
-      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     );
   }
 
@@ -152,7 +129,7 @@ export class BookService {
    */
   addBook(book: Book, errorCallback?: Function) {
     return this.http.post<string>(bookPath(null), book).pipe(
-      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     );
     // book.id = this.nextId + "";
     // ++this.nextId;
@@ -166,7 +143,7 @@ export class BookService {
    */
   updateBook(book: Book, errorCallBack?: Function) {
     return this.http.put(bookPath(book.id), book).pipe(
-      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallBack))
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallBack))
     );
     // var oldBook: Book = this.getBook(book.id);
     // var oldBook = new Book()
@@ -185,7 +162,7 @@ export class BookService {
    */
   removeBook(id: string, errorCallback?: Function) {
     this.http.delete(bookPath(id)).pipe(
-      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     );
     // this.books.filter((book) => {
     //   return book.id !== id;
