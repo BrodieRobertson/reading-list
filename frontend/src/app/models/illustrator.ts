@@ -5,10 +5,10 @@ export class Illustrator {
   name: string;
   illustrated: Array<Book>
 
-  constructor() {
-    this.id = "-1"
-    this.name = "No Name"
-    this.illustrated = []
+  constructor(id?: string, name?: string, illustrated?: Array<Book>) {
+    this.id = id ? id : "-1"
+    this.name = name ? name : "No Name"
+    this.illustrated = illustrated ? illustrated : []
   }
 
   /**

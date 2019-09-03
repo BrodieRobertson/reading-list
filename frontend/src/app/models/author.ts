@@ -5,10 +5,10 @@ export class Author {
   name: string;
   authored: Array<Book>
 
-  constructor() {
-    this.id = "-1"
-    this.name = "No Name"
-    this.authored = []
+  constructor(id?: string, name?: string, authored?: Array<Book>) {
+    this.id = id ? id : "-1"
+    this.name = name ? name : "No Name"
+    this.authored = authored ? authored : []
   }
 
   /**

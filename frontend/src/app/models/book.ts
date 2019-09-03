@@ -14,14 +14,14 @@ export class Book {
   read: boolean;
   owned: boolean;
 
-  constructor() {
-    this.id = "-1";
-    this.name = "No Name"
-    this.authors = []
-    this.illustrators = []
-    this.image = ""
-    this.pages = 0;
-    this.isbn = "123-4-56-789101-2"
+  constructor(id?: string, name?: string, authors?: Array<Author>, illustrators?: Array<Illustrator>, image?: string, page?: number, isbn?: string) {
+    this.id = id ? id : "-1";
+    this.name = name ? name : "No Name"
+    this.authors = authors ? authors : []
+    this.illustrators = illustrators ? illustrators : []
+    this.image = image ? image : ""
+    this.pages = page ? page : 0;
+    this.isbn = isbn ? isbn : "123-4-56-789101-2"
   }
 
   /**
