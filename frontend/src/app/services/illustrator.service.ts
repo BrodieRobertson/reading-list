@@ -1,3 +1,4 @@
+import { Book } from './../models/book';
 import { HttpClient } from '@angular/common/http';
 import { Illustrator } from './../models/illustrator';
 import { Injectable } from '@angular/core';
@@ -31,10 +32,12 @@ export class IllustratorService {
       }
       
       if(idFound  < 0) {
-        var illustrator = new Illustrator();
-        illustrator.id = entry.id;
-        illustrator.name = entry.name;
+        var illustrator = new Illustrator(entry.id, entry.name);
         illustrators.push(illustrator);
+      }
+      else {
+        var book = new Book(entry.bookId, entry.bookName);
+        illustrators[idFound].illustrated.push(book)
       }
     })
     return illustrators

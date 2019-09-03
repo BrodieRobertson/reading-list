@@ -45,12 +45,12 @@ export class BookService {
 
         // If there's an author then create it
         if(entry.authorId) {
-          book.authors.push(this.createAuthor(entry.authorId, entry.authorName))
+          book.authors.push(new Author(entry.authorId, entry.authorName))
         }
 
         // If there's an illustrator then create it
         if(entry.illustratorId) {
-          book.illustrators.push(this.createIllustrator(entry.illustratorId, entry.illustratorName))
+          book.illustrators.push(new Illustrator(entry.illustratorId, entry.illustratorName))
         }
 
         books.push(book);
@@ -62,11 +62,11 @@ export class BookService {
         let illustratorIdFound = this.findItem(book.illustrators, entry.illustratorId)
 
         if(authorIdFound < 0) {
-          book.authors.push(this.createAuthor(entry.authorId, entry.authorName))
+          book.authors.push(new Author(entry.authorId, entry.authorName))
         }
 
         if(illustratorIdFound < 0) {
-          book.illustrators.push(this.createIllustrator(entry.illustratorId, entry.illustratorName))
+          book.illustrators.push(new Illustrator(entry.illustratorId, entry.illustratorName))
         }
       }
     })
@@ -80,20 +80,6 @@ export class BookService {
       }
     }
     return -1
-  }
-
-  private static createAuthor(id: string, name: string) {
-    var author = new Author()
-    author.id = id
-    author.name = name
-    return author
-  }
-
-  private static createIllustrator(id: string, name: string) {
-    var illustrator = new Illustrator() 
-    illustrator.id = id
-    illustrator.name = name
-    return illustrator
   }
 
   /**

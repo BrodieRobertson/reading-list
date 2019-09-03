@@ -33,16 +33,12 @@ export class AuthorService {
       
       // id not found, new Author
       if(idFound  < 0) {
-        var author = new Author();
-        author.id = entry.id;
-        author.name = entry.name;
+        var author = new Author(entry.id, entry.name);
         authors.push(author);
       }
       // id found, new authored book
       else {
-        var book = new Book();
-        book.id = entry.bookId;
-        book.name = entry.bookName;
+        var book = new Book(entry.bookId, entry.bookName);
         authors[idFound].authored.push(book)
       }
     })
