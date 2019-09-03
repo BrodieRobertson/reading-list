@@ -1,6 +1,6 @@
 import { Author } from './author';
 import { Illustrator } from './illustrator';
-import { ReadingState } from '../reading-state.enum';
+import { ReadingState } from '../utils/reading-state.enum';
 
 export class Book {
   id: string;

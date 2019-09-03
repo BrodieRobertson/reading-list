@@ -1,7 +1,7 @@
 import { Author } from './../models/author';
 import { Illustrator } from './../models/illustrator';
 import { AuthorService } from './../services/author.service';
-import { ReadingState } from './../reading-state.enum';
+import { ReadingState } from '../utils/reading-state.enum';
 import { Book } from './../models/book';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from '../services/book.service';

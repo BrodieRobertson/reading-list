@@ -2,7 +2,7 @@ import { Book } from './../models/book';
 import { HttpClient } from '@angular/common/http';
 import { Author } from './../models/author';
 import { Injectable } from '@angular/core';
-import { authorPath } from '../api-routes';
+import { authorPath } from '../utils/api-routes';
 
 @Injectable({
   providedIn: 'root'

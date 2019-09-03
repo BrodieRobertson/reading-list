@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Illustrator } from './../models/illustrator';
 import { Injectable } from '@angular/core';
-import { illustratorPath } from '../api-routes';
+import { illustratorPath } from '../utils/api-routes';
 
 @Injectable({
   providedIn: 'root'

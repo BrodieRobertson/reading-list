@@ -1,4 +1,4 @@
-import { ReadingState } from './../reading-state.enum';
+import { ReadingState } from '../utils/reading-state.enum';
 import { BookService } from '../services/book.service';
 import { Book } from './../models/book';
 import { Component, OnInit } from '@angular/core';

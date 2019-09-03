@@ -1,9 +1,9 @@
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from '../services/book.service';
-import { Lists } from '../lists.enum';
+import { Lists } from '../utils/lists.enum';
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../models/book';
-import { ReadingState } from '../reading-state.enum';
+import { ReadingState } from '../utils/reading-state.enum';
 
 
 const regularButtonStyle = "regular-button"
