@@ -1,10 +1,12 @@
 import { Author } from './../models/author';
 import { Book } from './../models/book';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { stringToReadingState, stringToBoolean } from '../string-conversion';
 import { bookPath } from '../api-routes';
 import { Illustrator } from '../models/illustrator';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -100,56 +102,93 @@ export class BookService {
   static extractBook(res) {
     return this.extractBooks(res)[0]
   }
+  
+  /**
+   * General error handler function
+   * @param error The error that occured
+   * @param callback A callback function to handle any cleanup
+   */
+  private handleError(error: HttpErrorResponse, callback: Function){
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    if(callback) {
+      callback(error.status)
+    }
+    // return an observable with a user-facing error message
+    return throwError(
+      'Something bad happened; please try again later.');
+  };
 
   /**
    * Gets all of the books
    */
-  getBooks() {
-    return this.http.get<Array<any>>(bookPath(null));
+  getBooks(errorCallback?: Function) {
+    return this.http.get<Array<any>>(bookPath(null)).pipe(
+      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+    );
   }
 
   /**
    * Gets a book by it's id
    * @param id The books id
    */
-  getBook(id: string) {
-    return this.http.get<Array<any>>(bookPath(id));
+  getBook(id: string, errorCallback?: Function) {
+    return this.http.get<Array<any>>(bookPath(id)).pipe(
+      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+    );
   }
 
   /**
    * Adds a new book
    * @param book The new book
    */
-  addBook(book: Book) {
-    book.id = this.nextId + "";
-    ++this.nextId;
-    this.books.push(book);
-    return book.id;
+  addBook(book: Book, errorCallback?: Function) {
+    return this.http.post<string>(bookPath(null), book).pipe(
+      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+    );
+    // book.id = this.nextId + "";
+    // ++this.nextId;
+    // this.books.push(book);
+    // return book.id;
   }
-
+  
   /**
    * Updates a book or adds it if it's not already present
    * @param book The book being updated
    */
-  updateBook(book: Book) {
+  updateBook(book: Book, errorCallBack?: Function) {
+    return this.http.put(bookPath(book.id), book).pipe(
+      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallBack))
+    );
     // var oldBook: Book = this.getBook(book.id);
-    var oldBook = new Book()
-    if(oldBook) {
-      oldBook = book;
-      return oldBook.id
-    }
-    else {
-      return this.addBook(book);
-    }
+    // var oldBook = new Book()
+    // if(oldBook) {
+    //   oldBook = book;
+    //   return oldBook.id
+    // }
+    // else {
+    //   return this.addBook(book);
+    // }
   }
 
   /**
    * Removes a book by it's id
    * @param id The books id 
    */
-  removeBook(id: string) {
-    this.books.filter((book) => {
-      return book.id !== id;
-    })
+  removeBook(id: string, errorCallback?: Function) {
+    this.http.delete(bookPath(id)).pipe(
+      catchError((err: HttpErrorResponse) => this.handleError(err, errorCallback))
+    );
+    // this.books.filter((book) => {
+    //   return book.id !== id;
+    // })
   }
 }

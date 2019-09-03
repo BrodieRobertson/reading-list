@@ -38,9 +38,24 @@ export class EditBookComponent implements OnInit {
     this.resetForm();
     this.route.paramMap.subscribe(params => {
       if(params.get("bookId")) {
-        this.books.getBook(params.get('bookId')).subscribe((res) => {this.book = BookService.extractBook(res); this.buildForm()});
+        this.books.getBook(params.get('bookId'), this.noBookLoaded.bind(this)).subscribe((res) => {
+        this.book = BookService.extractBook(res); 
+        this.buildForm()});
+      }
+      else {
+        this.book = null
       }
     })
+  }
+
+  /**
+   * Handle failing to get a book
+   * @param status The http status code
+   */
+  noBookLoaded(status: number) {
+    if(status === 404) {
+      this.router.navigateByUrl("/")
+    }
   }
 
   buildForm() {
@@ -391,6 +406,7 @@ export class EditBookComponent implements OnInit {
     this.updateIllustratedBooks(submittedBook);
     this.updateAuthoredBooks(submittedBook);
 
+    submittedBook.id = this.book.id
     submittedBook.name = value.name;
     submittedBook.pages = value.pages;
     submittedBook.isbn = value.isbn;
@@ -401,22 +417,29 @@ export class EditBookComponent implements OnInit {
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
 
-    var bookId = this.books.updateBook(submittedBook);
+    if(this.book.id !== "-1") {
+      this.books.updateBook(submittedBook).subscribe((res) => {
 
-    // Display confirmation message
-    if(bookId !== "-1") {
-      if(!this.book) {
-        window.alert("New book successfully added")
-      }
-      else {
-        window.alert(this.book.name + " successfully updated")
-      }
-      this.router.navigateByUrl("book/" + bookId)
+      });
     }
     else {
-      window.alert("There was an error saving this book")
-      this.router.navigateByUrl("/")
+      var bookId = this.books.addBook(submittedBook)
     }
+
+    // Display confirmation message
+    // if(bookId !== "-1") {
+    //   if(!this.book) {
+    //     window.alert("New book successfully added")
+    //   }
+    //   else {
+    //     window.alert(this.book.name + " successfully updated")
+    //   }
+    //   this.router.navigateByUrl("book/" + bookId)
+    // }
+    // else {
+    //   window.alert("There was an error saving this book")
+    //   this.router.navigateByUrl("/")
+    // }
 
     this.resetForm();
   }
