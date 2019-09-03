@@ -95,15 +95,15 @@ export class EditAuthorComponent implements OnInit {
     this.updateAuthoredBooks();
     
     var authorId = this.authors.updateAuthor(this.author)
-    if(authorId !== "-1") {
-      window.alert(oldName + " successfully updated")
-    }
-    else {
-      window.alert("There was an error saving this author")
-    }
+  //   if(authorId !== "-1") {
+  //     window.alert(oldName + " successfully updated")
+  //   }
+  //   else {
+  //     window.alert("There was an error saving this author")
+  //   }
     
-    this.router.navigateByUrl("author/" + this.author.id)
-    this.resetForm();
+  //   this.router.navigateByUrl("author/" + this.author.id)
+  //   this.resetForm();
   }
 
   /**

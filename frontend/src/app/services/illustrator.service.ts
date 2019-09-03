@@ -1,8 +1,11 @@
 import { Book } from './../models/book';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Illustrator } from './../models/illustrator';
 import { Injectable } from '@angular/core';
 import { illustratorPath } from '../utils/api-routes';
+import { catchError } from 'rxjs/operators';
+import { handleApiError } from '../utils/handle-api-error';
+import { httpOptions } from '../utils/http-options';
 
 @Injectable({
   providedIn: 'root'
@@ -53,52 +56,65 @@ export class IllustratorService {
   /**
    * Gets all of the illustrators
    */
-  getIllustrators() {
-    return this.http.get<Array<any>>(illustratorPath(null))
+  getIllustrators(errorCallback?: Function) {
+    return this.http.get<Array<any>>(illustratorPath(null)).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
   }
 
   /**
    * Gets an illustrator by it's id
    * @param id The illustrators id
    */
-  getIllustrator(id: string) {
-    return this.http.get<Array<any>>(illustratorPath(id))
+  getIllustrator(id: string, errorCallback?: Function) {
+    return this.http.get<Array<any>>(illustratorPath(id)).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
   }
 
   /**
    * Adds a new illustrator
    * @param illustrator The new illustrator
    */
-  addIllustrator(illustrator: Illustrator) {
-    illustrator.id = this.nextId + "";
-    ++this.nextId;
-    this.illustrators.push(illustrator);
-    return illustrator.id;
+  addIllustrator(illustrator: Illustrator, errorCallback?: Function) {
+    return this.http.post(illustratorPath(null), illustrator, httpOptions).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
+    // illustrator.id = this.nextId + "";
+    // ++this.nextId;
+    // this.illustrators.push(illustrator);
+    // return illustrator.id;
   }
 
   /**
    * Updates an illustrator or adds it if it's not already present
    * @param illustrator The book being updated
    */
-  updateIllustrator(illustrator: Illustrator) {
+  updateIllustrator(illustrator: Illustrator, errorCallback?: Function) {
+    this.http.put(illustratorPath(illustrator.id), illustrator, httpOptions).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
     // var oldIllustrator: Illustrator = this.getIllustrator(illustrator.id);
-    var oldIllustrator = new Illustrator()
-    if(oldIllustrator) {
-      oldIllustrator = illustrator;
-      return oldIllustrator.id
-    }
-    else {
-      return this.addIllustrator(illustrator);
-    }
+    // var oldIllustrator = new Illustrator()
+    // if(oldIllustrator) {
+    //   oldIllustrator = illustrator;
+    //   return oldIllustrator.id
+    // }
+    // else {
+    //   return this.addIllustrator(illustrator);
+    // }
   }
 
   /**
    * Removes a illustrator by it's id
    * @param id The illustrators id 
    */
-  removeIllustrator(id: string) {
-    this.illustrators.filter((illustrator) => {
-      return illustrator.id !== id;
-    })
+  removeIllustrator(id: string, errorCallback?: Function) {
+    this.http.delete(illustratorPath(id)).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
+    // this.illustrators.filter((illustrator) => {
+    //   return illustrator.id !== id;
+    // })
   }
 }

@@ -418,9 +418,7 @@ export class EditBookComponent implements OnInit {
     submittedBook.read = value.read;
 
     if(this.book.id !== "-1") {
-      this.books.updateBook(submittedBook).subscribe((res) => {
-
-      });
+      this.books.updateBook(submittedBook)
     }
     else {
       var bookId = this.books.addBook(submittedBook)

@@ -1,8 +1,11 @@
+import { catchError } from 'rxjs/operators';
 import { Book } from './../models/book';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Author } from './../models/author';
 import { Injectable } from '@angular/core';
 import { authorPath } from '../utils/api-routes';
+import { handleApiError } from '../utils/handle-api-error';
+import { httpOptions } from '../utils/http-options';
 
 @Injectable({
   providedIn: 'root'
@@ -56,52 +59,64 @@ export class AuthorService {
   /**
    * Gets all the authors
    */
-  getAuthors() {
-    return this.http.get<Array<any>>(authorPath(null))
+  getAuthors(errorCallback?: Function) {
+    return this.http.get<Array<any>>(authorPath(null)).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback)))
   }
 
   /**
    * Gets an author by it's id
    * @param id The authors id
    */
-  getAuthor(id: string) {
-    return this.http.get<Array<any>>(authorPath(id))
+  getAuthor(id: string, errorCallback?: Function) {
+    return this.http.get<Array<any>>(authorPath(id)).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
   }
 
   /**
    * Updates an author
    * @param author The author being updated
    */
-  updateAuthor(author: Author) {
+  updateAuthor(author: Author, errorCallback?: Function) {
+    this.http.put(authorPath(author.id), author, httpOptions).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
     // var oldAuthor: Author = this.getAuthor(author.id);
-    var oldAuthor = new Author()
-    if(oldAuthor) {
-      oldAuthor = author;
-      return oldAuthor.id
-    }
-    else {
-      return this.addAuthor(author);
-    }
+    // var oldAuthor = new Author()
+    // if(oldAuthor) {
+    //   oldAuthor = author;
+    //   return oldAuthor.id
+    // }
+    // else {
+    //   return this.addAuthor(author);
+    // }
   }
 
   /**
    * Adds a new author
    * @param author The new author
    */
-  addAuthor(author: Author) {
-    author.id = this.nextId + "";
-    this.nextId++;
-    this.authors.push(author);
-    return author.id;
+  addAuthor(author: Author, errorCallback?: Function) {
+    return this.http.put<string>(authorPath(author.id), author, httpOptions).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
+    // author.id = this.nextId + "";
+    // this.nextId++;
+    // this.authors.push(author);
+    // return author.id;
   }
 
   /**
    * Removes an author by it's id
    * @param id The authors id
    */
-  removeAuthor(id: string) {
-    this.authors.filter((author) => {
-      return author.id !== id;
-    })
+  removeAuthor(id: string, errorCallback?: Function) {
+    this.http.delete(authorPath(id)).pipe(
+      catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
+    )
+    // this.authors.filter((author) => {
+    //   return author.id !== id;
+    // })
   }
 }

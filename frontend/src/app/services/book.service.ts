@@ -8,6 +8,7 @@ import { Illustrator } from '../models/illustrator';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { handleApiError } from '../utils/handle-api-error';
+import { httpOptions } from '../utils/http-options';
 
 @Injectable({
   providedIn: 'root'
@@ -114,7 +115,7 @@ export class BookService {
    * @param book The new book
    */
   addBook(book: Book, errorCallback?: Function) {
-    return this.http.post<string>(bookPath(null), book).pipe(
+    return this.http.post<string>(bookPath(null), book, httpOptions).pipe(
       catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     );
     // book.id = this.nextId + "";
@@ -128,7 +129,7 @@ export class BookService {
    * @param book The book being updated
    */
   updateBook(book: Book, errorCallBack?: Function) {
-    return this.http.put(bookPath(book.id), book).pipe(
+    this.http.put(bookPath(book.id), book, httpOptions).pipe(
       catchError((err: HttpErrorResponse) => handleApiError(err, errorCallBack))
     );
     // var oldBook: Book = this.getBook(book.id);

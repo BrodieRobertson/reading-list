@@ -94,14 +94,14 @@ export class EditIllustratorComponent implements OnInit {
     this.updateIllustratedBooks()
 
     var illustratorId = this.illustrators.updateIllustrator(this.illustrator);
-    if(illustratorId !== "-1") {
-      window.alert(oldName + " successfully updated")
-    }
-    else {
-      window.alert("There was an error saving this illustrator")
-    }
+    // if(illustratorId !== "-1") {
+    //   window.alert(oldName + " successfully updated")
+    // }
+    // else {
+    //   window.alert("There was an error saving this illustrator")
+    // }
     
-    this.router.navigateByUrl("illustrator/" + this.illustrator.id)
+    // this.router.navigateByUrl("illustrator/" + this.illustrator.id)
     this.resetForm();
   }
 
