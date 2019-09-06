@@ -416,12 +416,13 @@ export class EditBookComponent implements OnInit {
     submittedBook.readingState = value.readingState;
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
+    console.log(submittedBook)
 
     if(this.book.id !== "-1") {
-      this.books.updateBook(submittedBook)
+      // this.books.updateBook(submittedBook)
     }
     else {
-      var bookId = this.books.addBook(submittedBook)
+      // var bookId = this.books.addBook(submittedBook)
     }
 
     // Display confirmation message

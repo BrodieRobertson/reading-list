@@ -62,6 +62,39 @@ class BookGateway {
     }
   }
 
+
+  private function handleAuthors($authors, $bookid) {
+    // Handle removals and bookauthors
+
+    $authorGateway = new AuthorGateway($this->db);
+    for($i = 0; $i < sizeof($authors); $i++) {
+      // Update an author
+      if($authors[$i]["id"] != "-1") {
+        $authorGateway->update($authors[$i]["id"], $authors[$i]);
+      }
+      // Insert a new author
+      else {
+        $authorGateway->insert($authors[$i]);
+      }
+    }
+  }
+
+  private function handleIllustrators($illustrators, $bookid) {
+    // Handle removals and bookillustrators
+
+    $illustratorGateway = new IllustratorGateway($this->db);
+    for($i = 0; $i < sizeof($illustrators); $i++) {
+      // Update an illustrator
+      if($illustrators[$i]["id"] != "-1") {
+        $illustratorGateway->update($illustrators[$i]["id"], $illustrators[$i]);
+      }
+      // Insert an illustrator
+      else {
+        $illustratorGateway->insert($illustrators[$i]);
+      }
+    }
+  }
+
   /**
    * Inserts a book
    */
@@ -84,19 +117,24 @@ class BookGateway {
         'owned' => $input['owned'],
         'dropped' => $input['dropped']
       ));
+
+      handleAuthors($input["authors"], "100");
+      handleIllustrators($input["illustrators"], "100");
+
       return $statement->rowCount();
     }
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
-
-    // Insert into author, illustrator, bookauthor, bookillustrator, when has any authors or illustrators
   }
 
   /**
    * Updates a book specified by it's id
    */
   public function update($id, Array $input) {
+    handleAuthors($input["authors"], $id);
+    handleIllustrators($input["illustrators"], $id);
+
     $statement = "
       UPDATE book
       SET 
@@ -129,9 +167,6 @@ class BookGateway {
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
-
-    // If any illustrators removed or added, must remove or add to/remove from bookillustrator and illustrator
-    // If any authors removed or added, must remove or add to/remove from bookauthor and author
   }
 
   /**
