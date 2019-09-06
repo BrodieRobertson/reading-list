@@ -46,9 +46,10 @@ export class BookDetailsComponent implements OnInit {
     else {
       var answer: Boolean = window.confirm("Are you sure you want to delete " + this.book.name + "?");
       if(answer) {
-        this.books.removeBook(this.book.id);
-        window.alert(this.book.name + " has been deleted, returning to the list");
-        this.router.navigateByUrl("/")
+        this.books.removeBook(this.book.id).subscribe((res) => {
+          window.alert(this.book.name + " has been deleted, returning to the list");
+          this.router.navigateByUrl("/")
+        });
       }
     }
   }

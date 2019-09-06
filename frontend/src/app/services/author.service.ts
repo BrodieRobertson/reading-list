@@ -113,7 +113,7 @@ export class AuthorService {
    * @param id The authors id
    */
   removeAuthor(id: string, errorCallback?: Function) {
-    this.http.delete(authorPath(id)).pipe(
+    return this.http.delete(authorPath(id)).pipe(
       catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     )
     // this.authors.filter((author) => {

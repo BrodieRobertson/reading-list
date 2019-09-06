@@ -121,7 +121,7 @@ class BookIllustratorGateway {
       ";
 
       $statement = $this->db->prepare($statement);
-      $statement->execute(array($authorId));
+      $statement->execute(array($illustratorId));
       return $statement->rowCount();
     }
     // Delete a row

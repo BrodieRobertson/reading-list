@@ -42,7 +42,13 @@ export class AuthorDetailsComponent implements OnInit {
       window.alert("This author can not be deleted")
     }
     else {
-      window.alert("Feature coming soon")
+      var answer: Boolean = window.confirm("Are you sure you want to delete " + this.author.name + "?");
+      if(answer) {
+        this.authors.removeAuthor(this.author.id).subscribe((res) => {
+          window.alert(this.author.name + " has been deleted, returning to the list");
+          this.router.navigateByUrl("/")
+        });
+      }
     }
   }
 }

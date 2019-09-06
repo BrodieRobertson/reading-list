@@ -111,11 +111,8 @@ export class IllustratorService {
    * @param id The illustrators id 
    */
   removeIllustrator(id: string, errorCallback?: Function) {
-    this.http.delete(illustratorPath(id)).pipe(
+    return this.http.delete(illustratorPath(id)).pipe(
       catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     )
-    // this.illustrators.filter((illustrator) => {
-    //   return illustrator.id !== id;
-    // })
   }
 }

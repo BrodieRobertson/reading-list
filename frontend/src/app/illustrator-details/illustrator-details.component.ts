@@ -42,7 +42,13 @@ export class IllustratorDetailsComponent implements OnInit {
       window.alert("This illustrator can not be deleted")
     }
     else {
-      window.alert("Feature coming soon")
+      var answer: Boolean = window.confirm("Are you sure you want to delete " + this.illustrator.name + "?");
+      if(answer) {
+        this.illustrators.removeIllustrator(this.illustrator.id).subscribe((res) => {
+          window.alert(this.illustrator.name + " has been deleted, returning to the list");
+          this.router.navigateByUrl("/")
+        });
+      }
     }
   }
 }

@@ -148,11 +148,8 @@ export class BookService {
    * @param id The books id 
    */
   removeBook(id: string, errorCallback?: Function) {
-    this.http.delete(bookPath(id)).pipe(
+    return this.http.delete(bookPath(id)).pipe(
       catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     );
-    // this.books.filter((book) => {
-    //   return book.id !== id;
-    // })
   }
 }

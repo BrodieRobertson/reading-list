@@ -104,7 +104,7 @@ class AuthorGateway {
    */
   public function delete($id) {
     // Clean out foreign key table rows
-    (new BookAuthorGateway)->delete(null, $id);
+    (new BookAuthorGateway($this->db))->delete(null, $id);
 
     $statement = "
       DELETE FROM author
@@ -114,6 +114,7 @@ class AuthorGateway {
     try {
       $statement = $this->db->prepare($statement);
       $statement->execute(array($id));
+      return $id;
     }
     catch(\PDOException $e) {
       exit($e->getMessage());

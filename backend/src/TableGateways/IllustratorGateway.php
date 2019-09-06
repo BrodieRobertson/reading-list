@@ -104,7 +104,7 @@ class IllustratorGateway {
    */
   public function delete($id) {
     // Clean out foreign key table rows
-    (new BookIllustratorGateway)->delete(null, $id);
+    (new BookIllustratorGateway($this->db))->delete(null, $id);
 
     $statement = "
       DELETE FROM illustrator
