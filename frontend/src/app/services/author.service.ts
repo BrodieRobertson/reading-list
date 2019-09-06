@@ -37,6 +37,7 @@ export class AuthorService {
       // id not found, new Author
       if(idFound  < 0) {
         var author = new Author(entry.id, entry.name);
+        author.authored.push(new Book(entry.bookId, entry.bookName))
         authors.push(author);
       }
       // id found, new authored book

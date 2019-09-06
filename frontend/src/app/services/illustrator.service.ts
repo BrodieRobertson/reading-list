@@ -36,6 +36,7 @@ export class IllustratorService {
       
       if(idFound  < 0) {
         var illustrator = new Illustrator(entry.id, entry.name);
+        illustrator.illustrated.push(new Book(entry.bookId, entry.bookName))
         illustrators.push(illustrator);
       }
       else {
