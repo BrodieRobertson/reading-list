@@ -10,6 +10,7 @@ $issuer = getenv("OKTAISSUER");
 $token = "";
 
 // Test requests
+// deleteBook($token, 1);
 getAllBooks($token);
 getBook($token, 1);
 
@@ -20,10 +21,10 @@ getAllIllustrators($token);
 getIllustrator($token, 1);
 
 getAllBookAuthors($token);
-getBookAuthor($token, 1);
+getBookAuthor($token, 2);
 
 getAllBookIllustrators($token);
-getBookIllustrator($token, 1);
+getBookIllustrator($token, 2);
 
 // End of client tests
 
@@ -72,6 +73,7 @@ function obtainToken($issuer, $clientId, $clientSecret, $scope) {
 function request($message, $uri) {
   echo $message;    
   $ch = curl_init();
+  // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
   curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:8000/" . $uri);
   curl_setopt( $ch, CURLOPT_HTTPHEADER, [
       'Content-Type: application/json',
@@ -95,6 +97,10 @@ function getAllBooks($token) {
  */
 function getBook($token, $id) {
   request("Getting book with id " . $id, "book/" . $id);
+}
+
+function deleteBook($token, $id) {
+  request("Deleting book with id " . $id, "book/" . $id);
 }
 
 /**

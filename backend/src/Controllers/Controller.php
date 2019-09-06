@@ -41,7 +41,9 @@ class Controller {
         $response = $this->update($this->id);
         break;
       case 'DELETE':
-        $response = $this->delete($this-id);
+        $response = $this->delete($this->id);
+        break;
+      case 'OPTIONS':
         break;
       default:
         $response = $this->notFoundResponse();
@@ -123,7 +125,7 @@ class Controller {
    * Deletes a row specified by it's id
    */
   private function delete($id) {
-    $result = $this->tableGateway->find($id);
+    $result = $this->tableGateway->get($id);
     if(!$result) {
         return $this->notFoundResponse();
     }
