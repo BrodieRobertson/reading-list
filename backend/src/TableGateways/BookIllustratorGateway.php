@@ -125,9 +125,9 @@ class BookIllustratorGateway {
       return $statement->rowCount();
     }
     // Delete a row
-    else if($authorId && $bookId) {
+    else if($illustratorId && $bookId) {
       $statement = "
-        SELECT * FROM bookillustrator
+        DELETE FROM bookillustrator
         WHERE illustratorid = :illustratorid AND
         bookid = :bookid;
       ";

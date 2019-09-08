@@ -14,8 +14,8 @@ class AuthorGateway {
   public function getAll() {
     $statement = "
       SELECT author.id, author.name, book.id AS bookId, book.name AS bookName FROM author
-      JOIN bookauthor ON author.id = bookauthor.authorId
-      JOIN book ON book.id = bookauthor.bookid
+      LEFT JOIN bookauthor ON author.id = bookauthor.authorId
+      LEFT JOIN book ON book.id = bookauthor.bookid
       ORDER BY author.id;
     ";
 
@@ -35,8 +35,8 @@ class AuthorGateway {
   public function get($id) {
     $statement = "
       SELECT author.id, author.name, book.id AS bookId, book.name AS bookName FROM author
-      JOIN bookauthor ON author.id = bookauthor.authorId
-      JOIN book ON book.id = bookauthor.bookid
+      LEFT JOIN bookauthor ON author.id = bookauthor.authorId
+      LEFT JOIN book ON book.id = bookauthor.bookid
       WHERE author.id = ?
       ORDER BY author.id;
     ";
@@ -56,6 +56,9 @@ class AuthorGateway {
    * Inserts an author
    */
   public function insert(Array $input) {
+    $myfile = fopen("log.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, print_r($input, true));
+    fclose($myfile);
     $statement = "
       INSERT INTO author (name) VALUES (:name);
     ";
@@ -65,7 +68,7 @@ class AuthorGateway {
       $statement->execute(array(
         'name' => $input['name']
       ));
-      return $statement->rowCount();
+      return $this->db->lastInsertId();
     }
     catch(\PDOException $e) {
       exit($e->getMessage());

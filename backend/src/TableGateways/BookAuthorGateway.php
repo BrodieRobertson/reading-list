@@ -129,7 +129,7 @@ class BookAuthorGateway {
     // Delete a row
     else if($authorId && $bookId) {
       $statement = "
-        SELECT * FROM bookauthor
+        DELETE FROM bookauthor
         WHERE authorid = :authorid AND
         bookid = :bookid;
       ";

@@ -67,20 +67,21 @@ class BookGateway {
    */
   private function handleAuthors($authors, $bookid) {
     // Handle removals and bookauthors
-    $bookAuthors = (new BookAuthorGateway($this->db))->get($bookid, null);
+    $bookAuthorGateway = new BookAuthorGateway($this->db);
+    $bookAuthors = $bookAuthorGateway->get($bookid, null);
 
     for($i = 0; $i < sizeof($bookAuthors); $i++) {
       // Search for a book author
       $found = false;
       for($j = 0; $j < sizeof($authors); $j++) {
-        if($authors[$j]["authorid"] == $bookAuthors[$i]["id"]) {
+        if($authors[$j]["id"] == $bookAuthors[$i]["authorid"]) {
           $found = true;
         }      
       }
 
       // Delete any bookauthors that aren't found
       if($found == false) {
-        $bookAuthors->delete($bookAuthors[$i]["bookid"], $bookAuthors[$i]["authorid"]);
+        $bookAuthorGateway->delete($bookAuthors[$i]["bookid"], $bookAuthors[$i]["authorid"]);
       }
     }
 
@@ -92,7 +93,8 @@ class BookGateway {
       }
       // Insert a new author
       else {
-        $authorGateway->insert($authors[$i]);
+        $newAuthorId = $authorGateway->insert($authors[$i]);
+        $bookAuthorGateway->insert($bookid, $newAuthorId);
       }
     }
   }
@@ -102,20 +104,21 @@ class BookGateway {
    */
   private function handleIllustrators($illustrators, $bookid) {
     // Handle removals and bookillustrators
-    $bookIllustrators = (new BookIllustratorGateway($this->db))->get($bookid, null);
+    $bookIllustratorGateway = new BookIllustratorGateway($this->db);
+    $bookIllustrators = $bookIllustratorGateway->get($bookid, null);
 
     for($i = 0; $i < sizeof($bookIllustrators); $i++) {
       // Search for a book illustrator
       $found = false;
       for($j = 0; $j < sizeof($illustrators); $j++) {
-        if($illustrators[$j]["illustratorid"] == $bookIllustrators[$i]["id"]) {
+        if($illustrators[$j]["id"] == $bookIllustrators[$i]["illustratorid"]) {
           $found = true;
         }      
       }
 
       // Delete any book illustrators that aren't found
       if($found == false) {
-        $bookIllustrators->delete($bookIllustrators[$i]["bookid"], $bookIllustrators[$i]["illustratorid"]);
+        $bookIllustratorGateway->delete($bookIllustrators[$i]["bookid"], $bookIllustrators[$i]["illustratorid"]);
       }
     }
     
@@ -128,7 +131,8 @@ class BookGateway {
       }
       // Insert an illustrator
       else {
-        $illustratorGateway->insert($illustrators[$i]);
+        $newIllustratorId = $illustratorGateway->insert($illustrators[$i]);
+        $bookIllustratorGateway->insert($bookid, $newIllustratorId);
       }
     }
   }
@@ -155,11 +159,12 @@ class BookGateway {
         'owned' => $input['owned'],
         'dropped' => $input['dropped']
       ));
+      
+      $id = $this->db->lastInsertId();
+      handleAuthors($input["authors"], $id);
+      handleIllustrators($input["illustrators"], $id);
 
-      handleAuthors($input["authors"], "100");
-      handleIllustrators($input["illustrators"], "100");
-
-      return $statement->rowCount();
+      return $id;
     }
     catch(\PDOException $e) {
       exit($e->getMessage());
@@ -170,35 +175,37 @@ class BookGateway {
    * Updates a book specified by it's id
    */
   public function update($id, Array $input) {
-    handleAuthors($input["authors"], $id);
-    handleIllustrators($input["illustrators"], $id);
+    $this->handleAuthors($input["authors"], $id);
+    $this->handleIllustrators($input["illustrators"], $id);
 
     $statement = "
       UPDATE book
       SET 
         name = :name,
-        images = :images,
+        image = :image,
         pages = :pages,
         isbn = :isbn,
-        reading = :readingstate,
-        read = :read,
-        owned = :owned,
-        dropped = :dropped
+        readingstate = :readingstate,
+        completed = :completed,
+        owned = :owned
       WHERE id = :id;
     ";
+
+    // $myfile = fopen("log.txt", "w") or die("Unable to open file!");
+    // fwrite($myfile, print_r($id, true));
+    // fclose($myfile);
 
     try {
       $statement = $this->db->prepare($statement);
       $statement->execute(array(
-        'id' => $id,
+        'id' => (int) $id,
         'name' => $input['name'],
         'image' => $input['image'],
         'pages' => $input['pages'],
         'isbn' => $input['isbn'],
-        'readingstate' => $input['readingstate'],
+        'readingstate' => $input['readingState'],
         'completed' => $input['read'],
-        'owned' => $input['owned'],
-        'dropped' => $input['dropped']
+        'owned' => $input['owned']
       ));
       return $statement->rowCount();
     }

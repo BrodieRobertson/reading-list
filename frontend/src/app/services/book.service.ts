@@ -129,18 +129,9 @@ export class BookService {
    * @param book The book being updated
    */
   updateBook(book: Book, errorCallBack?: Function) {
-    this.http.put(bookPath(book.id), book, httpOptions).pipe(
+    return this.http.put(bookPath(book.id), book, httpOptions).pipe(
       catchError((err: HttpErrorResponse) => handleApiError(err, errorCallBack))
     );
-    // var oldBook: Book = this.getBook(book.id);
-    // var oldBook = new Book()
-    // if(oldBook) {
-    //   oldBook = book;
-    //   return oldBook.id
-    // }
-    // else {
-    //   return this.addBook(book);
-    // }
   }
 
   /**

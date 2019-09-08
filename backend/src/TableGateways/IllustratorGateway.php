@@ -14,8 +14,8 @@ class IllustratorGateway {
   public function getAll() {
     $statement = "
       SELECT illustrator.id, illustrator.name, book.id AS bookId, book.name AS bookName FROM illustrator
-      JOIN bookillustrator ON illustrator.id = bookillustrator.illustratorId
-      JOIN book ON book.id = bookillustrator.bookid
+      LEFT JOIN bookillustrator ON illustrator.id = bookillustrator.illustratorId
+      LEFT JOIN book ON book.id = bookillustrator.bookid
       ORDER BY illustrator.id;
     ";
 
@@ -35,8 +35,8 @@ class IllustratorGateway {
   public function get($id) {
     $statement = "
       SELECT illustrator.id, illustrator.name, book.id AS bookId, book.name AS bookName FROM illustrator
-      JOIN bookillustrator ON illustrator.id = bookillustrator.illustratorId
-      JOIN book ON book.id = bookillustrator.bookid
+      LEFT JOIN bookillustrator ON illustrator.id = bookillustrator.illustratorId
+      LEFT JOIN book ON book.id = bookillustrator.bookid
       WHERE illustrator.id = ?
       ORDER BY illustrator.id;
     ";
@@ -65,7 +65,7 @@ class IllustratorGateway {
       $statement->execute(array(
         'name' => $input['name']
       ));
-      return $statement->rowCount();
+      return $this->db->lastInsertId();
     }
     catch(\PDOException $e) {
       exit($e->getMessage());

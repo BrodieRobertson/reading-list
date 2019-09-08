@@ -291,13 +291,6 @@ export class EditBookComponent implements OnInit {
    * @param book The book being checked for
    */
   updateAuthoredBooks(book: Book) {
-    // Add or update the book in authored for authors in list
-    for(var i: number = 0; i < this.authorList.length; ++i) {
-      if(!isNullOrUndefined(this.authorList[i])) {
-        this.authorList[i].addAuthored(book);
-      }
-    }
-
     // Remove book from any removed authors
     for(var i: number = 0; i < book.authors.length; ++i) {
       var foundAuthor: Author = this.authorList.find(author => {
@@ -342,13 +335,6 @@ export class EditBookComponent implements OnInit {
    * @param book The book being checked for
    */
   updateIllustratedBooks(book: Book) {
-    // Add or update the book in illustrated for illustrators in list
-    for(var i: number = 0; i < this.illustratorList.length; ++i) {
-      if(!isNullOrUndefined(this.illustratorList[i])) {
-        this.illustratorList[i].addIllustrated(book);
-      }
-    }
-
     // Remove book from any removed illustrators
     for(var i: number = 0; i < book.illustrators.length; ++i) {
       var foundIllustrator: Illustrator = this.illustratorList.find(illustrator => {
@@ -417,12 +403,12 @@ export class EditBookComponent implements OnInit {
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
     console.log(submittedBook)
-
+    
     if(this.book.id !== "-1") {
-      // this.books.updateBook(submittedBook)
+      this.books.updateBook(submittedBook).subscribe((res) => console.log("Here"))
     }
     else {
-      // var bookId = this.books.addBook(submittedBook)
+      var bookId = this.books.addBook(submittedBook)
     }
 
     // Display confirmation message

@@ -7,19 +7,15 @@ class BookValidator {
       return false;
     }
 
-    if(!isset($input['images'])) {
-      return false;
-    }
-
     if(!isset($input['pages'])) {
       return false;
     }
-
+    
     if(!isset($input['isbn'])) {
       return false;
     }
 
-    if(!isset($input['readingstate'])) {
+    if(!isset($input['readingState'])) {
       return false;
     }
 
@@ -28,10 +24,6 @@ class BookValidator {
     }
 
     if(!isset($input['owned'])) {
-      return false;
-    }
-
-    if(!isset($input['dropped'])) {
       return false;
     }
 
