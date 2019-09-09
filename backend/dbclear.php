@@ -2,8 +2,10 @@
 require 'bootstrap.php';
 
 $statement = <<<SQL_QUERY
+  DROP TABLE IF EXISTS userbook;
   DROP TABLE IF EXISTS bookauthor;
   DROP TABLE IF EXISTS bookillustrator;
+  DROP TABLE IF EXISTS user;
   DROP TABLE IF EXISTS author;
   DROP TABLE IF EXISTS illustrator;
   DROP TABLE IF EXISTS book;

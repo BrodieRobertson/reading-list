@@ -3,6 +3,19 @@ require 'bootstrap.php';
 
 $statements = array (
   "
+    CREATE TABLE user (
+      id INT NOT NULL AUTO_INCREMENT
+      username VARCHAR(100) NOT NULL,
+      email VARCHAR(100) NOT NULL
+      PRIMARY KEY (id)
+    ) ENGINE = 'INNODB;'
+  ",
+  "
+    INSERT INTO user (username, email) (
+      ('Admin, 'admin@developer.com')
+    );
+  ",
+  "
     CREATE TABLE author (
       id INT NOT NULL AUTO_INCREMENT,
       name VARCHAR(100) NOT NULL,
@@ -51,6 +64,25 @@ $statements = array (
       ('book4', NULL, 100, '4051234567534', 0, 0, 1),
       ('book5', NULL, 100, '1021234567901', 2, 0, 0);
   ",
+  "
+    CREATE TABLE userbook (
+      userid INT NOT NULL,
+      bookid INT NOT NULL
+      readingstate INT NOT NULL,
+      completed BIT(1) NOT NULL,
+      owned BIT(1) NOT NULL
+      PRIMARY KEY(userid, bookid),
+      FOREIGN KEY(userid) REFERENCES user(id),
+      FOREIGN KEY(bookid) REFERENCES book(id)
+    ) ENGINE='INNODB';
+  ",
+  "
+    INSERT INTO userbook (userid, bookid, readingstate, completed, owned) VALUES
+      (1, 1,  0, 0, 1),
+      (1, 2,  1, 0, 0),
+      (1, 3,  2, 1, 0),
+      (1, 4,  0, 0, 1);
+  "
   "
     CREATE TABLE bookauthor (
       bookid INT NOT NULL,
