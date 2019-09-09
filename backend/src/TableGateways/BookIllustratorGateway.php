@@ -80,7 +80,7 @@ class BookIllustratorGateway {
   /**
    * Inserts a bookillustrator
    */
-  public function insert($bookId, $illustratorId) {
+  public function insert(Array $input) {
     $statement = "
       INSERT INTO bookillustrator (bookid, illustratorid) VALUES (:bookid, :illustratorid);
     ";
@@ -88,8 +88,8 @@ class BookIllustratorGateway {
     try {
       $statement = $this->db->prepare($statement);
       $statement->execute(array(
-        'bookid' => $bookId,
-        'illustratorid' => $illustratorId
+        'bookid' => $input['bookid'],
+        'illustratorid' => $input['illustratorid']
       ));
       return $statement->rowCount();
     }

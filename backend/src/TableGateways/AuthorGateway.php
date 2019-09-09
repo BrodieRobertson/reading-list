@@ -73,8 +73,6 @@ class AuthorGateway {
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
-
-    // Insert into book and bookauthor, when has authored books
   }
 
   /**
@@ -98,8 +96,6 @@ class AuthorGateway {
     catch(\PDOException $e) {
       exit($e->getMessage());
     }
-
-    // If any authored books added or removed, must add to/remove from book and book author
   }
 
   /**

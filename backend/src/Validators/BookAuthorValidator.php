@@ -2,7 +2,7 @@
 namespace Src\Validators;
 
 class BookAuthorValidator {
-  
+
   /**
    * Validates a book author input
    */

@@ -143,8 +143,8 @@ class BookGateway {
   public function insert(Array $input) {
     $statement = "
       INSERT INTO 
-        book (name, image, pages, isbn, readingstate, completed, owned, dropped) 
-      VALUES (:name, :image, :pages, :isbn, :readingstate, :completed, :owned, :dropped);
+        book (name, image, pages, isbn, readingstate, completed, owned) 
+      VALUES (:name, :image, :pages, :isbn, :readingstate, :completed, :owned);
     ";
 
     try {
@@ -156,8 +156,7 @@ class BookGateway {
         'isbn' => $input['isbn'],
         'readingstate' => $input['readingstate'],
         'completed' => $input['read'],
-        'owned' => $input['owned'],
-        'dropped' => $input['dropped']
+        'owned' => $input['owned']
       ));
       
       $id = $this->db->lastInsertId();
