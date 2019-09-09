@@ -2,6 +2,9 @@
 namespace Src\Validators;
 
 class BookValidator {
+  /**
+   * Validates the book input
+   */
   public function validate($input) {
     if(!isset($input['name'])) {
       return false;
