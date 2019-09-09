@@ -94,7 +94,7 @@ class BookGateway {
       // Insert a new author
       else {
         $newAuthorId = $authorGateway->insert($authors[$i]);
-        $bookAuthorGateway->insert($bookid, $newAuthorId);
+        $bookAuthorGateway->insert(array('bookid' => $bookid, 'authorid' => $newAuthorId));
       }
     }
   }
@@ -132,7 +132,7 @@ class BookGateway {
       // Insert an illustrator
       else {
         $newIllustratorId = $illustratorGateway->insert($illustrators[$i]);
-        $bookIllustratorGateway->insert($bookid, $newIllustratorId);
+        $bookIllustratorGateway->insert(array('bookid' => $bookid, 'illustratorid' => $newIllustratorId));
       }
     }
   }
