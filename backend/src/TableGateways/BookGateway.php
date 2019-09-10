@@ -141,10 +141,12 @@ class BookGateway {
    * Inserts a book
    */
   public function insert(Array $input) {
+    $completed = ($input["read"] == 1 ? $input["read"] : 0);
+    $owned = ($input["owned"] == 1 ? $input["owned"] : 0);
     $statement = "
       INSERT INTO 
         book (name, image, pages, isbn, readingstate, completed, owned) 
-      VALUES (:name, :image, :pages, :isbn, :readingstate, :completed, :owned);
+      VALUES (:name, :image, :pages, :isbn, :readingstate, $completed, $owned);
     ";
 
     try {
@@ -155,8 +157,6 @@ class BookGateway {
         'pages' => $input['pages'],
         'isbn' => $input['isbn'],
         'readingstate' => $input['readingState'],
-        'completed' => $input['read'],
-        'owned' => $input['owned']
       ));
       
       $id = $this->db->lastInsertId();
@@ -177,6 +177,8 @@ class BookGateway {
     $this->handleAuthors($input["authors"], $id);
     $this->handleIllustrators($input["illustrators"], $id);
 
+    $completed = ($input["read"] == 1 ? $input["read"] : 0);
+    $owned = ($input["owned"] == 1 ? $input["owned"] : 0);
     $statement = "
       UPDATE book
       SET 
@@ -185,14 +187,10 @@ class BookGateway {
         pages = :pages,
         isbn = :isbn,
         readingstate = :readingstate,
-        completed = :completed,
-        owned = :owned
+        completed = $completed,
+        owned = $owned
       WHERE id = :id;
     ";
-
-    // $myfile = fopen("log.txt", "w") or die("Unable to open file!");
-    // fwrite($myfile, print_r($id, true));
-    // fclose($myfile);
 
     try {
       $statement = $this->db->prepare($statement);
@@ -203,9 +201,8 @@ class BookGateway {
         'pages' => $input['pages'],
         'isbn' => $input['isbn'],
         'readingstate' => $input['readingState'],
-        'completed' => $input['read'],
-        'owned' => $input['owned']
-      ));
+      ));  
+      
       return $statement->rowCount();
     }
     catch(\PDOException $e) {

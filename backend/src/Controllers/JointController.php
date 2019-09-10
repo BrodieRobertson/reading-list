@@ -91,9 +91,7 @@ class JointController {
     }
 
     $result = $this->tableGateway->insert($input);
-    if(!$result) {
-      return $this->unprocessableResponse();
-    }
+
     $response['status_code_header'] = HTTP_CREATED;
     $response['body'] = $result;
     return $response;
@@ -109,9 +107,7 @@ class JointController {
     }
 
     $result = $this->tableGateway->delete($id);
-    if(!$result) {
-      return $this->unprocessableResponse();
-    }
+    
     $response['status_code_header'] = HTTP_OK;
     $response['body'] = $result;
     return $response;
