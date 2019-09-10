@@ -59,6 +59,15 @@ export class EditBookComponent implements OnInit {
     }
   }
 
+  /**
+   * Handle failing to save a book
+   * @param status The http status code
+   */
+  noBookSaved(status: number) {
+      window.alert("There was an error saving this book")
+      this.router.navigateByUrl("/")
+  }
+
   buildForm() {
     // Copy out author names from the book
     var tempAuthorControls: FormArray = new FormArray([]);
@@ -393,7 +402,7 @@ export class EditBookComponent implements OnInit {
     this.updateIllustratedBooks(submittedBook);
     this.updateAuthoredBooks(submittedBook);
 
-    submittedBook.id = this.book.id
+    submittedBook.id = (this.book ? this.book.id : submittedBook.id)
     submittedBook.name = value.name;
     submittedBook.pages = value.pages;
     submittedBook.isbn = value.isbn;
@@ -404,11 +413,18 @@ export class EditBookComponent implements OnInit {
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
     
-    if(this.book.id !== "-1") {
-      this.books.updateBook(submittedBook).subscribe((res) => console.log("Here"))
+    if(submittedBook.id !== "-1") {
+      this.books.updateBook(submittedBook, this.noBookSaved.bind(this)).subscribe((res) => {
+        window.alert(this.book.name + " successfully updated");
+        this.router.navigateByUrl("book/" + this.book.id);
+      })
     }
     else {
-      var bookId = this.books.addBook(submittedBook)
+      this.books.addBook(submittedBook, this.noBookLoaded.bind(this)).subscribe((res) => {
+        window.alert("New book successfully added");
+        console.log(res)
+        // this.router.navigateByUrl("book/" + this.book.id);
+      })
     }
 
     // Display confirmation message

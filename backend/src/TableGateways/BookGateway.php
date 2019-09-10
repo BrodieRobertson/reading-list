@@ -154,14 +154,14 @@ class BookGateway {
         'image' => $input['image'],
         'pages' => $input['pages'],
         'isbn' => $input['isbn'],
-        'readingstate' => $input['readingstate'],
+        'readingstate' => $input['readingState'],
         'completed' => $input['read'],
         'owned' => $input['owned']
       ));
       
       $id = $this->db->lastInsertId();
-      handleAuthors($input["authors"], $id);
-      handleIllustrators($input["illustrators"], $id);
+      $this->handleAuthors($input["authors"], $id);
+      $this->handleIllustrators($input["illustrators"], $id);
 
       return $id;
     }

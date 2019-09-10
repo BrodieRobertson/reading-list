@@ -56,9 +56,6 @@ class AuthorGateway {
    * Inserts an author
    */
   public function insert(Array $input) {
-    $myfile = fopen("log.txt", "w") or die("Unable to open file!");
-    fwrite($myfile, print_r($input, true));
-    fclose($myfile);
     $statement = "
       INSERT INTO author (name) VALUES (:name);
     ";

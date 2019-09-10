@@ -118,10 +118,6 @@ export class BookService {
     return this.http.post<string>(bookPath(null), book, httpOptions).pipe(
       catchError((err: HttpErrorResponse) => handleApiError(err, errorCallback))
     );
-    // book.id = this.nextId + "";
-    // ++this.nextId;
-    // this.books.push(book);
-    // return book.id;
   }
   
   /**

@@ -30,11 +30,11 @@ export class EditAuthorComponent implements OnInit {
     // Copy out book names from author
     var tempBookControls: FormArray = new FormArray([]);
     if(this.author.authored.length === 0) {
-      tempBookControls.push(new FormControl(""))
+      tempBookControls.push(new FormControl({value: "", disabled: true}))
     }
     else {
       this.author.authored.forEach(book => {
-        tempBookControls.push(new FormControl(book.name))
+        tempBookControls.push(new FormControl({value: book.name, disabled: true}))
       })
     }
 
@@ -51,7 +51,7 @@ export class EditAuthorComponent implements OnInit {
   resetForm() {
     this.editForm = this.formBuilder.group({
       name: '',
-      books: new FormArray([new FormControl("")])
+      books: new FormArray([new FormControl({value: "", disabled: true})])
     })
   }
 
