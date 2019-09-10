@@ -50,6 +50,9 @@ class Controller {
         break;
     }
 
+    $myfile = fopen("log.txt", "w") or die("Unable to open file!");
+    fwrite($myfile, print_r($response, true));
+    fclose($myfile);
     header($response['status_code_header']);
 
     // If there is a body then echo it
@@ -93,9 +96,13 @@ class Controller {
       return $this->unprocessableResponse();
     }
 
-    $this->tableGateway->insert($input);
+    $result = $this->tableGateway->insert($input);
+    if (!$result) {
+      return $this->unprocessableResponse();
+    }
+
     $response['status_code_header'] = HTTP_CREATED;
-    $response['body'] = null;
+    $response['body'] = json_encode($result);
     return $response;
   }
 
@@ -115,9 +122,13 @@ class Controller {
       return $this->unprocessableResponse();
     }
 
-    $this->tableGateway->update($id, $input);
+    $result = $this->tableGateway->update($id, $input);
+    if(!$result) {
+      return $this->unprocessableResponse();
+    }
+    
     $response['status_code_header'] = HTTP_OK;
-    $response['body'] = null;
+    $response['body'] = $result;
     return $response;
   }
 
@@ -130,9 +141,13 @@ class Controller {
         return $this->notFoundResponse();
     }
 
-    $this->tableGateway->delete($id);
+    $result = $this->tableGateway->delete($id);
+    if(!$result) {
+      return $this->unprocessableResponse();
+    }
+
     $response['status_code_header'] = HTTP_OK;
-    $response['body'] = null;
+    $response['body'] = $result;
     return $response;
   }
 

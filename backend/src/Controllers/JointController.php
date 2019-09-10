@@ -90,9 +90,12 @@ class JointController {
       return $this->unprocessableResponse();
     }
 
-    $this->tableGateway->insert($input);
+    $result = $this->tableGateway->insert($input);
+    if(!$result) {
+      return $this->unprocessableResponse();
+    }
     $response['status_code_header'] = HTTP_CREATED;
-    $response['body'] = null;
+    $response['body'] = $result;
     return $response;
   }
 
@@ -105,9 +108,12 @@ class JointController {
       return $this->notFoundResponse();
     }
 
-    $this->tableGateway->delete($id);
+    $result = $this->tableGateway->delete($id);
+    if(!$result) {
+      return $this->unprocessableResponse();
+    }
     $response['status_code_header'] = HTTP_OK;
-    $response['body'] = null;
+    $response['body'] = $result;
     return $response;
   }
 

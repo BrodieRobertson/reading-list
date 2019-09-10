@@ -427,21 +427,6 @@ export class EditBookComponent implements OnInit {
       })
     }
 
-    // Display confirmation message
-    // if(bookId !== "-1") {
-    //   if(!this.book) {
-    //     window.alert("New book successfully added")
-    //   }
-    //   else {
-    //     window.alert(this.book.name + " successfully updated")
-    //   }
-    //   this.router.navigateByUrl("book/" + bookId)
-    // }
-    // else {
-    //   window.alert("There was an error saving this book")
-    //   this.router.navigateByUrl("/")
-    // }
-
     this.resetForm();
   }
 
