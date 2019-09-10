@@ -18,8 +18,11 @@ export class EditAuthorComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    this.resetForm();
     this.route.paramMap.subscribe(params => {
-      this.authors.getAuthor(params.get('authorId')).subscribe((res) => {this.author = AuthorService.extractAuthor(res); this.buildForm()});
+      this.authors.getAuthor(params.get('authorId')).subscribe((res) => {
+        this.author = AuthorService.extractAuthor(res); 
+        this.buildForm()});
     })
   }
 

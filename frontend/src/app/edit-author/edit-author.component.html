@@ -1,5 +1,9 @@
 <header>
-  <h1>Editing {{ author.name }}</h1>
+  <h1 *ngIf="!author; else editAuthor"></h1>
+  
+  <ng-template #editAuthor>
+    <h1>Editing {{author.name}}</h1>
+  </ng-template>
 </header>
 
 <main class="flex-container flex-center flex-column">
@@ -11,9 +15,9 @@
 
     <div>
       <h3>Authored</h3>
-      <div *ngIf="author.authored.length > 0; else noAuthored" formArrayName="books">
+      <div *ngIf="author && author.authored.length > 0; else noAuthored" formArrayName="books">
         <div *ngFor="let book of bookControls().controls; index as i">
-          <input class="text-box" formControlName="{{i}}" disabled>
+          <input class="text-box" formControlName="{{i}}">
           <button class="regular-button" type="button" (click)="removeBookControl(i)">X</button>
         </div>
       </div>

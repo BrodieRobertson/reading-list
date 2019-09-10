@@ -18,8 +18,11 @@ export class EditIllustratorComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    this.resetForm()
     this.route.paramMap.subscribe(params => {
-      this.illustrators.getIllustrator(params.get('illustratorId')).subscribe((res) => {this.illustrator = IllustratorService.extractIllustrator(res); this.buildForm()});
+      this.illustrators.getIllustrator(params.get('illustratorId')).subscribe((res) => {
+        this.illustrator = IllustratorService.extractIllustrator(res); 
+        this.buildForm()});
     })
   }
 

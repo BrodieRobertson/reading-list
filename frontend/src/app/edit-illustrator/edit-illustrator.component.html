@@ -1,4 +1,10 @@
-<h1>Editing {{illustrator.name}}</h1>
+<header>
+  <h1 *ngIf="!illustrator; else editIllustrator"></h1>
+  
+  <ng-template #editIllustrator>
+    <h1>Editing {{illustrator.name}}</h1>
+  </ng-template>
+</header>
 
 <main class="flex-container flex-center flex-column">
   <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm.value)" ngNativeValidate class="paper">
@@ -9,7 +15,7 @@
 
     <div>
       <h3>Illustrated</h3>
-      <div *ngIf="illustrator.illustrated.length > 0; noIllustrated" formArrayName="books">
+      <div *ngIf="illustrator && illustrator.illustrated.length > 0; noIllustrated" formArrayName="books">
         <div *ngFor="let book of bookControls().controls; index as i">
           <input class="text-box" formControlName="{{i}}">
           <button class="regular-button" type="button" (click)="removeBookControl(i)">X</button>

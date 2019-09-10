@@ -1,0 +1,9 @@
+Array
+(
+    [id] => -1
+    [name] => asdfjasdb
+    [authored] => Array
+        (
+        )
+
+)

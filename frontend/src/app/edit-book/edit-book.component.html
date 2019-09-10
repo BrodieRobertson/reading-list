@@ -1,6 +1,6 @@
 <header>
   <h1 *ngIf="!book; else editBook">New Book</h1>
-
+  
   <ng-template #editBook>
     <h1>Editing {{book.name}}</h1>
   </ng-template>

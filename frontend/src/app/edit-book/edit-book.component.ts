@@ -16,6 +16,7 @@ import { IdentifiableFormControl } from '../identifiable-form-control';
   templateUrl: './edit-book.component.html',
   styleUrls: ['./edit-book.component.scss']
 })
+
 export class EditBookComponent implements OnInit {
   editForm: FormGroup;
   book: Book;
@@ -402,7 +403,6 @@ export class EditBookComponent implements OnInit {
     submittedBook.readingState = value.readingState;
     submittedBook.owned = value.owned;
     submittedBook.read = value.read;
-    console.log(submittedBook)
     
     if(this.book.id !== "-1") {
       this.books.updateBook(submittedBook).subscribe((res) => console.log("Here"))
